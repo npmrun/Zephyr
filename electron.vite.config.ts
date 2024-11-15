@@ -6,9 +6,9 @@ export default defineConfig({
   main: {
     resolve: {
       alias: {
-        'config': resolve('config'),
-        'vc': resolve('src/main'),
-        'res': resolve('resources'),
+        config: resolve('config'),
+        vc: resolve('src/main'),
+        res: resolve('resources')
       }
     },
     plugins: [externalizeDepsPlugin()]

@@ -1,7 +1,7 @@
-import { inject, injectable } from "inversify";
-import Setting from "../setting";
-import { CustomAdapter, CustomLow } from "./custom";
-import path from "node:path";
+import { inject, injectable } from "inversify"
+import Setting from "../setting"
+import { CustomAdapter, CustomLow } from "./custom"
+import path from "node:path"
 
 @injectable()
 class DB {
@@ -9,26 +9,26 @@ class DB {
     Modules: Record<string, CustomLow<any>> = {}
 
     constructor(@inject(Setting) setting: Setting) {
-        console.log(`DB inited`);
+        console.log(`DB inited`)
 
         this._setting = setting
     }
 
     create(filepath) {
-        let adapter = new CustomAdapter<any>(filepath)
-        const db = new CustomLow<{}>(adapter, {})
+        const adapter = new CustomAdapter<any>(filepath)
+        const db = new CustomLow<object>(adapter, {})
         db.filepath = filepath
         return db
     }
 
     getDB(dbName: string) {
         if (this.Modules[dbName] === undefined) {
-            let filepath = path.resolve(this._setting.values("storagePath"), './db/' + dbName + '.json')
+            const filepath = path.resolve(this._setting.values("storagePath"), "./db/" + dbName + ".json")
             this.Modules[dbName] = this.create(filepath)
             return this.Modules[dbName]
         } else {
-            let cur = this.Modules[dbName]
-            let filepath = path.resolve(this._setting.values("storagePath"), './db/' + dbName + '.json')
+            const cur = this.Modules[dbName]
+            const filepath = path.resolve(this._setting.values("storagePath"), "./db/" + dbName + ".json")
             if (cur.filepath != filepath) {
                 this.Modules[dbName] = this.create(filepath)
             }
@@ -44,7 +44,7 @@ class DB {
             db = this.getDB(dbName)
             rData = data
         } else {
-            db = this.getDB('db')
+            db = this.getDB("db")
             rData = dbName
         }
         if (db) {
@@ -60,7 +60,7 @@ class DB {
         if (dbName) {
             db = this.getDB(dbName)
         } else {
-            db = this.getDB('db')
+            db = this.getDB("db")
         }
         if (db) {
             await db.read()
@@ -71,6 +71,4 @@ class DB {
 }
 
 export default DB
-export {
-    DB
-}
+export { DB }

@@ -6,6 +6,4 @@ const container = new Container()
 container.load(module)
 
 export default container
-export {
-    container
-}
+export { container }

@@ -1,28 +1,28 @@
-import { resolve } from 'path'
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
-import vue from '@vitejs/plugin-vue'
-import UnoCSS from 'unocss/vite'
+import { resolve } from "path"
+import { defineConfig, externalizeDepsPlugin } from "electron-vite"
+import vue from "@vitejs/plugin-vue"
+import UnoCSS from "unocss/vite"
 
 export default defineConfig({
-  main: {
-    resolve: {
-      alias: {
-        config: resolve('config'),
-        vc: resolve('src/main'),
-        res: resolve('resources')
-      }
+    main: {
+        resolve: {
+            alias: {
+                config: resolve("config"),
+                vc: resolve("src/main"),
+                res: resolve("resources"),
+            },
+        },
+        plugins: [externalizeDepsPlugin()],
     },
-    plugins: [externalizeDepsPlugin()]
-  },
-  preload: {
-    plugins: [externalizeDepsPlugin()]
-  },
-  renderer: {
-    resolve: {
-      alias: {
-        '@renderer': resolve('src/renderer/src')
-      }
+    preload: {
+        plugins: [externalizeDepsPlugin()],
     },
-    plugins: [UnoCSS(), vue()]
-  }
+    renderer: {
+        resolve: {
+            alias: {
+                "@renderer": resolve("src/renderer/src"),
+            },
+        },
+        plugins: [UnoCSS(), vue()],
+    },
 })

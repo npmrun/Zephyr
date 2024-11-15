@@ -1,3 +1,3 @@
-abstract class Base{
-    constructor(){}
+abstract class Base {
+    constructor() {}
 }

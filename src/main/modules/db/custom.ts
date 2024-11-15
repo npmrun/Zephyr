@@ -1,18 +1,18 @@
 import { JSONFile } from "lowdb/node"
-import { Low } from 'lowdb'
-import fs from 'fs-extra'
+import { Low } from "lowdb"
+import fs from "fs-extra"
 
 export class CustomAdapter<T> extends JSONFile<T> {
     constructor(filepath: string) {
         super(filepath)
         this.filepath = filepath
     }
-    filepath: string = ''
+    filepath: string = ""
     async read() {
         if (!fs.existsSync(this.filepath)) {
             return null
         }
-        let data = fs.readJSONSync(this.filepath, { throws: false })
+        const data = fs.readJSONSync(this.filepath, { throws: false })
         if (!data) {
             return null
         }
@@ -29,5 +29,5 @@ export class CustomLow<T> extends Low<T> {
         super(adapter, defaultData)
         this.filepath = adapter.filepath
     }
-    filepath: string = ''
+    filepath: string = ""
 }

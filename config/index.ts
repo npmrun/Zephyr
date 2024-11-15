@@ -1,12 +1,12 @@
 interface IConfig {
-    app_title: string,
+    app_title: string
     default_config: {
         language: "zh" | "en" // i18n
         "common.theme": "light" | "dark" | "auto" // 主题
         "desktop:wallpaper": string
         "update.repo"?: string // 更新地址
         "update.owner"?: string // 更新通道
-        "update.allowDowngrade": boolean,
+        "update.allowDowngrade": boolean
         "update.allowPrerelease": boolean
         "editor.bg": string // 更新通道
         "editor.logoType": "logo" | "bg" // 更新通道
@@ -20,8 +20,8 @@ interface IConfig {
 export default {
     app_title: "ada",
     default_config: {
-        "storagePath": "$storagePath$",
-        "language": "zh",
+        storagePath: "$storagePath$",
+        language: "zh",
         "common.theme": "auto",
         "desktop:wallpaper": "",
         "editor.bg": "",
@@ -30,6 +30,6 @@ export default {
         "update.repo": "wood-desktop",
         "update.owner": "npmrun",
         "update.allowDowngrade": false,
-        "update.allowPrerelease": false
-    }
+        "update.allowPrerelease": false,
+    },
 } as IConfig

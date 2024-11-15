@@ -11,13 +11,13 @@ type IOnFunc = (n: IConfig, c: IConfig, keys?: (keyof IConfig)[]) => void
 type IT = (keyof IConfig)[] | keyof IConfig | "_"
 
 let storagePath = path.join(app.getPath("documents"), Config.app_title)
-let storagePathDev = path.join(app.getPath("documents"), Config.app_title + "-dev")
+const storagePathDev = path.join(app.getPath("documents"), Config.app_title + "-dev")
 
 if (process.env.NODE_ENV === "development") {
     storagePath = storagePathDev
 }
 
-let _tempConfig = cloneDeep(Config.default_config as IConfig)
+const _tempConfig = cloneDeep(Config.default_config as IConfig)
 Object.keys(_tempConfig).forEach(key => {
     if (typeof _tempConfig[key] === "string" && _tempConfig[key].includes("$storagePath$")) {
         _tempConfig[key] = _tempConfig[key].replace(/\$storagePath\$/g, storagePath)
@@ -29,7 +29,7 @@ Object.keys(_tempConfig).forEach(key => {
 
 function isPath(str) {
     // 使用正则表达式检查字符串是否以斜杠或盘符开头
-    return /^(?:\/|[a-zA-Z]:\\)/.test(str);
+    return /^(?:\/|[a-zA-Z]:\\)/.test(str)
 }
 
 function init(config: IConfig) {
@@ -46,7 +46,7 @@ function init(config: IConfig) {
 
 // 判断是否是空文件夹
 function isEmptyDir(fPath: string) {
-    var pa = fs.readdirSync(fPath)
+    const pa = fs.readdirSync(fPath)
     if (pa.length === 0) {
         return true
     } else {
@@ -57,8 +57,8 @@ function isEmptyDir(fPath: string) {
 @injectable()
 class Setting {
     constructor() {
-        console.log(`Setting inited`);
-        
+        console.log(`Setting inited`)
+
         this.#init()
     }
     #cb: [IT, IOnFunc][] = []
@@ -90,7 +90,10 @@ class Setting {
         }
     }
 
-    #pathFile: string = process.env.NODE_ENV === "development" ? path.resolve(app.getPath("userData"), "./config_path-dev") : path.resolve(app.getPath("userData"), "./config_path")
+    #pathFile: string =
+        process.env.NODE_ENV === "development"
+            ? path.resolve(app.getPath("userData"), "./config_path-dev")
+            : path.resolve(app.getPath("userData"), "./config_path")
     #config: IConfig = cloneDeep(_tempConfig)
     #configPath(storagePath?: string): string {
         return path.join(storagePath || this.#config.storagePath, "./config.json")
@@ -159,10 +162,10 @@ class Setting {
         this.set(key, cloneDeep(_tempConfig[key]))
     }
     set(key: keyof IConfig | Partial<IConfig>, value?: any) {
-        let oldMainConfig = Object.assign({}, this.#config)
+        const oldMainConfig = Object.assign({}, this.#config)
         let isChange = false
-        let changeKeys: (keyof IConfig)[] = []
-        let canChangeStorage = (targetPath: string) => {
+        const changeKeys: (keyof IConfig)[] = []
+        const canChangeStorage = (targetPath: string) => {
             if (fs.existsSync(oldMainConfig.storagePath) && fs.existsSync(targetPath) && !isEmptyDir(targetPath)) {
                 if (fs.existsSync(path.join(targetPath, "./config.json"))) {
                     return true
@@ -178,11 +181,7 @@ class Setting {
                         throw "无法改变存储地址"
                         return
                     }
-                    try {
-                        this.#change(value)
-                    } catch (error) {
-                        throw error
-                    }
+                    this.#change(value)
                     changeKeys.push("storagePath")
                     this.#config["storagePath"] = value
                 } else {
@@ -192,21 +191,17 @@ class Setting {
                 isChange = true
             }
         } else {
-            if (key['storagePath'] !== undefined && key['storagePath'] !== this.#config['storagePath']) {
-                if (!canChangeStorage(key['storagePath'])) {
+            if (key["storagePath"] !== undefined && key["storagePath"] !== this.#config["storagePath"]) {
+                if (!canChangeStorage(key["storagePath"])) {
                     throw "无法改变存储地址"
                     return
                 }
-                try {
-                    this.#change(key['storagePath'])
-                } catch (error) {
-                    throw error
-                }
-                this.#config['storagePath'] = key['storagePath']
-                changeKeys.push('storagePath')
+                this.#change(key["storagePath"])
+                this.#config["storagePath"] = key["storagePath"]
+                changeKeys.push("storagePath")
                 isChange = true
             }
-            for (const _ in key as any) {
+            for (const _ in key) {
                 if (Object.prototype.hasOwnProperty.call(key, _)) {
                     const v = key[_]
                     if (v != undefined && _ !== "storagePath" && v !== this.#config[_]) {
@@ -228,6 +223,4 @@ class Setting {
 }
 
 export default Setting
-export {
-    Setting
-}
+export { Setting }

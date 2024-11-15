@@ -1,10 +1,6 @@
-import { defineConfig, presetAttributify, presetUno } from 'unocss'
-import presetRemToPx from '@unocss/preset-rem-to-px'
+import { defineConfig, presetAttributify, presetUno } from "unocss"
+import presetRemToPx from "@unocss/preset-rem-to-px"
 
 export default defineConfig({
-    presets: [
-        presetAttributify(),
-        presetUno(),
-        presetRemToPx(),
-    ],
+    presets: [presetAttributify(), presetUno(), presetRemToPx()],
 })

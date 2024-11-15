@@ -5,7 +5,7 @@ import { cloneDeep } from "lodash"
 import { injectable } from "inversify"
 import Config from "config"
 
-type IConfig = any
+type IConfig = typeof Config.default_config
 
 type IOnFunc = (n: IConfig, c: IConfig, keys?: (keyof IConfig)[]) => void
 type IT = (keyof IConfig)[] | keyof IConfig | "_"

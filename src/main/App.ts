@@ -1,8 +1,7 @@
-import { injectable, inject } from "inversify"
-import Setting from "./setting"
-import DB from "./db"
+import { inject } from "inversify"
+import Setting from "./modules/setting"
+import DB from "./modules/db"
 
-@injectable()
 class App {
     private _setting: Setting
     private _db: DB

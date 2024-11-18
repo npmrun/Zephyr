@@ -1,3 +1,4 @@
-abstract class Base {
-    constructor() {}
-}
+abstract class Base {}
+
+export { Base }
+export default Base

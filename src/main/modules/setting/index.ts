@@ -58,7 +58,6 @@ function isEmptyDir(fPath: string) {
 class Setting {
     constructor() {
         console.log(`Setting inited`)
-
         this.#init()
     }
     #cb: [IT, IOnFunc][] = []

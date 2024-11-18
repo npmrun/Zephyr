@@ -3,8 +3,8 @@ import { app, shell, BrowserWindow, ipcMain } from "electron"
 import { join } from "path"
 import { electronApp, optimizer, is } from "@electron-toolkit/utils"
 import icon from "res/icon.png?asset"
-import { container } from "vc/modules"
-import { App } from "vc/modules/App"
+import { container } from "vc/modules/ioc"
+import { App } from "vc/App"
 
 container.get(App).init()
 

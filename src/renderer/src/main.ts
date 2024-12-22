@@ -1,6 +1,6 @@
 import "virtual:uno.css"
 import "@unocss/reset/normalize.css"
-import "./assets/main.css"
+import "@renderer/assets/style/_common.scss"
 
 import { createApp } from "vue"
 import App from "./App.vue"

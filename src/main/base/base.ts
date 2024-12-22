@@ -1,4 +1,10 @@
-abstract class Base {}
+import EventEmitter from "node:events"
 
-export { Base }
-export default Base
+abstract class BaseClass {
+    public _events = new EventEmitter()
+    abstract init(...argus: any[])
+    abstract destroy()
+}
+
+export { BaseClass }
+export default BaseClass

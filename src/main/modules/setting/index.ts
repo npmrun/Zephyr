@@ -4,6 +4,10 @@ import path from "path"
 import { cloneDeep } from "lodash"
 import { injectable } from "inversify"
 import Config from "config"
+import _debug from "debug"
+import BaseClass from "vc/base/base"
+
+const debug = _debug("app:setting")
 
 type IConfig = typeof Config.default_config
 
@@ -55,11 +59,17 @@ function isEmptyDir(fPath: string) {
 }
 
 @injectable()
-class Setting {
+class Setting extends BaseClass {
     constructor() {
-        console.log(`Setting inited`)
-        this.#init()
+        super()
+        debug(`Setting inited`)
+        this.init()
     }
+
+    destroy() {
+        // TODO
+    }
+
     #cb: [IT, IOnFunc][] = []
 
     onChange(fn: IOnFunc, that?: any)
@@ -118,8 +128,9 @@ class Setting {
             this.#config[key] = config[key] || this.#config[key]
         }
     }
-    #init() {
-        console.log(`位置：${this.#pathFile}`)
+    init() {
+        debug(`位置：${this.#pathFile}`)
+
         if (fs.pathExistsSync(this.#pathFile)) {
             const confingPath = fs.readFileSync(this.#pathFile, { encoding: "utf8" })
             if (confingPath && fs.pathExistsSync(this.#configPath(confingPath))) {
@@ -152,7 +163,6 @@ class Setting {
             fs.moveSync(storagePath, p)
         }
         if (fs.existsSync(p) && fs.existsSync(storagePath) && isEmptyDir(p)) {
-            console.log("文件夹为空，直接覆盖")
             fs.moveSync(storagePath, p, { overwrite: true })
         }
         fs.writeFileSync(this.#pathFile, p, { encoding: "utf8" })

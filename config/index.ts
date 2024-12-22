@@ -18,7 +18,7 @@ interface IConfig {
     }
 }
 export default {
-    app_title: "ada",
+    app_title: "zephyr", // 和风
     default_config: {
         storagePath: "$storagePath$",
         language: "zh",

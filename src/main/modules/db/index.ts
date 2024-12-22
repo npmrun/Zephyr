@@ -2,16 +2,24 @@ import { inject, injectable } from "inversify"
 import Setting from "../setting"
 import { CustomAdapter, CustomLow } from "./custom"
 import path from "node:path"
+import BaseClass from "vc/base/base"
+import _debug from "debug"
+
+const debug = _debug("app:db")
 
 @injectable()
-class DB {
-    private _setting: Setting
+class DB extends BaseClass {
+    destroy() {
+        debug(`DB destroy`)
+    }
     Modules: Record<string, CustomLow<any>> = {}
 
-    constructor(@inject(Setting) setting: Setting) {
-        console.log(`DB inited`)
+    constructor(@inject(Setting) private _setting: Setting) {
+        super()
+    }
 
-        this._setting = setting
+    init() {
+        console.log("DB Init")
     }
 
     create(filepath) {

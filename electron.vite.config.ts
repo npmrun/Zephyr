@@ -20,7 +20,24 @@ export default defineConfig({
     renderer: {
         resolve: {
             alias: {
+                config: resolve("config"),
                 "@renderer": resolve("src/renderer/src"),
+                "@res": resolve("resources"),
+            },
+        },
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    additionalData: `@use "@renderer/assets/style/global" as *;\n`,
+                },
+            },
+        },
+        build: {
+            rollupOptions: {
+                input: {
+                    main: resolve(__dirname, "./src/renderer/index.html"),
+                    about: resolve(__dirname, "src/renderer/about.html"),
+                },
             },
         },
         plugins: [UnoCSS(), vue()],

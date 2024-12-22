@@ -1,22 +1,77 @@
-import { inject } from "inversify"
-import Setting from "./modules/setting"
+import { inject, injectable } from "inversify"
+// import Setting from "./modules/setting"
+// import DB from "./modules/db"
+import Api from "./modules/api"
+import WindowManager from "./modules/window-manager"
+import { app, nativeTheme, protocol } from "electron"
+import { electronApp } from "@electron-toolkit/utils"
+import Tabs from "./modules/tabs"
+import Command from "./modules/commands"
+import BaseClass from "./base/base"
+import IOC from "./_ioc"
 import DB from "./modules/db"
 
-class App {
-    private _setting: Setting
-    private _db: DB
+protocol.registerSchemesAsPrivileged([
+    // {
+    //     scheme: "http",
+    //     privileges: { standard: true, bypassCSP: true, allowServiceWorkers: true, supportFetchAPI: true, corsEnabled: true, stream: true },
+    // },
+    // {
+    //     scheme: "https",
+    //     privileges: { standard: true, bypassCSP: true, allowServiceWorkers: true, supportFetchAPI: true, corsEnabled: true, stream: true },
+    // },
+    // { scheme: "mailto", privileges: { standard: true } },
+    {
+        scheme: "api",
+        privileges: {
+            standard: true,
+            secure: true,
+            supportFetchAPI: true,
+        },
+    },
+])
 
-    constructor(@inject(Setting) setting: Setting, @inject(DB) db: DB) {
-        console.log(`App inited`)
+@injectable()
+class App extends BaseClass {
+    destroy() {
+        this._IOC.destroy()
+        // 这里是应用正常退出, 可以检测应用是不是非正常退出，比如应用启动时记录一个启动时间并删除上一次结束时间和开始时间，结束时记录一个结束时间，
+        // 如果存在结束时间或者不存在开始时间则为正常启动
+    }
 
-        this._setting = setting
-        this._db = db
+    constructor(
+        @inject(IOC) private _IOC: IOC,
+        @inject(Api) private _Api: Api,
+        @inject(Command) private _Command: Command,
+        @inject(DB) private _DB: DB,
+        @inject(WindowManager) private _WindowManager: WindowManager,
+        @inject(Tabs) private _Tabs: Tabs,
+    ) {
+        super()
     }
 
     async init() {
-        console.log(this._setting.config())
-        this._db.saveData("aaa", { a: 123123 })
-        console.log(await this._db.getData("aaa"))
+        this._DB.init()
+        this._Command.init()
+        this._WindowManager.init()
+        app.whenReady().then(() => {
+            this._Api.init()
+            electronApp.setAppUserModelId("top.xieyaxin")
+            this._WindowManager.showMainWindow()
+            const mainWindow = this._WindowManager.getMainWindow()
+            this._Tabs.init(mainWindow)
+            if (mainWindow) {
+                nativeTheme.themeSource = "light"
+                mainWindow.setTitleBarOverlay({
+                    height: 29, // the smallest size of the title bar on windows accounting for the border on windows 11
+                    color: "#F8F8F8",
+                    symbolColor: "#000000",
+                })
+            }
+        })
+        app.on("will-quit", () => {
+            this.destroy()
+        })
     }
 }
 

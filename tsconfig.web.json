@@ -4,15 +4,24 @@
     "src/renderer/src/env.d.ts",
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.vue",
-    "src/preload/*.d.ts"
+    "src/preload/*.d.ts",
+    "src/types/**/*",
+    "config/**/*"
   ],
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
     "paths": {
+      "#": ["src/types/index"],
+      "#/*": ["src/types/*"],
+      "config": ["config/index.ts"],
+      "config/*": ["config/*"],
       "@renderer/*": [
         "src/renderer/src/*"
-      ]
+      ],
+      "@res/*": [
+        "resources/*"
+      ],
     }
   }
 }

@@ -29,24 +29,24 @@ class Tabs extends BaseClass {
         tab.events.on("window-open", ev => {
             debug(ev)
             this.add(ev.url, true, win)
-            this.events.emit("tab-active")
+            this.events.emit("update")
             // tab.navigate(ev.url)
         })
         tab.events.on("update", () => {
-            this.events.emit("tab-active")
+            this.events.emit("update")
         })
         this._tabs.push(tab)
         if (active) {
             this.changeActive(this._tabs.length - 1)
         }
-        this.events.emit("tab-active")
+        this.events.emit("update")
     }
 
     changeActive(index: number) {
         this._tabs.forEach((tab, i) => {
             tab.setActive(i === index)
         })
-        this.events.emit("tab-active", index)
+        this.events.emit("update", index)
     }
 
     openDevtool(index: number) {
@@ -73,7 +73,7 @@ class Tabs extends BaseClass {
             this.changeActive(index - 1)
         }
         this._tabs.splice(index, 1)
-        this.events.emit("tab-active")
+        this.events.emit("update")
     }
 
     removeAll(index: number[]) {
@@ -87,7 +87,7 @@ class Tabs extends BaseClass {
         this._tabs = this._tabs.filter(v => {
             return !v.isDestory
         })
-        this.events.emit("tab-active")
+        this.events.emit("update")
     }
 }
 

@@ -11,7 +11,7 @@ class TabsCommand {
         @inject(WindowManager) private _WindowManager: WindowManager,
     ) {
         this.listenerTabActive = this.listenerTabActive.bind(this)
-        this._Tabs.events.addListener("tab-active", this.listenerTabActive)
+        this._Tabs.events.addListener("update", this.listenerTabActive)
     }
 
     reload() {

@@ -12,11 +12,11 @@ files:
     - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
 extraResources:
     - from: "plugins/example-plugin/dist"
-      to: "resources/plugins/example-plugin/dist"
+      to: "plugins/example-plugin/dist"
       filter:
           - "**/*"
     - from: "plugins/example-plugin/package.json"
-      to: "resources/plugins/example-plugin/package.json"
+      to: "plugins/example-plugin/package.json"
 asarUnpack:
     - resources/**
 win:

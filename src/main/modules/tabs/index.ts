@@ -3,6 +3,8 @@ import BaseClass from "vc/base/base"
 import _debug from "debug"
 import { BrowserWindow } from "electron"
 import EventEmitter from "events"
+import { inject, injectable } from "inversify"
+import { WindowManager } from "../window-manager"
 
 interface IRect {
     x: number
@@ -13,7 +15,14 @@ interface IRect {
 
 const debug = _debug("app:tabs")
 
-class Tabs extends BaseClass {
+@injectable()
+export class Tabs extends BaseClass {
+    constructor(
+        @inject(WindowManager) private _WindowManager: WindowManager
+    ) {
+        super()
+    }
+
     destroy() {
         this._tabs.forEach(v => v.destroy())
         this._tabs = []
@@ -27,10 +36,6 @@ class Tabs extends BaseClass {
         width: number
         height: number
     } | null = null
-
-    constructor() {
-        super()
-    }
 
     _tabs: Tab[] = []
 
@@ -111,7 +116,20 @@ class Tabs extends BaseClass {
         })
         this.events.emit("update")
     }
+
+    getCurrentTab(): Electron.WebContents | null {
+        const activeTab = this._tabs.find(tab => tab.isActive)
+        return activeTab?.webContentsView.webContents || null
+    }
+
+    getAllTabs(): Electron.WebContents[] {
+        return this._tabs.map(tab => tab.webContentsView.webContents)
+    }
+
+    createTab(url: string) {
+        this.add(url, true, this._WindowManager.getMainWindow())
+        this.events.emit('created', this.getCurrentTab())
+    }
 }
 
-export { Tabs }
 export default Tabs

@@ -1,14 +1,22 @@
 appId: com.electron.app
 productName: my-app
 directories:
+    output: dist
     buildResources: build
 files:
     - "!**/.vscode/*"
     - "!src/*"
-    - "!electron.vite.config.{js,ts,mjs,cjs}"
-    - "!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}"
+    - "!electron.vite.config.ts"
+    - "!{.eslintrc.js,.eslintignore,.prettierrc,.prettierignore}"
     - "!{.env,.env.*,.npmrc,pnpm-lock.yaml}"
     - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
+extraResources:
+    - from: "plugins/example-plugin/dist"
+      to: "resources/plugins/example-plugin/dist"
+      filter:
+          - "**/*"
+    - from: "plugins/example-plugin/package.json"
+      to: "resources/plugins/example-plugin/package.json"
 asarUnpack:
     - resources/**
 win:
@@ -39,7 +47,10 @@ appImage:
     artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
-    provider: generic
-    url: https://example.com/auto-updates
+    provider: github
+    owner: npmrun
+    repo: Zephyr
+    private: false
+    releaseType: release
 electronDownload:
     mirror: https://npmmirror.com/mirrors/electron/

@@ -6,6 +6,8 @@ import { WindowManager } from "./window-manager"
 import { Tabs } from "./tabs"
 import Commands from "./commands"
 import Zephyr from "./zephyr"
+import { PluginManager } from "./plugin-manager"
+import { Updater } from './updater'
 
 const modules = new ContainerModule(bind => {
     bind(Setting).toConstantValue(new Setting())
@@ -15,6 +17,8 @@ const modules = new ContainerModule(bind => {
     bind(Commands).toSelf().inSingletonScope()
     bind(Tabs).toSelf().inSingletonScope()
     bind(DB).toSelf().inSingletonScope()
+    bind(PluginManager).toSelf().inSingletonScope()
+    bind(Updater).toSelf().inSingletonScope()
 })
 
 async function destroyAllModules(ioc: Container) {
@@ -25,6 +29,8 @@ async function destroyAllModules(ioc: Container) {
         ioc.get(Tabs).destroy(),
         ioc.get(Api).destroy(),
         ioc.get(DB).destroy(),
+        ioc.get(PluginManager).destroy(),
+        ioc.get(Updater).destroy(),
     ])
     ioc.unloadAsync(modules)
 }

@@ -10,6 +10,8 @@ import BaseClass from "./base/base"
 import IOC from "./_ioc"
 import DB from "./modules/db"
 import Zephyr from "./modules/zephyr"
+import { PluginManager } from "./modules/plugin-manager"
+import { Updater } from "./modules/updater"
 
 protocol.registerSchemesAsPrivileged([
     // {
@@ -54,6 +56,8 @@ class App extends BaseClass {
         @inject(DB) private _DB: DB,
         @inject(WindowManager) private _WindowManager: WindowManager,
         @inject(Zephyr) private _Zephyr: Zephyr,
+        @inject(PluginManager) private _PluginManager: PluginManager,
+        @inject(Updater) private _Updater: Updater,
     ) {
         super()
     }
@@ -62,6 +66,8 @@ class App extends BaseClass {
         this._DB.init()
         this._Command.init()
         this._WindowManager.init()
+        await this._PluginManager.init()
+        this._Updater.init()
         app.whenReady().then(() => {
             this._Api.init()
             this._Zephyr.init()

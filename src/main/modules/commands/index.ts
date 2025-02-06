@@ -90,4 +90,16 @@ export default class Commands extends BaseClass {
             win.webContents.send(evt, ...argu)
         }
     }
+
+    register(command: string, callback: (...args: any[]) => any) {
+        // 使用现有的 ipcMain.addListener 逻辑来处理命令
+        ipcMain.addListener(command, async (event, ...args) => {
+            try {
+                const result = await callback(...args);
+                event.reply(command, null, result);
+            } catch (error) {
+                event.reply(command, error);
+            }
+        });
+    }
 }

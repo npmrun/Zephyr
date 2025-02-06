@@ -343,4 +343,12 @@ export default class WindowManager extends BaseClass {
     //         console.warn("该窗口不存在")
     //     }
     // }
+
+    getCurrentWindow(): BrowserWindow | null {
+        return this.getMainWindow() || null
+    }
+
+    getAllWindows(): BrowserWindow[] {
+        return this.#windows
+    }
 }

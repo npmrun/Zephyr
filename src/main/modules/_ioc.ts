@@ -7,9 +7,11 @@ import { Tabs } from "./tabs"
 import Commands from "./commands"
 import Zephyr from "./zephyr"
 import { PluginManager } from "./plugin-manager"
+import { ErrorCollector } from "./error-collector"
 import { Updater } from './updater'
 
 const modules = new ContainerModule(bind => {
+    bind(ErrorCollector).toConstantValue(new ErrorCollector())
     bind(Setting).toConstantValue(new Setting())
     bind(Zephyr).toSelf().inSingletonScope()
     bind(Api).toSelf().inSingletonScope()
@@ -23,6 +25,7 @@ const modules = new ContainerModule(bind => {
 
 async function destroyAllModules(ioc: Container) {
     await Promise.all([
+        ioc.get(ErrorCollector).destroy(),
         ioc.get(Setting).destroy(),
         ioc.get(WindowManager).destroy(),
         ioc.get(Commands).destroy(),

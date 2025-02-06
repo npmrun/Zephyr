@@ -2,6 +2,8 @@ import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron"
 import { electronAPI } from "@electron-toolkit/preload"
 import { call, callLong, callSync } from "./call"
 import { IPopupMenuOption } from "#"
+import './error'
+
 document.addEventListener("DOMContentLoaded", () => {
     const initStyle = document.createElement("style")
     initStyle.textContent = `

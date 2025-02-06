@@ -12,6 +12,7 @@ import DB from "./modules/db"
 import Zephyr from "./modules/zephyr"
 import { PluginManager } from "./modules/plugin-manager"
 import { Updater } from "./modules/updater"
+import { ErrorCollector } from './modules/error-collector'
 
 protocol.registerSchemesAsPrivileged([
     // {
@@ -58,11 +59,13 @@ class App extends BaseClass {
         @inject(Zephyr) private _Zephyr: Zephyr,
         @inject(PluginManager) private _PluginManager: PluginManager,
         @inject(Updater) private _Updater: Updater,
+        @inject(ErrorCollector) private _ErrorCollector: ErrorCollector
     ) {
         super()
     }
 
     async init() {
+        this._ErrorCollector.init()
         this._DB.init()
         this._Command.init()
         this._WindowManager.init()

@@ -2,7 +2,7 @@ import { BrowserWindow, WebContentsView, WebPreferences } from "electron"
 import { join } from "node:path"
 import BaseClass from "vc/base/base"
 import _debug from "debug"
-import { Layout } from "./Constant"
+// import { Layout } from "./Constant"
 import FuckHTML from "res/fuck.html?asset"
 import { fileURLToPath } from "node:url"
 
@@ -11,6 +11,13 @@ const debug = _debug("app:tab")
 interface IOption {
     url: string
     active: boolean
+}
+
+interface IRect {
+    x: number
+    y: number
+    width: number
+    height: number
 }
 
 class Tab extends BaseClass {
@@ -28,6 +35,12 @@ class Tab extends BaseClass {
     public visible: boolean = false
     private webContentsView: WebContentsView | null = null
     private curWindow: BrowserWindow | null = null
+    private curRect: {
+        x: number
+        y: number
+        width: number
+        height: number
+    } | null = null
 
     private defaultOptions: IOption = {
         url: "",
@@ -44,7 +57,7 @@ class Tab extends BaseClass {
         return this._events
     }
 
-    constructor(options = {}, window: BrowserWindow) {
+    constructor(options = {}, window: BrowserWindow, curRect: IRect) {
         super()
         this.listenResize = this.listenResize.bind(this)
         this.options = {
@@ -54,6 +67,7 @@ class Tab extends BaseClass {
         this.url = this.getUrl(this.options.url)
         this.showUrl = this.options.url
         this.curWindow = window
+        this.curRect = curRect
         this.setActive(this.options.active)
     }
     destroyTimer: NodeJS.Timeout | null = null
@@ -225,8 +239,20 @@ class Tab extends BaseClass {
         if (!this.webContentsView) {
             return
         }
-        const size = this.curWindow.getContentSize()
-        this.webContentsView.setBounds(Layout(size[0], size[1]))
+        if (!this.curRect) {
+            return
+        }
+        this.webContentsView.setBounds(this.curRect)
+        // const size = this.curWindow.getContentSize()
+        // this.webContentsView.setBounds(Layout(size[0], size[1]))
+    }
+
+    updateRect(curRect: IRect) {
+        this.curRect = curRect
+        if (!this.webContentsView) {
+            return
+        }
+        this.webContentsView.setBounds(this.curRect)
     }
 
     navigate(url: string) {

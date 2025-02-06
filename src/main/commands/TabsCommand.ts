@@ -14,6 +14,15 @@ class TabsCommand {
         this._Tabs.events.addListener("update", this.listenerTabActive)
     }
 
+    init() {
+        const mainWindow = this._WindowManager.getMainWindow()
+        this._Tabs.init(mainWindow)
+    }
+
+    bindElement(rect) {
+        this._Tabs.updateRect(rect)
+    }
+
     reload() {
         this._WindowManager.getMainWindow()?.reload()
     }
@@ -31,8 +40,6 @@ class TabsCommand {
     }
 
     nagivate(index: number, url: string) {
-        console.log(`跳转${index}:${url}`)
-
         this._Tabs.navigate(+index, url)
     }
 

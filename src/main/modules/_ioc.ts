@@ -5,9 +5,11 @@ import { Api } from "./api"
 import { WindowManager } from "./window-manager"
 import { Tabs } from "./tabs"
 import Commands from "./commands"
+import Zephyr from "./zephyr"
 
 const modules = new ContainerModule(bind => {
     bind(Setting).toConstantValue(new Setting())
+    bind(Zephyr).toSelf().inSingletonScope()
     bind(Api).toSelf().inSingletonScope()
     bind(WindowManager).toSelf().inSingletonScope()
     bind(Commands).toSelf().inSingletonScope()

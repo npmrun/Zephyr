@@ -1,7 +1,22 @@
 <script setup lang="ts">
 import NavBar from "@renderer/components/NavBar.vue"
-import { onBeforeMount, ref } from "vue"
+import { onBeforeMount, onBeforeUnmount, onMounted, ref } from "vue"
 import { PopupMenu } from "./bridge/PopupMenu"
+
+const PlaceHolder = ref<HTMLDivElement>()
+function OnResize() {
+    const el = PlaceHolder.value
+    if (el) {
+        const rect = el.getBoundingClientRect().toJSON()
+        console.log(rect)
+        api.call("TabsCommand.bindElement", rect)
+    }
+}
+onMounted(OnResize)
+window.addEventListener("resize", OnResize)
+onBeforeUnmount(() => {
+    window.removeEventListener("resize", OnResize)
+})
 
 const list = ref<any[]>([])
 const curUrl = ref<any>("")
@@ -9,8 +24,6 @@ const curIndex = ref<any>(-1)
 const listener = (_, v) => {
     list.value = v
     const el = v.find(v => v.isActive)
-    console.log(el);
-
     curIndex.value = v.findIndex(v => v.isActive)
     if (el) {
         curUrl.value = el.showUrl
@@ -22,7 +35,10 @@ if (import.meta.hot) {
     api.off("TabsCommand.update", listener)
 }
 api.on("TabsCommand.update", listener)
-api.call("TabsCommand.sync")
+onMounted(() => {
+    api.call("TabsCommand.init")
+    api.call("TabsCommand.sync")
+})
 
 onBeforeMount(async () => {
     list.value = await fetch("api://fuck/TabsService/getAllTabs").then(async res => await res.json())
@@ -106,7 +122,7 @@ function onClickDevTool() {
 <template>
     <div h-full flex flex-col>
         <NavBar></NavBar>
-        <div flex-1 h-0 overflow-auto flex flex-col>
+        <div ml="200px" b-l="1px solid #E5E5E5" flex-1 h-0 overflow-auto flex flex-col>
             <div h="100px" flex flex-col b-b="1px solid #E5E5E5">
                 <div flex gap-1 my-1 px-1 w-full>
                     <div
@@ -157,7 +173,7 @@ function onClickDevTool() {
                     </div>
                 </div>
             </div>
-            <div flex-1 h-0 flex items-center justify-center>fuck</div>
+            <div ref="PlaceHolder" ml="1px" flex-1 h-0 flex items-center justify-center>fuck</div>
         </div>
     </div>
 </template>

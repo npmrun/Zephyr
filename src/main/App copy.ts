@@ -5,7 +5,7 @@ import Api from "./modules/api"
 import WindowManager from "./modules/window-manager"
 import { app, nativeTheme, protocol, WebContentsView } from "electron"
 import { electronApp } from "@electron-toolkit/utils"
-import Tabs from "./modules/tabs/Tabs"
+// import Tabs from "./modules/tabs/Tabs"
 import { getFileUrl } from "./utils"
 import BaseClass from "./base/base"
 
@@ -39,21 +39,21 @@ class App extends BaseClass {
     // private _db: DB
     private _Api: Api
     private _windowManager: WindowManager
-    private _tabs: Tabs
+    // private _tabs: Tabs
 
     constructor(
         // @inject(Setting) setting: Setting,
         // @inject(DB) db: DB,
         @inject(Api) Api: Api,
         @inject(WindowManager) windowManager: WindowManager,
-        @inject(Tabs) tabs: Tabs,
+        // @inject(Tabs) tabs: Tabs,
     ) {
         super()
         // this._setting = setting
         // this._db = db
         this._Api = Api
         this._windowManager = windowManager
-        this._tabs = tabs
+        // this._tabs = tabs
     }
 
     async init() {
@@ -155,8 +155,8 @@ class App extends BaseClass {
         // listenResize()
         // mainWindow!.addListener("resize", listenResize)
 
-        this._tabs.add("https://baidu.com", true)
-        this._tabs.add("https://zhihu.com")
+        // this._tabs.add("https://baidu.com", true)
+        // this._tabs.add("https://zhihu.com")
         return mainWindow
     }
 }

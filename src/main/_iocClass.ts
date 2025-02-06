@@ -3,6 +3,10 @@ import BaseClass from "./base/base"
 import { destroyAll, _ioc } from "./_ioc"
 
 class IOC extends BaseClass {
+    init() {
+        // TODO
+    }
+
     destroy() {
         destroyAll()
     }

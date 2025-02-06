@@ -5,11 +5,11 @@ import Api from "./modules/api"
 import WindowManager from "./modules/window-manager"
 import { app, nativeTheme, protocol } from "electron"
 import { electronApp } from "@electron-toolkit/utils"
-import Tabs from "./modules/tabs"
 import Command from "./modules/commands"
 import BaseClass from "./base/base"
 import IOC from "./_ioc"
 import DB from "./modules/db"
+import Zephyr from "./modules/zephyr"
 
 protocol.registerSchemesAsPrivileged([
     // {
@@ -23,6 +23,14 @@ protocol.registerSchemesAsPrivileged([
     // { scheme: "mailto", privileges: { standard: true } },
     {
         scheme: "api",
+        privileges: {
+            standard: true,
+            secure: true,
+            supportFetchAPI: true,
+        },
+    },
+    {
+        scheme: "zephyr",
         privileges: {
             standard: true,
             secure: true,
@@ -45,7 +53,7 @@ class App extends BaseClass {
         @inject(Command) private _Command: Command,
         @inject(DB) private _DB: DB,
         @inject(WindowManager) private _WindowManager: WindowManager,
-        @inject(Tabs) private _Tabs: Tabs,
+        @inject(Zephyr) private _Zephyr: Zephyr,
     ) {
         super()
     }
@@ -56,10 +64,10 @@ class App extends BaseClass {
         this._WindowManager.init()
         app.whenReady().then(() => {
             this._Api.init()
+            this._Zephyr.init()
             electronApp.setAppUserModelId("top.xieyaxin")
             this._WindowManager.showMainWindow()
             const mainWindow = this._WindowManager.getMainWindow()
-            this._Tabs.init(mainWindow)
             if (mainWindow) {
                 nativeTheme.themeSource = "light"
                 mainWindow.setTitleBarOverlay({

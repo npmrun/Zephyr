@@ -4,6 +4,13 @@ import _debug from "debug"
 import { BrowserWindow } from "electron"
 import EventEmitter from "events"
 
+interface IRect {
+    x: number
+    y: number
+    width: number
+    height: number
+}
+
 const debug = _debug("app:tabs")
 
 class Tabs extends BaseClass {
@@ -13,6 +20,13 @@ class Tabs extends BaseClass {
     }
 
     public events = new EventEmitter()
+
+    private curRect: {
+        x: number
+        y: number
+        width: number
+        height: number
+    } | null = null
 
     constructor() {
         super()
@@ -24,8 +38,16 @@ class Tabs extends BaseClass {
         this.add("about:blank", true, mainWindow)
     }
 
+    updateRect(curRect: IRect) {
+        this.curRect = curRect
+        this._tabs.forEach(tab => {
+            tab.updateRect(curRect)
+        })
+    }
+
     add(url: string, active: boolean, win: BrowserWindow) {
-        const tab = new Tab({ url }, win)
+        if (!this.curRect) throw new Error("请绑定区域显示")
+        const tab = new Tab({ url }, win, this.curRect)
         tab.events.on("window-open", ev => {
             debug(ev)
             this.add(ev.url, true, win)

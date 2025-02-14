@@ -1,6 +1,6 @@
 import config from "config"
 import { BrowserWindowConstructorOptions } from "electron"
-import { getFileUrl } from "vc/utils"
+import { getFileUrl } from "main/utils"
 import icon from "res/icon.png?asset"
 import { join } from "path"
 

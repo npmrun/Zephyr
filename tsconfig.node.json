@@ -12,7 +12,7 @@
       "#/*": ["src/types/*"],
       "config": ["config/index.ts"],
       "config/*": ["config/*"],
-      "vc/*": ["src/main/*"],
+      "main/*": ["src/main/*"],
       "res/*": ["resources/*"],
     }
   }

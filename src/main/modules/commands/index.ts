@@ -1,9 +1,9 @@
 import { IMenuItemOption, IPopupMenuOption } from "#"
 import { ipcMain, Menu, MenuItem } from "electron"
 import { inject } from "inversify"
-import IOC from "vc/_ioc"
-import BaseClass from "vc/base/base"
-import { isPromise } from "vc/utils"
+import IOC from "main/_ioc"
+import BaseClass from "main/base/base"
+import { isPromise } from "main/utils"
 import WindowManager from "../window-manager"
 
 export default class Commands extends BaseClass {

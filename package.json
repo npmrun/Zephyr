@@ -1,6 +1,7 @@
 {
-    "name": "my-app",
+    "name": "zephyr",
     "type": "module",
+    "private": true,
     "version": "1.0.0",
     "description": "An Electron application with Vue and TypeScript",
     "main": "./out/main/index.js",
@@ -53,7 +54,7 @@
         "typescript": "^5.5.2",
         "unocss": "^0.64.1",
         "vite": "^5.3.1",
-        "vue": "^3.4.30",
+        "vue": "^3.5.12",
         "vue-tsc": "^2.0.22"
     }
 }

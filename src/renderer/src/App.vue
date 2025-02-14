@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import NavBar from "@renderer/components/NavBar.vue"
-import { onBeforeMount, onBeforeUnmount, onMounted, ref } from "vue"
+import { onBeforeMount, onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue"
 import { PopupMenu } from "./bridge/PopupMenu"
 
-const PlaceHolder = ref<HTMLDivElement>()
+const PlaceHolderRef = useTemplateRef("PlaceHolder")
 function OnResize() {
-    const el = PlaceHolder.value
+    const el = PlaceHolderRef.value
     if (el) {
         const rect = el.getBoundingClientRect().toJSON()
         console.log(rect)
@@ -36,7 +36,6 @@ if (import.meta.hot) {
 }
 api.on("TabsCommand.update", listener)
 onMounted(() => {
-    api.call("TabsCommand.init")
     api.call("TabsCommand.sync")
 })
 

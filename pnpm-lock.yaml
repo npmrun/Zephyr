@@ -94,11 +94,13 @@ importers:
         specifier: ^5.3.1
         version: 5.4.11(@types/node@20.15.0)(sass@1.81.0)
       vue:
-        specifier: ^3.4.30
+        specifier: ^3.5.12
         version: 3.5.12(typescript@5.6.3)
       vue-tsc:
         specifier: ^2.0.22
         version: 2.1.10(typescript@5.6.3)
+
+  packages/IPC: {}
 
 packages:
 

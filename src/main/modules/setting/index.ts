@@ -5,7 +5,7 @@ import { cloneDeep } from "lodash"
 import { injectable } from "inversify"
 import Config from "config"
 import _debug from "debug"
-import BaseClass from "vc/base/base"
+import BaseClass from "main/base/base"
 
 const debug = _debug("app:setting")
 

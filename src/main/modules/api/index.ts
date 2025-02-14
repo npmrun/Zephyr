@@ -1,7 +1,7 @@
 import { session, net } from "electron"
 import { inject, injectable } from "inversify"
-import IOC from "vc/_ioc"
-import BaseClass from "vc/base/base"
+import IOC from "main/_ioc"
+import BaseClass from "main/base/base"
 
 @injectable()
 class Api extends BaseClass {
@@ -32,7 +32,7 @@ class Api extends BaseClass {
             const fnName = array[array.length - 1]
             // https://vitejs.cn/vite5-cn/guide/features.html#dynamic-import
             const module = await this._IOC.getAsync(routePath)
-            // const module = await import(`vc/controller/${routePath}.ts`)
+            // const module = await import(`main/controller/${routePath}.ts`)
             const opts = { body: {}, query: {} }
             if (isPost) {
                 opts.body = await request.json()

@@ -8,7 +8,7 @@ export default defineConfig({
         resolve: {
             alias: {
                 config: resolve("config"),
-                vc: resolve("src/main"),
+                main: resolve("src/main"),
                 res: resolve("resources"),
             },
         },

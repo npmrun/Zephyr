@@ -10,6 +10,7 @@ import BaseClass from "./base/base"
 import IOC from "./_ioc"
 import DB from "./modules/db"
 import Zephyr from "./modules/zephyr"
+import Updater from "./modules/updater"
 
 protocol.registerSchemesAsPrivileged([
     // {
@@ -54,11 +55,13 @@ class App extends BaseClass {
         @inject(DB) private _DB: DB,
         @inject(WindowManager) private _WindowManager: WindowManager,
         @inject(Zephyr) private _Zephyr: Zephyr,
+        @inject(Updater) private _Updater: Updater,
     ) {
         super()
     }
 
     async init() {
+        this._Updater.init()
         this._DB.init()
         this._Command.init()
         this._WindowManager.init()

@@ -1,5 +1,5 @@
 import Tab from "./Tab"
-import BaseClass from "vc/base/base"
+import BaseClass from "main/base/base"
 import _debug from "debug"
 import { BrowserWindow } from "electron"
 import EventEmitter from "events"
@@ -34,8 +34,8 @@ class Tabs extends BaseClass {
 
     _tabs: Tab[] = []
 
-    init(mainWindow) {
-        this.add("about:blank", true, mainWindow)
+    init() {
+        // 初始化
     }
 
     updateRect(curRect: IRect) {

@@ -1,7 +1,7 @@
 import { inject } from "inversify"
-import Tabs from "vc/modules/tabs"
-import WindowManager from "vc/modules/window-manager"
-import { broadcast } from "vc/utils"
+import Tabs from "main/modules/tabs"
+import WindowManager from "main/modules/window-manager"
+import { broadcast } from "main/utils"
 
 class TabsCommand {
     static name: string = "TabsCommand"
@@ -11,12 +11,7 @@ class TabsCommand {
         @inject(WindowManager) private _WindowManager: WindowManager,
     ) {
         this.listenerTabActive = this.listenerTabActive.bind(this)
-        this._Tabs.events.addListener("update", this.listenerTabActive)
-    }
-
-    init() {
-        const mainWindow = this._WindowManager.getMainWindow()
-        this._Tabs.init(mainWindow)
+        this._Tabs.events.on("update", this.listenerTabActive)
     }
 
     bindElement(rect) {

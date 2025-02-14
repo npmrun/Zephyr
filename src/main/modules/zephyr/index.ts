@@ -1,13 +1,17 @@
 import { session, net } from "electron"
 import { inject, injectable } from "inversify"
-import IOC from "vc/_ioc"
-import BaseClass from "vc/base/base"
+import IOC from "main/_ioc"
+import BaseClass from "main/base/base"
+import _debug from "debug"
+
+const debug = _debug("app:zephyr")
 
 @injectable()
 class Zephyr extends BaseClass {
     constructor(@inject(IOC) private _IOC: IOC) {
         super()
         this.interceptHandlerZephyr = this.interceptHandlerZephyr.bind(this)
+        debug("aaaaaaaaaaaaaaaaaaaaaa")
     }
 
     destroy() {

@@ -1,6 +1,6 @@
 import { BrowserWindow, WebContentsView, WebPreferences } from "electron"
 import { join } from "node:path"
-import BaseClass from "vc/base/base"
+import BaseClass from "main/base/base"
 import _debug from "debug"
 // import { Layout } from "./Constant"
 import FuckHTML from "res/fuck.html?asset"

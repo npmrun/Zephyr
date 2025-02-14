@@ -2,7 +2,7 @@ import { BrowserWindow, app, dialog } from "electron"
 import { cloneDeep, merge } from "lodash"
 import { defaultConfig, defaultWindowConfig, getWindowsMap, IConfig, Param } from "./windowsMap"
 import { optimizer } from "@electron-toolkit/utils"
-import BaseClass from "vc/base/base"
+import BaseClass from "main/base/base"
 import _debug from "debug"
 
 const debug = _debug("app:window-manager")

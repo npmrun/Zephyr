@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify"
-import BaseContainer from "vc/base/baseContainer"
-import Tabs from "vc/modules/tabs"
-import WindowManager from "vc/modules/window-manager"
+import BaseContainer from "main/base/baseContainer"
+import Tabs from "main/modules/tabs"
+import WindowManager from "main/modules/window-manager"
 
 @injectable()
 class TabsService extends BaseContainer {

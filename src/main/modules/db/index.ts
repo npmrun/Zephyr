@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify"
 import Setting from "../setting"
 import { CustomAdapter, CustomLow } from "./custom"
 import path from "node:path"
-import BaseClass from "vc/base/base"
+import BaseClass from "main/base/base"
 import _debug from "debug"
 
 const debug = _debug("app:db")

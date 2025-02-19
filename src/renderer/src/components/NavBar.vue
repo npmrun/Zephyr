@@ -5,6 +5,9 @@
             <div flex items-center gap-1>
                 <img w="16px" h="16px" :src="icon" />
                 <div relative h-full inline-flex items-center text-sm>{{ config.app_title }}</div>
+                <div relative class="list">
+                    <div class="item" @click="onClickMenu">菜单</div>
+                </div>
             </div>
             <div float-right h-full flex items-center relative style="-webkit-app-region: no-drag">
                 <div text-sm px-2 hover:rounded-md hover:bg-gray-2 hover:cursor-pointer text="hover:hover" @click="onClickAbout">关于</div>
@@ -16,10 +19,34 @@
 <script setup lang="ts">
 import icon from "@res/icon.png"
 import config from "config"
+import { PopupMenu } from "@/bridge/PopupMenu"
+
+const onClickMenu = () => {
+    const menu = new PopupMenu([
+        {
+            label: "关于",
+            click() {
+                fetch("api://fuck/BasicService/showAbout")
+            },
+        },
+        {
+            type: "separator",
+        },
+    ])
+    menu.show()
+}
 
 const onClickAbout = () => {
     fetch("api://fuck/BasicService/showAbout")
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.list {
+    @apply: flex gap="5px";
+    -webkit-app-region: no-drag;
+    .item {
+        @apply: text-sm px-2 hover:rounded-md hover:bg-gray-2 hover:cursor-pointer text="hover:hover";
+    }
+}
+</style>

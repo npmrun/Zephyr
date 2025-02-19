@@ -21,12 +21,14 @@ class Tabs extends BaseClass {
 
     public events = new EventEmitter()
 
-    private curRect: {
-        x: number
-        y: number
-        width: number
-        height: number
-    } | null = null
+    private curRect:
+        | {
+              x: number
+              y: number
+              width: number
+              height: number
+          }
+        | undefined = undefined
 
     constructor() {
         super()
@@ -46,7 +48,6 @@ class Tabs extends BaseClass {
     }
 
     add(url: string, active: boolean, win: BrowserWindow) {
-        if (!this.curRect) throw new Error("请绑定区域显示")
         const tab = new Tab({ url }, win, this.curRect)
         tab.events.on("window-open", ev => {
             debug(ev)

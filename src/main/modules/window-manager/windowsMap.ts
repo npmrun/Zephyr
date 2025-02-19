@@ -60,6 +60,7 @@ export function getWindowsMap(): Record<string, IConfig> {
                 show: false,
                 titleBarStyle: "hidden",
                 titleBarOverlay: true,
+                icon: icon,
                 ...(process.platform === "linux" ? { icon } : {}),
                 webPreferences: {
                     webviewTag: false,
@@ -91,7 +92,7 @@ export function getWindowsMap(): Record<string, IConfig> {
                 frame: true,
                 transparent: false,
                 alwaysOnTop: false,
-                // icon: appIconPath,
+                icon: icon,
                 title: config.app_title,
                 webPreferences: {
                     devTools: false,
@@ -116,7 +117,7 @@ export function getWindowsMap(): Record<string, IConfig> {
                 modal: true,
                 show: false,
                 resizable: false,
-                // icon: appIconPath,
+                icon: icon,
                 webPreferences: {
                     devTools: false,
                     sandbox: false,

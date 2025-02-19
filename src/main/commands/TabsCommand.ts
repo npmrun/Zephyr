@@ -4,8 +4,6 @@ import WindowManager from "main/modules/window-manager"
 import { broadcast } from "main/utils"
 
 class TabsCommand {
-    static name: string = "TabsCommand"
-
     constructor(
         @inject(Tabs) private _Tabs: Tabs,
         @inject(WindowManager) private _WindowManager: WindowManager,
@@ -24,6 +22,9 @@ class TabsCommand {
 
     sync() {
         this.listenerTabActive()
+        if (!this.getAllTabs().length) {
+            this.add("about:blank")
+        }
     }
 
     listenerTabActive() {

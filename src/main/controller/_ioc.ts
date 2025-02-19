@@ -3,8 +3,8 @@ import BasicService from "./BasicService"
 import TabsService from "./TabsService"
 
 const modules = new ContainerModule(bind => {
-    bind(BasicService.name).to(BasicService).inSingletonScope()
-    bind(TabsService.name).to(TabsService).inSingletonScope()
+    bind("BasicService").to(BasicService).inSingletonScope()
+    bind("TabsService").to(TabsService).inSingletonScope()
 })
 
 async function destroyAllController(ioc: Container) {

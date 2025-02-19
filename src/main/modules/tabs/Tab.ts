@@ -4,7 +4,7 @@ import BaseClass from "main/base/base"
 import _debug from "debug"
 // import { Layout } from "./Constant"
 import FuckHTML from "res/fuck.html?asset"
-import { fileURLToPath } from "node:url"
+import { fileURLToPath, pathToFileURL } from "node:url"
 
 const debug = _debug("app:tab")
 
@@ -35,12 +35,14 @@ class Tab extends BaseClass {
     public visible: boolean = false
     private webContentsView: WebContentsView | null = null
     private curWindow: BrowserWindow | null = null
-    private curRect: {
-        x: number
-        y: number
-        width: number
-        height: number
-    } | null = null
+    private curRect:
+        | {
+              x: number
+              y: number
+              width: number
+              height: number
+          }
+        | undefined = undefined
 
     private defaultOptions: IOption = {
         url: "",
@@ -57,7 +59,7 @@ class Tab extends BaseClass {
         return this._events
     }
 
-    constructor(options = {}, window: BrowserWindow, curRect: IRect) {
+    constructor(options = {}, window: BrowserWindow, curRect?: IRect) {
         super()
         this.listenResize = this.listenResize.bind(this)
         this.options = {
@@ -88,6 +90,7 @@ class Tab extends BaseClass {
                 this.webContentsView.webContents.destroy()
                 this.webContentsView = null
                 this.alive = false
+                this.events.emit("update")
             }
         }, 8000)
     }
@@ -107,6 +110,7 @@ class Tab extends BaseClass {
                 // , this.curWindow!.contentView.children.length - 1
                 this.curWindow!.contentView.addChildView(this.webContentsView!)
                 this.alive = true
+                this.events.emit("update")
             }
             this.listenResize()
             this.curWindow!.addListener("resize", this.listenResize)
@@ -214,7 +218,7 @@ class Tab extends BaseClass {
     private getUrl(url) {
         if (url === "about:blank") {
             debug(FuckHTML)
-            return FuckHTML
+            return pathToFileURL(FuckHTML).href
         }
         return url
     }

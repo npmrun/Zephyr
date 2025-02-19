@@ -3,8 +3,8 @@ import BasicCommand from "./BasicCommand"
 import TabsCommand from "./TabsCommand"
 
 const modules = new ContainerModule(bind => {
-    bind(BasicCommand.name).to(BasicCommand).inSingletonScope()
-    bind(TabsCommand.name).to(TabsCommand).inSingletonScope()
+    bind("BasicCommand").to(BasicCommand).inSingletonScope()
+    bind("TabsCommand").to(TabsCommand).inSingletonScope()
 })
 
 async function destroyAllCommand(ioc: Container) {

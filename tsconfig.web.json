@@ -1,22 +1,30 @@
 {
   "extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
   "include": [
+      "src/renderer/auto-imports.d.ts",
+      "src/renderer/components.d.ts",
     "src/renderer/src/env.d.ts",
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.vue",
     "src/preload/*.d.ts",
     "src/types/**/*",
-    "config/**/*"
+    "config/**/*",
+    "./typed-router.d.ts",
   ],
+  "vueCompilerOptions": {
+    "plugins": ["unplugin-vue-macros/volar"],
+  },
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
+    "moduleResolution": "Bundler",
+    "types": ["unplugin-vue-macros/macros-global"],
     "paths": {
       "#": ["src/types/index"],
       "#/*": ["src/types/*"],
       "config": ["config/index.ts"],
       "config/*": ["config/*"],
-      "@renderer/*": [
+      "@/*": [
         "src/renderer/src/*"
       ],
       "@res/*": [

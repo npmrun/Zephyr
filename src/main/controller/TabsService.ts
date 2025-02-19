@@ -5,8 +5,6 @@ import WindowManager from "main/modules/window-manager"
 
 @injectable()
 class TabsService extends BaseContainer {
-    static name: string = "TabsService"
-
     constructor(
         @inject(Tabs) private _Tabs: Tabs,
         @inject(WindowManager) private _WindowManager: WindowManager,

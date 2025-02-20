@@ -1,5 +1,14 @@
 <template>
-    <div relative h="30px" leading="29px" pr="137px" select-none border-b="1px solid #E5E5E5" bg="#F8F8F8">
+    <div
+        relative
+        h="30px"
+        leading="29px"
+        pr="137px"
+        :style="{ paddingRight: isFullScreen ? '0' : '' }"
+        select-none
+        border-b="1px solid #E5E5E5"
+        bg="#F8F8F8"
+    >
         <div absolute top-0 right-0 bottom-0 left-0 style="-webkit-app-region: drag"></div>
         <div h-full px-2 flex items-center gap-1 justify-between>
             <div flex items-center gap-1>
@@ -21,16 +30,38 @@ import icon from "@res/icon.png"
 import config from "config"
 import { PopupMenu } from "@/bridge/PopupMenu"
 
+const isFullScreen = ref(false)
+onBeforeMount(async () => {
+    isFullScreen.value = await api.call("BasicCommand.isFullscreen")
+})
 const onClickMenu = () => {
     const menu = new PopupMenu([
         {
-            label: "关于",
-            click() {
-                fetch("api://fuck/BasicService/showAbout")
+            label: "全屏",
+            async click() {
+                isFullScreen.value = await api.call("BasicCommand.fullscreen")
+            },
+        },
+        {
+            label: "切换开发者工具",
+            async click() {
+                isFullScreen.value = await api.call("BasicCommand.toggleDevTools")
             },
         },
         {
             type: "separator",
+        },
+        {
+            label: "重载",
+            click() {
+                api.call("BasicCommand.reload")
+            },
+        },
+        {
+            label: "重启",
+            click() {
+                api.call("BasicCommand.relunch")
+            },
         },
     ])
     menu.show()

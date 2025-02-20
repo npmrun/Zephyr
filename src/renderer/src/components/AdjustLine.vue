@@ -1,17 +1,29 @@
 <template>
-    <div class="adjust-line" :class="['adjust-line__' + direction]" ref="adjustLineEL"></div>
+    <div ref="adjustLineEL" :class="['adjust-line', `adjust-line--${direction}`, { 'adjust-line--dragging': isDragging }]">
+        <div class="adjust-line__handle">
+            <div class="adjust-line__grip">
+                <span class="grip-line"></span>
+                <span class="grip-line"></span>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, ref, watch } from "vue"
+import { nextTick, onMounted, ref, watch, computed, onBeforeUnmount, onErrorCaptured } from "vue"
+import { useDebounceFn } from "@vueuse/core"
 
 const adjustLineEL = ref<HTMLElement>()
 
-type IProps = {
+// 定义方向类型
+type Direction = "left" | "right" | "top" | "bottom"
+
+// 优化Props接口
+interface AdjustLineProps {
     /**
      * 所在方向 'left' | 'right' | 'top' | 'bottom'
      */
-    direction?: "left" | "right" | "top" | "bottom"
+    direction?: Direction
     /**
      * 需要调整的元素
      */
@@ -24,13 +36,85 @@ type IProps = {
      * 唯一ID
      */
     mid?: string
+    minSize?: number
+    maxSize?: number
+    defaultSize?: number
+    onChange?: (size: number) => void
 }
 
-const props = withDefaults(defineProps<IProps>(), {
+const props = withDefaults(defineProps<AdjustLineProps>(), {
     direction: "right",
+    minSize: 100,
+    maxSize: 800,
 })
 
+// 定义事件
+const emit = defineEmits<{
+    (e: "resize", size: number): void
+    (e: "resizeStart"): void
+    (e: "resizeEnd", size: number): void
+}>()
+
 let curTarget: HTMLElement | undefined | null
+
+const isDragging = ref(false)
+const currentSize = ref(props.defaultSize || 0)
+
+// 使用computed优化方向判断
+const isHorizontal = computed(() => props.direction === "left" || props.direction === "right")
+
+// 使用computed获取光标样式
+const cursorStyle = computed(() => (isHorizontal.value ? "ew-resize" : "ns-resize"))
+
+// 保存状态到localStorage的优化
+const storageKey = computed(() => `adjust-line-${props.mid}`)
+
+function saveSize(size: number) {
+    if (props.mid) {
+        try {
+            localStorage.setItem(storageKey.value, String(size))
+        } catch (error) {
+            console.warn("Failed to save size to localStorage:", error)
+        }
+    }
+}
+
+function loadSavedSize(): number | null {
+    if (props.mid) {
+        try {
+            const saved = localStorage.getItem(storageKey.value)
+            return saved ? Number(saved) : null
+        } catch (error) {
+            console.warn("Failed to load size from localStorage:", error)
+            return null
+        }
+    }
+    return null
+}
+
+// 使用防抖优化resize事件
+const emitResize = useDebounceFn((size: number) => {
+    emit("resize", size)
+}, 16)
+
+// 使用ResizeObserver监听容器大小变化
+const observeResize = () => {
+    if (!adjustLineEL.value) return
+
+    const observer = new ResizeObserver(() => {
+        if (curTarget) {
+            const size = isHorizontal.value ? curTarget.clientWidth : curTarget.clientHeight
+            currentSize.value = size
+            emitResize(size)
+        }
+    })
+
+    observer.observe(adjustLineEL.value)
+
+    onBeforeUnmount(() => {
+        observer.disconnect()
+    })
+}
 
 onMounted(async () => {
     await nextTick()
@@ -51,6 +135,7 @@ onMounted(async () => {
             }
         },
     )
+    observeResize()
 })
 
 function handle(target: HTMLElement) {
@@ -231,49 +316,198 @@ function handle(target: HTMLElement) {
         }
     }
 }
+
+function handleDrag(e: MouseEvent, target: HTMLElement) {
+    const startPos = isHorizontal.value ? e.clientX : e.clientY
+    const startSize = isHorizontal.value ? target.clientWidth : target.clientHeight
+
+    const handleMouseMove = (e: MouseEvent) => {
+        const currentPos = isHorizontal.value ? e.clientX : e.clientY
+        const diff = props.direction === "right" || props.direction === "bottom" ? startPos - currentPos : currentPos - startPos
+
+        let newSize = startSize - diff
+
+        // 限制大小范围
+        newSize = Math.max(props.minSize, Math.min(props.maxSize, newSize))
+
+        // 应用新尺寸
+        if (isHorizontal.value) {
+            target.style.width = `${newSize}px`
+        } else {
+            target.style.height = `${newSize}px`
+        }
+
+        currentSize.value = newSize
+        emit("resize", newSize)
+    }
+
+    const handleMouseUp = () => {
+        document.removeEventListener("mousemove", handleMouseMove)
+        document.removeEventListener("mouseup", handleMouseUp)
+        document.body.style.userSelect = ""
+        isDragging.value = false
+        saveSize(currentSize.value)
+        emit("resizeEnd", currentSize.value)
+    }
+
+    document.addEventListener("mousemove", handleMouseMove)
+    document.addEventListener("mouseup", handleMouseUp)
+    document.body.style.userSelect = "none"
+    isDragging.value = true
+    emit("resizeStart")
+}
+
+const debug = {
+    log: (...args: any[]) => {
+        if (process.env.NODE_ENV === "development") {
+            console.log("[AdjustLine]", ...args)
+        }
+    },
+    error: (...args: any[]) => {
+        console.error("[AdjustLine]", ...args)
+    },
+}
+
+function handleError(error: Error, context: string) {
+    debug.error(`Error in ${context}:`, error)
+    // 可以添加错误上报逻辑
+}
+
+// 错误边界处理
+onErrorCaptured((err, instance, info) => {
+    handleError(err as Error, info)
+    return false
+})
 </script>
 
 <style lang="scss" scoped>
 .adjust-line {
     position: absolute;
     z-index: 999;
-    transition: background-color 0.5s ease;
 
-    &:hover,
-    &:active {
-        background: #1976d2;
+    &__handle {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        transition: all 0.2s ease;
     }
 
-    &__left {
-        left: -2px;
+    &__grip {
+        display: flex;
+        gap: 3px;
+        opacity: 0;
+        transition: opacity 0.2s;
+
+        .adjust-line:hover &,
+        .adjust-line--dragging & {
+            opacity: 1;
+        }
+    }
+
+    .grip-line {
+        background-color: #999;
+        border-radius: 1px;
+
+        .adjust-line:hover &,
+        .adjust-line--dragging & {
+            background-color: #666;
+        }
+    }
+
+    // 水平方向的调整线
+    &--left,
+    &--right {
         top: 0;
         bottom: 0;
-        width: 4px;
-        cursor: ew-resize;
+        width: 10px; // 增加可点击区域
+        cursor: col-resize;
+
+        .adjust-line__handle {
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .adjust-line__grip {
+            flex-direction: column;
+        }
+
+        .grip-line {
+            width: 2px;
+            height: 16px;
+        }
+
+        &:hover .adjust-line__handle {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
     }
 
-    &__top {
-        top: -2px;
+    // 垂直方向的调整线
+    &--top,
+    &--bottom {
         left: 0;
         right: 0;
-        height: 4px;
-        cursor: n-resize;
+        height: 10px; // 增加可点击区域
+        cursor: row-resize;
+
+        .adjust-line__handle {
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+        }
+
+        .adjust-line__grip {
+            flex-direction: row;
+        }
+
+        .grip-line {
+            width: 16px;
+            height: 2px;
+        }
+
+        &:hover .adjust-line__handle {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
     }
 
-    &__bottom {
-        bottom: -2px;
-        left: 0;
-        right: 0;
-        height: 4px;
-        cursor: n-resize;
+    // 调整位置以居中
+    &--left {
+        left: -5px;
+    }
+    &--right {
+        right: -5px;
+    }
+    &--top {
+        top: -5px;
+    }
+    &--bottom {
+        bottom: -5px;
     }
 
-    &__right {
-        right: -2px;
-        top: 0;
-        bottom: 0;
-        width: 4px;
-        cursor: ew-resize;
+    // 拖动时的全局遮罩
+    &--dragging {
+        &::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            cursor: inherit;
+        }
+
+        .adjust-line__handle {
+            background-color: rgba(0, 0, 0, 0.08);
+        }
+
+        .grip-line {
+            background-color: #666;
+        }
     }
 }
 </style>

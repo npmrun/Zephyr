@@ -28,6 +28,7 @@ const { stop } = useResizeObserver(PlaceHolder, () => {
 
 onBeforeUnmount(() => {
     stop()
+    api.call("TabsCommand.closeAll")
 })
 
 const list = ref<any[]>([])

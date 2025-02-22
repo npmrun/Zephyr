@@ -39,6 +39,10 @@ class TabsCommand {
         this._Tabs.navigate(+index, url)
     }
 
+    closeAll() {
+        this._Tabs.closeAll()
+    }
+
     setActive(index) {
         this._Tabs.changeActive(index)
     }

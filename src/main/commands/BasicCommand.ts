@@ -1,9 +1,13 @@
 import { app, dialog } from "electron"
 import { inject } from "inversify"
+import Tabs from "main/modules/tabs"
 import WindowManager from "main/modules/window-manager"
 
 export default class BasicCommand {
-    constructor(@inject(WindowManager) private _WindowManager: WindowManager) {
+    constructor(
+        @inject(WindowManager) private _WindowManager: WindowManager,
+        @inject(Tabs) private _Tabs: Tabs
+    ) {
         //
     }
 
@@ -53,6 +57,7 @@ export default class BasicCommand {
                 return
             }
         }
+        this._Tabs.closeAll()
         focusedWindow!.reload()
     }
 }

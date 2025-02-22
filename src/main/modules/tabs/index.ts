@@ -23,11 +23,11 @@ class Tabs extends BaseClass {
 
     private curRect:
         | {
-              x: number
-              y: number
-              width: number
-              height: number
-          }
+            x: number
+            y: number
+            width: number
+            height: number
+        }
         | undefined = undefined
 
     constructor() {
@@ -96,6 +96,14 @@ class Tabs extends BaseClass {
             this.changeActive(index - 1)
         }
         this._tabs.splice(index, 1)
+        this.events.emit("update")
+    }
+
+    closeAll() {
+        this._tabs = this._tabs.filter(tab => {
+            tab.destroy()
+        })
+        this._tabs = []
         this.events.emit("update")
     }
 

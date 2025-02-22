@@ -56,6 +56,7 @@ export default defineConfig({
                         root: resolve(__dirname, "src/renderer"),
                         // https://github.com/posva/unplugin-vue-router
                         extensions: [".vue", ".setup.tsx"],
+                        exclude: ['**/_ui']
                     }),
                 },
             }),

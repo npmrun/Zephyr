@@ -1,5 +1,7 @@
 <template>
     <div>
-        app
+        <input type="text" />
+        <input type="text" />
+        <input type="text" />
     </div>
 </template>

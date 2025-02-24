@@ -98,10 +98,11 @@ const emitResize = useDebounceFn((size: number) => {
 }, 16)
 
 // 使用ResizeObserver监听容器大小变化
+let observer: ResizeObserver | null = null
 const observeResize = () => {
     if (!adjustLineEL.value) return
 
-    const observer = new ResizeObserver(() => {
+    observer = new ResizeObserver(() => {
         if (curTarget) {
             const size = isHorizontal.value ? curTarget.clientWidth : curTarget.clientHeight
             currentSize.value = size
@@ -110,11 +111,11 @@ const observeResize = () => {
     })
 
     observer.observe(adjustLineEL.value)
-
-    onBeforeUnmount(() => {
-        observer.disconnect()
-    })
 }
+
+onBeforeUnmount(() => {
+    observer && observer.disconnect()
+})
 
 onMounted(async () => {
     await nextTick()

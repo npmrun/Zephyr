@@ -1,10 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-    <div h-full flex flex-col>
-        <NavBar></NavBar>
-        <div flex-1 h-0>
-            <RouterView></RouterView>
-        </div>
-    </div>
+    <router-view v-slot="{ Component, route }">
+        <transition name="slide">
+            <component :is="Component" :key="route" />
+        </transition>
+    </router-view>
 </template>

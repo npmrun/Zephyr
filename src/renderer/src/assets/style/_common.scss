@@ -23,4 +23,22 @@ body {
 
 * {
     user-select: none;
+    outline: none;
+}
+
+.simplebar-scrollbar::before {
+    background-color: #bdbdbd;
+    border-radius: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+}
+
+.simplebar-hover .simplebar-scrollbar::before {
+    background-color: #909090;
+}
+
+.simplebar-wrapper:hover ~ .simplebar-track > .simplebar-scrollbar:before {
+    opacity: 0.5 !important;
 }

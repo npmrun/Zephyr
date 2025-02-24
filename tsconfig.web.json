@@ -18,7 +18,7 @@
     "composite": true,
     "baseUrl": ".",
     "moduleResolution": "Bundler",
-    "types": ["unplugin-vue-macros/macros-global"],
+    "types": ["unplugin-vue-macros/macros-global", "vite-plugin-vue-layouts/client"],
     "paths": {
       "#": ["src/types/index"],
       "#/*": ["src/types/*"],

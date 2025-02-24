@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from "vue"
+import Simplebar from "simplebar-vue"
+import { getAssetsFile } from "@/utils"
 
 const active = ref()
 const allApp = [
     { label: "浏览器", comp: defineAsyncComponent(() => import("./_ui/Browser.vue")) },
-    { label: "观山", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "听雨", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+    { label: "观山", bg: "gs", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+    { label: "听雨", bg: "ty", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
     { label: "赏月", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
     { label: "抚琴", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
     { label: "望云", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
@@ -29,38 +31,66 @@ const allApp = [
     { label: "拨荷", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
     { label: "望鹤", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
 ]
+
+const activeBg = computed(() => {
+    if (!active.value) return ""
+    const value = allApp[active.value].bg
+    return value ? getAssetsFile(`@/assets/images/home/${value}.png`) : ""
+})
+
+function onClick(index: number) {
+    active.value = index
+}
 </script>
 
 <template>
     <div h-full flex>
-        <div w="100px" relative max-w="200px" min-w="80px">
-            <div overflow-hidden>
+        <div w="100px" h-full relative max-w="200px" min-w="80px">
+            <Simplebar h-full>
                 <div
                     v-for="(app, index) in allApp"
+                    :key="index"
                     p="8px 10px"
                     text="12px"
                     border
                     border-b
                     h="30px"
                     cursor="pointer"
-                    @click="active = index"
                     hover:bg-gray-50
                     class="item"
                     transition-all
                     :class="{ active: active === index }"
+                    @click="onClick(index)"
                 >
                     <div class="text" transition-all position="absolute" left="10px">{{ app.label }}</div>
                 </div>
-            </div>
-            <AdjustLine></AdjustLine>
+            </Simplebar>
+            <!-- <AdjustLine></AdjustLine> -->
         </div>
-        <div b-l="1px solid #E5E5E5" flex-1 w-0 overflow-auto flex flex-col>
-            <component v-if="allApp[active]" :is="allApp[active].comp"></component>
+        <div class="content" relative b-l="1px solid #E5E5E5" flex-1 w-0 overflow-auto flex flex-col>
+            <div v-if="activeBg" class="bg" :style="{ backgroundImage: activeBg ? `url(${activeBg})` : '' }"></div>
+            <component :is="allApp[active].comp" v-if="allApp[active]"></component>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
+.content {
+    .bg {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -1;
+        opacity: 0.1;
+        // blur(4px)
+        filter: brightness(1);
+    }
+}
 .item {
     position: relative;
     &::before {

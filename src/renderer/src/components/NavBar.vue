@@ -37,7 +37,7 @@ onBeforeMount(async () => {
 const onClickMenu = () => {
     const menu = new PopupMenu([
         {
-            label: isFullScreen.value?"取消全屏":"全屏",
+            label: isFullScreen.value ? "取消全屏" : "全屏",
             async click() {
                 isFullScreen.value = await api.call("BasicCommand.fullscreen")
             },

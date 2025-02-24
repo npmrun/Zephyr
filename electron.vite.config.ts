@@ -8,6 +8,7 @@ import Components from "unplugin-vue-components/vite"
 import VueMacros from "unplugin-vue-macros/vite"
 import { VueRouterAutoImports } from "unplugin-vue-router"
 import VueRouter from "unplugin-vue-router/vite"
+import Layouts from "vite-plugin-vue-layouts"
 
 export default defineConfig({
     main: {
@@ -56,9 +57,16 @@ export default defineConfig({
                         root: resolve(__dirname, "src/renderer"),
                         // https://github.com/posva/unplugin-vue-router
                         extensions: [".vue", ".setup.tsx"],
-                        exclude: ['**/_ui']
+                        exclude: ["**/_ui"],
                     }),
                 },
+            }),
+            Layouts({
+                layoutsDirs: "src/layouts",
+                pagesDirs: "src/pages",
+                defaultLayout: "default",
+                extensions: ["vue", "setup.tsx"],
+                exclude: ["**/_ui"],
             }),
             // https://github.com/antfu/unplugin-auto-import
             AutoImport({

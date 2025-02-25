@@ -11,16 +11,10 @@ async function destroyAll() {
     await destroyAllCommand(_ioc)
 }
 
-const _modulesIOC = new Container()
-_modulesIOC.load(iocModules)
-
-const _commandIOC = _modulesIOC.createChild()
-_commandIOC.load(iocCommand)
-
-const _controllerIOC = _commandIOC.createChild()
-_controllerIOC.load(iocController)
-
-const _ioc = _controllerIOC.createChild()
+const _ioc = new Container()
+_ioc.load(iocModules)
+_ioc.load(iocCommand)
+_ioc.load(iocController)
 _ioc.bind(IOC).toSelf().inSingletonScope()
 _ioc.bind(App).toSelf().inSingletonScope()
 

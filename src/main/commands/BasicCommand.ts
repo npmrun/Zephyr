@@ -6,7 +6,7 @@ import WindowManager from "main/modules/window-manager"
 export default class BasicCommand {
     constructor(
         @inject(WindowManager) private _WindowManager: WindowManager,
-        @inject(Tabs) private _Tabs: Tabs
+        @inject(Tabs) private _Tabs: Tabs,
     ) {
         //
     }

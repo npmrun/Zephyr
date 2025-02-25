@@ -45,9 +45,9 @@ const listener = (_, v) => {
     }
 }
 if (import.meta.hot) {
-    api.off("TabsCommand.update", listener)
+    api.off("main:TabsCommand.update", listener)
 }
-api.on("TabsCommand.update", listener)
+api.on("main:TabsCommand.update", listener)
 onMounted(() => {
     api.call("TabsCommand.sync")
 })

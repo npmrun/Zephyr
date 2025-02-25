@@ -12,6 +12,10 @@ class TabsCommand {
         this._Tabs.events.on("update", this.listenerTabActive)
     }
 
+    listenerTabActive() {
+        broadcast("main:TabsCommand.update", this.getAllTabs())
+    }
+
     bindElement(rect) {
         this._Tabs.updateRect(rect)
     }
@@ -25,10 +29,6 @@ class TabsCommand {
         if (!this.getAllTabs().length) {
             this.add("about:blank")
         }
-    }
-
-    listenerTabActive() {
-        broadcast("TabsCommand.update", this.getAllTabs())
     }
 
     add(url) {

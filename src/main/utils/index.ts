@@ -9,7 +9,7 @@ export function getFileUrl(app: string) {
     } else {
         winURL = join(__dirname, `../renderer/${app}#/`)
     }
-    return winURL
+    return slash(winURL)
 }
 
 export function isPromise(value: () => any) {
@@ -18,4 +18,12 @@ export function isPromise(value: () => any) {
 
 export const broadcast = (event: string, ...args: any[]) => {
     webContents.getAllWebContents().forEach(browser => browser.send(event, ...args))
+}
+
+export function slash(path: string) {
+    const isExtendedLengthPath = path.startsWith("\\\\?\\")
+    if (isExtendedLengthPath) {
+        return path
+    }
+    return path.replace(/\\/g, "/")
 }

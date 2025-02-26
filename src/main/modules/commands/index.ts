@@ -79,8 +79,7 @@ export default class Commands extends BaseClass {
                 this.sendMessage(name, `popup_menu_close:${options.menu_id}`)
                 // broadcast(`popup_menu_close:${options.menu_id}`)
             })
-
-            menu.popup()
+            menu.popup(options.popupOptions)
         })
     }
 

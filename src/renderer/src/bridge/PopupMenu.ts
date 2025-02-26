@@ -5,6 +5,7 @@
  */
 
 import { IMenuItemOption } from "#"
+import type { PopupOptions } from "electron"
 
 let _idx: number = 0
 
@@ -20,7 +21,7 @@ export class PopupMenu {
         this._items = menu_items
     }
 
-    show() {
+    show(popupOptions?: PopupOptions) {
         // console.log('show')
         this.onHide()
         // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -44,9 +45,11 @@ export class PopupMenu {
         }
         const items = readMenu(this._items)
 
+        // popupOptions 中的 x,y 必须为整数
         api.popupMenu({
             menu_id: this._id,
             items,
+            popupOptions,
         })
         ;((offs: OffFunction[]) => {
             api.once(`popup_menu_close:${this._id}`, () => {

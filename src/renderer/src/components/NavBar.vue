@@ -35,7 +35,7 @@ const isFullScreen = ref(false)
 onBeforeMount(async () => {
     isFullScreen.value = await api.call("BasicCommand.isFullscreen")
 })
-const onClickMenu = () => {
+const onClickMenu = e => {
     const menu = new PopupMenu([
         {
             label: "返回",
@@ -71,7 +71,8 @@ const onClickMenu = () => {
             },
         },
     ])
-    menu.show()
+    const obj = e.target.getBoundingClientRect()
+    menu.show({ x: ~~obj.x, y: ~~(obj.y + obj.height) })
 }
 
 const onClickAbout = () => {

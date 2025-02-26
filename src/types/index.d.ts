@@ -6,4 +6,5 @@ interface IMenuItemOption extends Electron.MenuItemConstructorOptions {
 export interface IPopupMenuOption {
     menu_id: string
     items: IMenuItemOption[]
+    popupOptions?: PopupOptions
 }

@@ -25,6 +25,7 @@ export default defineConfig({
         plugins: [externalizeDepsPlugin()],
     },
     renderer: {
+        root: resolve(__dirname, "./src/renderer"),
         resolve: {
             alias: {
                 config: resolve("config"),
@@ -43,7 +44,7 @@ export default defineConfig({
             rollupOptions: {
                 input: {
                     main: resolve(__dirname, "./src/renderer/index.html"),
-                    about: resolve(__dirname, "src/renderer/about.html"),
+                    about: resolve(__dirname, "./src/renderer/about.html"),
                 },
             },
         },

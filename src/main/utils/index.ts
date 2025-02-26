@@ -2,12 +2,12 @@ import { is } from "@electron-toolkit/utils"
 import { join } from "node:path"
 import { webContents } from "electron"
 
-export function getFileUrl(app: string, route: string = "") {
+export function getFileUrl(app: string) {
     let winURL = ""
     if (is.dev && process.env["ELECTRON_RENDERER_URL"]) {
-        winURL = process.env["ELECTRON_RENDERER_URL"] + `/${app}#/${route}`
+        winURL = process.env["ELECTRON_RENDERER_URL"] + `/${app}#/`
     } else {
-        winURL = join(__dirname, `../renderer/${app}#/${route}`)
+        winURL = join(__dirname, `../renderer/${app}#/`)
     }
     return winURL
 }

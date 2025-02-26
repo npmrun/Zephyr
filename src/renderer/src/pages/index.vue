@@ -1,40 +1,52 @@
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue"
 import Simplebar from "simplebar-vue"
 import { getAssetsFile } from "@/utils"
 
-const active = ref()
-const allApp = [
-    { label: "浏览器", comp: defineAsyncComponent(() => import("./_ui/Browser.vue")) },
-    { label: "观山", bg: "gs", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "听雨", bg: "ty", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "赏月", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "抚琴", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "望云", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "踏雪", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "卧松", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "泛舟", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "弈星", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "垂钓", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "采菊", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "倚栏", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "望霞", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "枕风", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "沐泉", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "汲露", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "步竹", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "剪烛", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "拾阶", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "撷兰", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "访柳", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "谒梅", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "拨荷", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-    { label: "望鹤", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
-]
+const allModules: Record<string, any> = import.meta.glob("./_ui/**/*.vue", { eager: true })
+const allApp: any[] = []
+Object.keys(allModules).forEach(key => {
+    let [_1, p] = key.match("\.\/_ui\/(.*?)\.vue")!
+    p = p.replace(/\.vue$/, "")
+    const m = allModules[key]?.default || allModules[key]
+    allApp.push({
+        label: m.title,
+        bg: m.bg,
+        comp: m,
+    })
+})
+
+const active = ref(0)
+// const allApp = [
+//     { label: "浏览器", comp: defineAsyncComponent(() => import("./_ui/Browser.vue")) },
+//     { label: "观山", bg: "gs", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "听雨", bg: "ty", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "赏月", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "抚琴", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "望云", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "踏雪", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "卧松", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "泛舟", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "弈星", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "垂钓", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "采菊", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "倚栏", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "望霞", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "枕风", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "沐泉", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "汲露", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "步竹", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "剪烛", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "拾阶", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "撷兰", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "访柳", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "谒梅", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "拨荷", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+//     { label: "望鹤", comp: defineAsyncComponent(() => import("./_ui/App.vue")) },
+// ]
 
 const activeBg = computed(() => {
-    if (!active.value) return ""
-    const value = allApp[active.value].bg
+    if (active.value === undefined) return ""
+    const value = allApp[active.value]?.bg
     return value ? getAssetsFile(`@/assets/images/home/${value}.png`) : ""
 })
 
@@ -69,6 +81,7 @@ function onClick(index: number) {
         </div>
         <div class="content" relative b-l="1px solid #E5E5E5" flex-1 w-0 overflow-auto flex flex-col>
             <div v-if="activeBg" class="bg" :style="{ backgroundImage: activeBg ? `url(${activeBg})` : '' }"></div>
+            <div @click="$router.push('/about')">关于</div>
             <component :is="allApp[active].comp" v-if="allApp[active]"></component>
         </div>
     </div>

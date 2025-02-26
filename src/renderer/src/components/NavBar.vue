@@ -30,12 +30,19 @@ import icon from "@res/icon.png"
 import config from "config"
 import { PopupMenu } from "@/bridge/PopupMenu"
 
+const router = useRouter()
 const isFullScreen = ref(false)
 onBeforeMount(async () => {
     isFullScreen.value = await api.call("BasicCommand.isFullscreen")
 })
 const onClickMenu = () => {
     const menu = new PopupMenu([
+        {
+            label: "返回",
+            async click() {
+                router.back()
+            },
+        },
         {
             label: isFullScreen.value ? "取消全屏" : "全屏",
             async click() {

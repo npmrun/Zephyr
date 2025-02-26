@@ -2,6 +2,11 @@
 import { onBeforeMount, onBeforeUnmount, onMounted, ref, useTemplateRef, nextTick } from "vue"
 import { PopupMenu } from "@/bridge/PopupMenu"
 
+defineOptions({
+    title: "替你关于",
+    bg: "bg"
+})
+
 // const PlaceHolderRef = useTemplateRef("PlaceHolder")
 // function OnResize() {
 //     const el = PlaceHolderRef.value

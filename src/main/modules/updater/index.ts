@@ -1,8 +1,8 @@
 import pkg from "electron-updater"
 import { app, dialog } from "electron"
-import { injectable, inject } from "inversify"
+import { injectable } from "inversify"
 import BaseClass from "main/base/base"
-import { Setting } from "../setting"
+// import { Setting } from "../setting"
 import _debug from "debug"
 import EventEmitter from "events"
 
@@ -13,7 +13,9 @@ const { autoUpdater } = pkg
 export class Updater extends BaseClass {
     public events = new EventEmitter()
 
-    constructor(@inject(Setting) private _Setting: Setting) {
+    constructor(
+        // @inject(Setting) private _Setting: Setting
+    ) {
         super()
 
         // 配置自动更新

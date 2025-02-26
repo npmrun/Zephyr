@@ -63,34 +63,34 @@ const currentSize = ref(props.defaultSize || 0)
 // 使用computed优化方向判断
 const isHorizontal = computed(() => props.direction === "left" || props.direction === "right")
 
-// 使用computed获取光标样式
-const cursorStyle = computed(() => (isHorizontal.value ? "ew-resize" : "ns-resize"))
+// // 使用computed获取光标样式
+// const cursorStyle = computed(() => (isHorizontal.value ? "ew-resize" : "ns-resize"))
 
-// 保存状态到localStorage的优化
-const storageKey = computed(() => `adjust-line-${props.mid}`)
+// // 保存状态到localStorage的优化
+// const storageKey = computed(() => `adjust-line-${props.mid}`)
 
-function saveSize(size: number) {
-    if (props.mid) {
-        try {
-            localStorage.setItem(storageKey.value, String(size))
-        } catch (error) {
-            console.warn("Failed to save size to localStorage:", error)
-        }
-    }
-}
+// function saveSize(size: number) {
+//     if (props.mid) {
+//         try {
+//             localStorage.setItem(storageKey.value, String(size))
+//         } catch (error) {
+//             console.warn("Failed to save size to localStorage:", error)
+//         }
+//     }
+// }
 
-function loadSavedSize(): number | null {
-    if (props.mid) {
-        try {
-            const saved = localStorage.getItem(storageKey.value)
-            return saved ? Number(saved) : null
-        } catch (error) {
-            console.warn("Failed to load size from localStorage:", error)
-            return null
-        }
-    }
-    return null
-}
+// function loadSavedSize(): number | null {
+//     if (props.mid) {
+//         try {
+//             const saved = localStorage.getItem(storageKey.value)
+//             return saved ? Number(saved) : null
+//         } catch (error) {
+//             console.warn("Failed to load size from localStorage:", error)
+//             return null
+//         }
+//     }
+//     return null
+// }
 
 // 使用防抖优化resize事件
 const emitResize = useDebounceFn((size: number) => {
@@ -318,45 +318,45 @@ function handle(target: HTMLElement) {
     }
 }
 
-function handleDrag(e: MouseEvent, target: HTMLElement) {
-    const startPos = isHorizontal.value ? e.clientX : e.clientY
-    const startSize = isHorizontal.value ? target.clientWidth : target.clientHeight
+// function handleDrag(e: MouseEvent, target: HTMLElement) {
+//     const startPos = isHorizontal.value ? e.clientX : e.clientY
+//     const startSize = isHorizontal.value ? target.clientWidth : target.clientHeight
 
-    const handleMouseMove = (e: MouseEvent) => {
-        const currentPos = isHorizontal.value ? e.clientX : e.clientY
-        const diff = props.direction === "right" || props.direction === "bottom" ? startPos - currentPos : currentPos - startPos
+//     const handleMouseMove = (e: MouseEvent) => {
+//         const currentPos = isHorizontal.value ? e.clientX : e.clientY
+//         const diff = props.direction === "right" || props.direction === "bottom" ? startPos - currentPos : currentPos - startPos
 
-        let newSize = startSize - diff
+//         let newSize = startSize - diff
 
-        // 限制大小范围
-        newSize = Math.max(props.minSize, Math.min(props.maxSize, newSize))
+//         // 限制大小范围
+//         newSize = Math.max(props.minSize, Math.min(props.maxSize, newSize))
 
-        // 应用新尺寸
-        if (isHorizontal.value) {
-            target.style.width = `${newSize}px`
-        } else {
-            target.style.height = `${newSize}px`
-        }
+//         // 应用新尺寸
+//         if (isHorizontal.value) {
+//             target.style.width = `${newSize}px`
+//         } else {
+//             target.style.height = `${newSize}px`
+//         }
 
-        currentSize.value = newSize
-        emit("resize", newSize)
-    }
+//         currentSize.value = newSize
+//         emit("resize", newSize)
+//     }
 
-    const handleMouseUp = () => {
-        document.removeEventListener("mousemove", handleMouseMove)
-        document.removeEventListener("mouseup", handleMouseUp)
-        document.body.style.userSelect = ""
-        isDragging.value = false
-        saveSize(currentSize.value)
-        emit("resizeEnd", currentSize.value)
-    }
+//     const handleMouseUp = () => {
+//         document.removeEventListener("mousemove", handleMouseMove)
+//         document.removeEventListener("mouseup", handleMouseUp)
+//         document.body.style.userSelect = ""
+//         isDragging.value = false
+//         saveSize(currentSize.value)
+//         emit("resizeEnd", currentSize.value)
+//     }
 
-    document.addEventListener("mousemove", handleMouseMove)
-    document.addEventListener("mouseup", handleMouseUp)
-    document.body.style.userSelect = "none"
-    isDragging.value = true
-    emit("resizeStart")
-}
+//     document.addEventListener("mousemove", handleMouseMove)
+//     document.addEventListener("mouseup", handleMouseUp)
+//     document.body.style.userSelect = "none"
+//     isDragging.value = true
+//     emit("resizeStart")
+// }
 
 const debug = {
     log: (...args: any[]) => {
@@ -377,6 +377,7 @@ function handleError(error: Error, context: string) {
 // 错误边界处理
 onErrorCaptured((err, instance, info) => {
     handleError(err as Error, info)
+    console.log(instance);
     return false
 })
 </script>

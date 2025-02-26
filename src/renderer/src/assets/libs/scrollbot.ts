@@ -8,14 +8,14 @@ class Scrollbot {
     private scrollSpeed: number = 200
     private parContent!: string
     private newPar!: HTMLDivElement
-    private sbContainer!: HTMLDivElement
+    // private sbContainer!: HTMLDivElement
     private scrollBarHolder!: HTMLDivElement
     private scrollBar!: HTMLDivElement
     private inP!: HTMLDivElement
     private sbHeight: number = 0
     private mdown: boolean = false
     private customHeight: boolean = false
-    private scrollElement!: HTMLElement
+    // private scrollElement!: HTMLElement
     private onScrollF?: () => void
     private sB: ScrollStyle = {}
     private sBH: ScrollStyle = {}
@@ -55,7 +55,7 @@ class Scrollbot {
 
     private setupElements(): void {
         this.newPar = document.createElement("div")
-        this.sbContainer = document.createElement("div")
+        // this.sbContainer = document.createElement("div")
         this.scrollBarHolder = document.createElement("div")
         this.scrollBar = document.createElement("div")
         this.inP = document.createElement("div")
@@ -84,7 +84,7 @@ class Scrollbot {
         }px;width:100%;box-sizing:content-box;`
 
         this.sbHeight = (this.inP.clientHeight * 100) / this.inP.scrollHeight
-        this.scrollElement = this.inP
+        // this.scrollElement = this.inP
 
         this.updateScrollbarStyles()
     }

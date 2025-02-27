@@ -55,21 +55,21 @@ const onClickMenu = e => {
                 isFullScreen.value = await api.call("BasicCommand.toggleDevTools")
             },
         },
-        {
-            type: "separator",
-        },
-        {
-            label: "重载",
-            click() {
-                api.call("BasicCommand.reload")
-            },
-        },
-        {
-            label: "重启",
-            click() {
-                api.call("BasicCommand.relunch")
-            },
-        },
+        // {
+        //     type: "separator",
+        // },
+        // {
+        //     label: "重载",
+        //     click() {
+        //         api.call("BasicCommand.reload")
+        //     },
+        // },
+        // {
+        //     label: "重启",
+        //     click() {
+        //         api.call("BasicCommand.relunch")
+        //     },
+        // },
     ])
     const obj = e.target.getBoundingClientRect()
     menu.show({ x: ~~obj.x, y: ~~(obj.y + obj.height) })

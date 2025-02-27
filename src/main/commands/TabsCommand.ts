@@ -8,11 +8,10 @@ class TabsCommand {
         @inject(Tabs) private _Tabs: Tabs,
         @inject(WindowManager) private _WindowManager: WindowManager,
     ) {
-        this.listenerTabActive = this.listenerTabActive.bind(this)
         this._Tabs.events.on("update", this.listenerTabActive)
     }
 
-    listenerTabActive() {
+    listenerTabActive = () => {
         broadcast("main:TabsCommand.update", this.getAllTabs())
     }
 

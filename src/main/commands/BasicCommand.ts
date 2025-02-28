@@ -1,14 +1,17 @@
 import { app, dialog } from "electron"
 import { inject } from "inversify"
+import Commands from "main/modules/commands"
 import Tabs from "main/modules/tabs"
 import WindowManager from "main/modules/window-manager"
 
 export default class BasicCommand {
     constructor(
+        @inject(Commands) private _Commands: Commands,
         @inject(WindowManager) private _WindowManager: WindowManager,
         @inject(Tabs) private _Tabs: Tabs,
     ) {
         //
+        console.log(this._Commands)
     }
 
     toggleDevTools() {
@@ -24,6 +27,14 @@ export default class BasicCommand {
             const isFullScreen = focusedWindow!.isFullScreen()
             focusedWindow!.setFullScreen(!isFullScreen)
         }
+    }
+
+    isFullscreen() {
+        const focusedWindow = this._WindowManager.getFocusWindow()
+        if (focusedWindow) {
+            return focusedWindow!.isFullScreen()
+        }
+        return false
     }
 
     relunch() {

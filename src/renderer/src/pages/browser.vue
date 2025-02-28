@@ -2,17 +2,11 @@
 import Simplebar from "simplebar-vue"
 import { getAssetsFile } from "@/utils"
 
-definePage({
-    meta: {
-        home: true,
-    },
-})
-
 const allModules: Record<string, any> = import.meta.glob("./_ui/**/*.vue", { eager: true })
 let allApp: any[] = []
 Object.keys(allModules).forEach(key => {
-    let [_1, p] = key.match("\.\/_ui\/(.*?)\.vue")!
-    p = p.replace(/\.vue$/, "")
+    // let [, p] = key.match("./_ui/(.*?).vue")!
+    // p = p.replace(/\.vue$/, "")
     const m = allModules[key]?.default || allModules[key]
     allApp.push({
         label: m.title,

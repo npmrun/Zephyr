@@ -9,6 +9,8 @@ import VueMacros from "unplugin-vue-macros/vite"
 import { VueRouterAutoImports } from "unplugin-vue-router"
 import VueRouter from "unplugin-vue-router/vite"
 import Layouts from "vite-plugin-vue-layouts"
+import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite"
+import monacoEditorPlugin from "vite-plugin-monaco-editor"
 
 export default defineConfig({
     main: {
@@ -62,6 +64,10 @@ export default defineConfig({
                     }),
                 },
             }),
+            VueI18nPlugin({
+                compositionOnly: false,
+                include: resolve(__dirname, "packages/locales/languages/**"),
+            }),
             Layouts({
                 layoutsDirs: "src/layouts",
                 pagesDirs: "src/pages",
@@ -79,6 +85,7 @@ export default defineConfig({
                         // add any other imports you were relying on
                         "vue-router/auto": ["useLink"],
                     },
+                    "vue-i18n",
                 ],
                 dts: true,
                 dirs: ["src/composables"],
@@ -88,6 +95,14 @@ export default defineConfig({
             Components({
                 dts: true,
                 dirs: ["src/components"],
+            }),
+            // https://wf0.github.io/example/plugins/Formatter.html
+            // @ts-ignore ...
+            monacoEditorPlugin.default({
+                publicPath: "monacoeditorwork",
+                customDistPath() {
+                    return resolve(__dirname, "out/renderer/monacoeditorwork")
+                },
             }),
         ],
     },

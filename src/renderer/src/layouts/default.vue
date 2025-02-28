@@ -7,3 +7,9 @@ import Simplebar from "simplebar-vue"
         <RouterView></RouterView>
     </Simplebar>
 </template>
+
+<style scoped>
+:deep(.simplebar-content) {
+    height: 100%;
+}
+</style>

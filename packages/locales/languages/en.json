@@ -1,0 +1,77 @@
+{
+  "title": "exeaasdaa33 {name} aaaa",
+  "update": {
+    "status": {
+      "IDLE": "check update",
+      "InitCheckingUpdate": "init checking update",
+      "CheckingUpdate": "start checking update",
+      "Error": "checking update error",
+      "Avaliable": "checked new update v{version}",
+      "Notavaliable": "current version is newest. v{version}",
+      "Downloading": "current download progress {percent}%",
+      "Downloaded": "newest version download, click to install "
+    }
+  },
+  "setting": {
+    "tips": {
+      "notSave": "not save"
+    },
+    "tabs": {
+      "common": "common",
+      "editor": "editor",
+      "update": "update"
+    },
+    "log_path_btn": "open log path",
+    "update": {
+      "author": {
+        "title": "author",
+        "desc": "who's author",
+        "placeholder": "please input author's name"
+      },
+      "repo": {
+        "title": "repository",
+        "desc": "Updated repository name",
+        "placeholder": "please input repository's name"
+      },
+      "version": {
+        "title": "Check Version",
+        "desc": "Current Version：",
+        "button": "Check Update"
+      }
+    },
+    "editor": {
+      "bg": {
+        "title": "background",
+        "desc": "change editor background",
+        "placeholder": "please input picture link"
+      },
+      "font": {
+        "title": "font",
+        "desc": "change editor font",
+        "placeholder": "please input font name"
+      }
+    },
+    "language": {
+      "title": "Language",
+      "desc": "Switch Language",
+      "options": {
+        "zh": "Chinese",
+        "en": "English"
+      }
+    },
+    "storagePath": {
+      "title": "Data Storage Path",
+      "desc": "Local Data Storage Path",
+      "buttons": {
+        "select": "Select Path",
+        "open": "Open Path"
+      }
+    }
+  },
+  "app-menu": {
+    "about": "about"
+  },
+  "qie-huan-kai-fa-zhe-gong-ju": "ToggleDevtool",
+  "qu-xiao-quan-ping": "Canel FullScreen",
+  "quan-ping": "FullScreen"
+}

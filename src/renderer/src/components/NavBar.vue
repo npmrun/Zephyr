@@ -46,6 +46,7 @@ import { PopupMenu } from "@/bridge/PopupMenu"
 const router = useRouter()
 const route = useRoute()
 const isFullScreen = ref(false)
+
 onBeforeMount(async () => {
     isFullScreen.value = await api.call("BasicCommand.isFullscreen")
 })
@@ -62,18 +63,18 @@ const isHome = computed(() => {
 function back() {
     router.push("/")
 }
-
+const { t } = useI18n()
 const onClickMenu = e => {
     const menu = new PopupMenu([
         {
-            label: isFullScreen.value ? "取消全屏" : "全屏",
+            label: isFullScreen.value ? t("qu-xiao-quan-ping") : t("quan-ping"),
             async click() {
                 await PlatForm.toggleFullScreen()
                 isFullScreen.value = !isFullScreen.value
             },
         },
         {
-            label: "切换开发者工具",
+            label: t("qie-huan-kai-fa-zhe-gong-ju"),
             async click() {
                 PlatForm.toggleDevTools()
             },
@@ -92,6 +93,7 @@ const onClickAbout = () => {
 .list {
     @apply: flex gap="5px";
     -webkit-app-region: no-drag;
+
     .item {
         @apply: text-sm px-2 hover:rounded-md hover:bg-gray-2 hover:cursor-pointer text="hover:hover";
     }

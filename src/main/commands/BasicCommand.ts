@@ -20,13 +20,10 @@ export default class BasicCommand {
     }
     fullscreen() {
         const focusedWindow = this._WindowManager.getFocusWindow()
-        const isFullScreen = focusedWindow!.isFullScreen()
-        focusedWindow!.setFullScreen(!isFullScreen)
-        return !isFullScreen
-    }
-    isFullscreen() {
-        const focusedWindow = this._WindowManager.getFocusWindow()
-        return focusedWindow!.isFullScreen()
+        if (focusedWindow) {
+            const isFullScreen = focusedWindow!.isFullScreen()
+            focusedWindow!.setFullScreen(!isFullScreen)
+        }
     }
 
     relunch() {

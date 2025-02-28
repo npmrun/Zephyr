@@ -27,10 +27,10 @@
                     hover:bg-gray-2
                     hover:cursor-pointer
                     text="hover:hover"
-                    @click="back"
                     title="返回上一页"
+                    @click="back"
                 >
-                    ⬅
+                    🏠
                 </div>
                 <div text-sm px-2 hover:rounded-md hover:bg-gray-2 hover:cursor-pointer text="hover:hover" @click="onClickAbout">关于</div>
             </div>
@@ -50,6 +50,8 @@ onBeforeMount(async () => {
     isFullScreen.value = await api.call("BasicCommand.isFullscreen")
 })
 
+const { PlatForm } = usePlatForm()
+
 const isHome = computed(() => {
     if (route?.meta?.home) {
         return true
@@ -58,7 +60,7 @@ const isHome = computed(() => {
 })
 
 function back() {
-    router.back()
+    router.push("/")
 }
 
 const onClickMenu = e => {
@@ -66,30 +68,16 @@ const onClickMenu = e => {
         {
             label: isFullScreen.value ? "取消全屏" : "全屏",
             async click() {
-                isFullScreen.value = await api.call("BasicCommand.fullscreen")
+                await PlatForm.toggleFullScreen()
+                isFullScreen.value = !isFullScreen.value
             },
         },
         {
             label: "切换开发者工具",
             async click() {
-                isFullScreen.value = await api.call("BasicCommand.toggleDevTools")
+                PlatForm.toggleDevTools()
             },
         },
-        // {
-        //     type: "separator",
-        // },
-        // {
-        //     label: "重载",
-        //     click() {
-        //         api.call("BasicCommand.reload")
-        //     },
-        // },
-        // {
-        //     label: "重启",
-        //     click() {
-        //         api.call("BasicCommand.relunch")
-        //     },
-        // },
     ])
     const obj = e.target.getBoundingClientRect()
     menu.show({ x: ~~obj.x, y: ~~(obj.y + obj.height) })

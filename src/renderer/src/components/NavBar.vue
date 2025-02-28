@@ -19,6 +19,19 @@
                 </div>
             </div>
             <div float-right h-full flex items-center relative style="-webkit-app-region: no-drag">
+                <div
+                    v-if="!isHome"
+                    text-sm
+                    px-2
+                    hover:rounded-md
+                    hover:bg-gray-2
+                    hover:cursor-pointer
+                    text="hover:hover"
+                    @click="back"
+                    title="返回上一页"
+                >
+                    ⬅
+                </div>
                 <div text-sm px-2 hover:rounded-md hover:bg-gray-2 hover:cursor-pointer text="hover:hover" @click="onClickAbout">关于</div>
             </div>
         </div>
@@ -31,18 +44,25 @@ import config from "config"
 import { PopupMenu } from "@/bridge/PopupMenu"
 
 const router = useRouter()
+const route = useRoute()
 const isFullScreen = ref(false)
 onBeforeMount(async () => {
     isFullScreen.value = await api.call("BasicCommand.isFullscreen")
 })
+
+const isHome = computed(() => {
+    if (route?.meta?.home) {
+        return true
+    }
+    return false
+})
+
+function back() {
+    router.back()
+}
+
 const onClickMenu = e => {
     const menu = new PopupMenu([
-        {
-            label: "返回",
-            async click() {
-                router.back()
-            },
-        },
         {
             label: isFullScreen.value ? "取消全屏" : "全屏",
             async click() {

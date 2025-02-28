@@ -1,10 +1,9 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import Simplebar from "simplebar-vue"
+</script>
 
 <template>
-    <div h-full flex flex-col>
-        <NavBar></NavBar>
-        <div flex-1 h-0 overflow="auto">
-            <RouterView></RouterView>
-        </div>
-    </div>
+    <Simplebar h-full>
+        <RouterView></RouterView>
+    </Simplebar>
 </template>

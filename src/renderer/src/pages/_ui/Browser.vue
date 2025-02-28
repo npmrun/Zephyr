@@ -3,8 +3,9 @@ import { onBeforeMount, onBeforeUnmount, onMounted, ref, useTemplateRef, nextTic
 import { PopupMenu } from "@/bridge/PopupMenu"
 
 defineOptions({
-    title: "替你关于",
-    bg: "bg"
+    title: "浏览器",
+    index: 2,
+    bg: "bg",
 })
 
 // const PlaceHolderRef = useTemplateRef("PlaceHolder")

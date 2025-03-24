@@ -1,3 +1,9 @@
+if (import.meta.env.DEV) {
+    // 引入之后可以热更新
+    import("./languages/zh.json")
+    import("./languages/en.json")
+}
+
 const datetimeFormats = {
     en: {
         short: {

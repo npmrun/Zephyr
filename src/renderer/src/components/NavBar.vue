@@ -15,7 +15,7 @@
                 <img w="16px" h="16px" :src="icon" />
                 <div relative h-full inline-flex items-center text-sm>{{ config.app_title }}</div>
                 <div relative class="list">
-                    <div class="item" @click="onClickMenu">菜单</div>
+                    <div class="item" @click="onClickMenu">{{ t("caidan") }}</div>
                 </div>
             </div>
             <div float-right h-full flex items-center relative style="-webkit-app-region: no-drag">
@@ -42,19 +42,20 @@
 import icon from "@res/icon.png"
 import config from "config"
 import { PopupMenu } from "@/bridge/PopupMenu"
+import { usePlatForm } from "common/usePlatform"
+
+const { PlatForm } = usePlatForm()
 
 const router = useRouter()
 const route = useRoute()
 const isFullScreen = ref(false)
 
 onBeforeMount(async () => {
-    isFullScreen.value = await api.call("BasicCommand.isFullscreen")
+    isFullScreen.value = await PlatForm.isFullScreen()
 })
 
-const { PlatForm } = usePlatForm()
-
 const isHome = computed(() => {
-    if (route?.meta?.home) {
+    if (route.fullPath === "/") {
         return true
     }
     return false
@@ -85,7 +86,7 @@ const onClickMenu = e => {
 }
 
 const onClickAbout = () => {
-    fetch("api://fuck/BasicService/showAbout")
+    PlatForm.showAbout()
 }
 </script>
 

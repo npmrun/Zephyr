@@ -1,4 +1,4 @@
-import { _Base } from "./_Base"
+import { _Base } from "../../lib/_Base"
 
 export class Tabs extends _Base {
     constructor() {

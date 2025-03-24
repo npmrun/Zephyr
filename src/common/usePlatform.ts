@@ -1,5 +1,5 @@
-import { PlatForm } from "@/platform/PlatForm"
-import { Tabs } from "@/platform/Tabs"
+import { PlatForm } from "./event/PlatForm"
+import { Tabs } from "./event/Tabs"
 
 export function usePlatForm() {
     return {

@@ -1,22 +1,51 @@
 {
-  "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
-  "include": ["electron.vite.config.*", "src/main/**/*", "src/preload/**/*", "config/**/*", "src/types/**/*", "packages/locales/main.ts", 
-  "src/common/**/*.main.ts", "src/common/**/main.ts", "src/common/**/*.common.ts", "src/common/**/common.ts"],
-  "compilerOptions": {
-    "composite": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "types": ["electron-vite/node", "reflect-metadata",],
-    "baseUrl": ".",
-    "paths": {
-      "#": ["src/types/index"],
-      "#/*": ["src/types/*"],
-      "config": ["config/index.ts"],
-      "config/*": ["config/*"],
-      "main/*": ["src/main/*"],
-      "common/*": ["src/common/*"],
-      "@res/*": ["resources/*"],
-      "locales/*": ["packages/locales/*"],
+    "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
+    "include": [
+        "electron.vite.config.*",
+        "src/main/**/*",
+        "src/preload/**/*",
+        "config/**/*",
+        "src/types/**/*",
+        "packages/locales/main.ts",
+        "src/common/**/*.main.ts",
+        "src/common/**/main.ts",
+        "src/common/**/*.common.ts",
+        "src/common/**/common.ts"
+, "src/common/event/_Base.ts"    ],
+    "compilerOptions": {
+        "composite": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "types": [
+            "electron-vite/node",
+            "reflect-metadata",
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "#": [
+                "src/types/index"
+            ],
+            "#/*": [
+                "src/types/*"
+            ],
+            "config": [
+                "config/index.ts"
+            ],
+            "config/*": [
+                "config/*"
+            ],
+            "main/*": [
+                "src/main/*"
+            ],
+            "common/*": [
+                "src/common/*"
+            ],
+            "@res/*": [
+                "resources/*"
+            ],
+            "locales/*": [
+                "packages/locales/*"
+            ],
+        }
     }
-  }
 }

@@ -3,7 +3,7 @@ import { join } from "node:path"
 import BaseClass from "main/base/base"
 import _debug from "debug"
 // import { Layout } from "./Constant"
-import FuckHTML from "res/fuck.html?asset"
+import FuckHTML from "@res/fuck.html?asset"
 import { fileURLToPath, pathToFileURL } from "node:url"
 
 const debug = _debug("app:tab")

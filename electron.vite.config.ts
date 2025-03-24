@@ -18,7 +18,8 @@ export default defineConfig({
             alias: {
                 config: resolve("config"),
                 main: resolve("src/main"),
-                res: resolve("resources"),
+                "common": resolve("src/common"),
+                "@res": resolve("resources"),
             },
         },
         plugins: [externalizeDepsPlugin()],
@@ -31,6 +32,7 @@ export default defineConfig({
         resolve: {
             alias: {
                 config: resolve("config"),
+                "common": resolve("src/common"),
                 "@": resolve("src/renderer/src"),
                 "@res": resolve("resources"),
             },
@@ -39,6 +41,7 @@ export default defineConfig({
             preprocessorOptions: {
                 scss: {
                     additionalData: `@use "@/assets/style/global" as *;\n`,
+                    api: "modern-compiler"
                 },
             },
         },

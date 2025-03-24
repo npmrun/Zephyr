@@ -12,6 +12,7 @@ const { autoUpdater } = pkg
 @injectable()
 export class Updater extends BaseClass {
     public events = new EventEmitter()
+    private timer: ReturnType<typeof setInterval> | null = null
 
     constructor(
         // @inject(Setting) private _Setting: Setting
@@ -60,7 +61,8 @@ export class Updater extends BaseClass {
     init() {
         // 定期检查更新
         this.checkForUpdates()
-        setInterval(
+        this.timer && clearInterval(this.timer)
+        this.timer = setInterval(
             () => {
                 this.checkForUpdates()
             },
@@ -70,6 +72,10 @@ export class Updater extends BaseClass {
 
     destroy() {
         // 清理工作
+        if(this.timer){
+            clearInterval(this.timer)
+            this.timer = null
+        }
     }
 
     private async checkForUpdates() {

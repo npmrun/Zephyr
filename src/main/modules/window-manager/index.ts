@@ -246,7 +246,11 @@ export default class WindowManager extends BaseClass {
     }
 
     showCurrentWindow() {
-        debug(`current open window: ${this.#windows.map(v => v.$$opts!.name).join(",")}`)
+        if(this.#windows.length) {
+            debug(`current open window: ${this.#windows.map(v => v.$$opts!.name).join(",")}`)
+        } else {
+            debug(`all closed`)
+        }
     }
 
     #onClose(name: string) {

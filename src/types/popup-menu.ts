@@ -1,4 +1,6 @@
-interface IMenuItemOption extends Electron.MenuItemConstructorOptions {
+import type { PopupOptions } from "electron"
+
+export interface IMenuItemOption extends Electron.MenuItemConstructorOptions {
     // 参见：https://www.electronjs.org/docs/api/menu-item
     _click_evt?: string
 }

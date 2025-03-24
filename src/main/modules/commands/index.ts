@@ -1,4 +1,4 @@
-import { IMenuItemOption, IPopupMenuOption } from "#"
+import { IMenuItemOption, IPopupMenuOption } from "#/popup-menu"
 import { ipcMain, Menu, MenuItem } from "electron"
 import { inject } from "inversify"
 import IOC from "main/_ioc"

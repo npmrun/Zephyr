@@ -1,7 +1,7 @@
 import config from "config"
 import { BrowserWindowConstructorOptions } from "electron"
 import { getFileUrl } from "main/utils"
-import icon from "res/icon.png?asset"
+import icon from "@res/icon.png?asset"
 import { join } from "path"
 
 export type Param = Partial<IConfig> & Required<Pick<IConfig, "name">>

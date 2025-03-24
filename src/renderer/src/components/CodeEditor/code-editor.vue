@@ -98,7 +98,6 @@ function updateModel(name: string, content: string) {
                 const code = model.getValue()
                 emit("update:modelValue", code)
                 emit("change", code)
-                console.log(343)
             }
         })
         if (oldModel) {
@@ -186,7 +185,13 @@ onMounted(() => {
             }
         },
     )
-})
+}) 
+if (import.meta.hot) {
+    import.meta.hot.accept((newModule) => {
+        console.log(newModule);
+        
+    })
+}
 onBeforeUnmount(() => {
     if (editorRef.value) {
         editorRef.value.removeEventListener("resize", resizeLayout)
@@ -196,9 +201,8 @@ onBeforeUnmount(() => {
         if (oldModel) {
             oldModel.dispose()
         }
-        editor?.dispose()
+        editor.dispose()
         editor = null
-        console.log("editor dispose")
     }
 })
 const style = computed(() => {

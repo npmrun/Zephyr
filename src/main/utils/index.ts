@@ -16,7 +16,7 @@ export function isPromise(value: () => any) {
     return value && Object.prototype.toString.call(value) === "[object Promise]"
 }
 
-export const broadcast = (event: string, ...args: any[]) => {
+export const broadcast = <T extends string>(event: T, ...args: any[]) => {
     webContents.getAllWebContents().forEach(browser => browser.send(event, ...args))
 }
 

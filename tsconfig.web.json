@@ -10,6 +10,9 @@
     "src/types/**/*",
     "config/**/*",
     "./typed-router.d.ts",
+    "src/common/**/*.renderer.ts",
+    "src/common/**/renderer.ts",
+    "src/common/**/*.common.ts", "src/common/**/common.ts",
   ],
   "vueCompilerOptions": {
     "plugins": ["unplugin-vue-macros/volar"],
@@ -24,6 +27,7 @@
       "#/*": ["src/types/*"],
       "config": ["config/index.ts"],
       "config/*": ["config/*"],
+      "common/*": ["src/common/*"],
       "@/*": [
         "src/renderer/src/*"
       ],

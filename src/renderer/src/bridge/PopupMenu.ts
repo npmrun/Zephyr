@@ -4,7 +4,7 @@
  * @homepage: https://oldj.net
  */
 
-import { IMenuItemOption } from "#"
+import { IMenuItemOption } from "#/popup-menu"
 import type { PopupOptions } from "electron"
 
 let _idx: number = 0

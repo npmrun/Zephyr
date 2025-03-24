@@ -1,6 +1,7 @@
 {
   "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
-  "include": ["electron.vite.config.*", "src/main/**/*", "src/preload/**/*", "config/**/*", "src/types/**/*", "packages/locales/main.ts"],
+  "include": ["electron.vite.config.*", "src/main/**/*", "src/preload/**/*", "config/**/*", "src/types/**/*", "packages/locales/main.ts", 
+  "src/common/**/*.main.ts", "src/common/**/main.ts", "src/common/**/*.common.ts", "src/common/**/common.ts"],
   "compilerOptions": {
     "composite": true,
     "emitDecoratorMetadata": true,
@@ -13,7 +14,8 @@
       "config": ["config/index.ts"],
       "config/*": ["config/*"],
       "main/*": ["src/main/*"],
-      "res/*": ["resources/*"],
+      "common/*": ["src/common/*"],
+      "@res/*": ["resources/*"],
       "locales/*": ["packages/locales/*"],
     }
   }

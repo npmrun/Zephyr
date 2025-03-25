@@ -18,14 +18,27 @@ export default class Commands extends BaseClass {
         super()
     }
 
+    private async handleCommand(command: string, ...argus) {
+        const splitClass = command.split(".")
+        const run = await this._IOC.getAsync<any>(splitClass[0])
+        if (run) {
+            const result: Promise<any> | any = run[splitClass[1]](...argus)
+            return result
+        }
+        return null
+    }
+
+    public async invoke(command, ...argus) {
+        const result = await this.handleCommand(command, ...argus)
+        return result
+    }
+
     init() {
         ipcMain.addListener("command", async (event, key, command: string, ...argus) => {
             // console.log(event.sender);
             try {
-                const splitClass = command.split(".")
-                const run = await this._IOC.getAsync<any>(splitClass[0])
-                if (run) {
-                    const result: Promise<any> | any = run[splitClass[1]](...argus)
+                const result = await this.handleCommand(command, ...argus)
+                if (result) {
                     if (isPromise(result)) {
                         result
                             .then((res: any) => {

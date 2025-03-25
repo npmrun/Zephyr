@@ -18,6 +18,9 @@ export { WindowManager }
 export default class WindowManager extends BaseClass {
     constructor() {
         super()
+        this.isMainShowReady = new Promise(resolve => {
+            this.isMainShowResolve = resolve
+        })
     }
 
     destroy() {
@@ -51,6 +54,13 @@ export default class WindowManager extends BaseClass {
 
     showMainWindow() {
         this.#showWin(this.mainInfo)
+        this.isMainShowResolve()
+    }
+
+    private isMainShowResolve
+    private isMainShowReady
+    async waitMainShowReady() {
+        await this.isMainShowReady
     }
 
     showWindow(name: string, opts?: Partial<IConfig>) {
@@ -246,7 +256,7 @@ export default class WindowManager extends BaseClass {
     }
 
     showCurrentWindow() {
-        if(this.#windows.length) {
+        if (this.#windows.length) {
             debug(`current open window: ${this.#windows.map(v => v.$$opts!.name).join(",")}`)
         } else {
             debug(`all closed`)

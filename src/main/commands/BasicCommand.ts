@@ -1,17 +1,23 @@
-import { app, dialog } from "electron"
+import { app, dialog, nativeTheme, TitleBarOverlayOptions } from "electron"
 import { inject } from "inversify"
-import Commands from "main/modules/commands"
 import Tabs from "main/modules/tabs"
 import WindowManager from "main/modules/window-manager"
 
 export default class BasicCommand {
     constructor(
-        @inject(Commands) private _Commands: Commands,
         @inject(WindowManager) private _WindowManager: WindowManager,
         @inject(Tabs) private _Tabs: Tabs,
-    ) {
-        //
-        console.log(this._Commands)
+    ) {}
+
+    setTheme(theme: typeof nativeTheme.themeSource) {
+        nativeTheme.themeSource = theme
+    }
+
+    setTitlBar(options: TitleBarOverlayOptions) {
+        const mainWindow = this._WindowManager.getMainWindow()
+        if (mainWindow) {
+            mainWindow.setTitleBarOverlay(options)
+        }
     }
 
     toggleDevTools() {

@@ -70,15 +70,12 @@ class App extends BaseClass {
             this._Zephyr.init()
             electronApp.setAppUserModelId("top.xieyaxin")
             this._WindowManager.showMainWindow()
-            const mainWindow = this._WindowManager.getMainWindow()
-            if (mainWindow) {
-                nativeTheme.themeSource = "light"
-                mainWindow.setTitleBarOverlay({
-                    height: 29, // the smallest size of the title bar on windows accounting for the border on windows 11
-                    color: "#F8F8F8",
-                    symbolColor: "#000000",
-                })
-            }
+            this._Command.invoke("BasicCommand.setTheme", "light")
+            this._Command.invoke("BasicCommand.setTitlBar", {
+                height: 29,
+                color: "#F8F8F8",
+                symbolColor: "#000000",
+            })
         })
         app.on("will-quit", () => {
             this.destroy()

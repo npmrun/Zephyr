@@ -5,6 +5,8 @@ import BaseClass from "main/base/base"
 // import { Setting } from "../setting"
 import _debug from "debug"
 import EventEmitter from "events"
+import { fetchHotUpdatePackage, flagNeedUpdate } from "./hot"
+import Locales from "locales/main"
 
 const debug = _debug("app:updater")
 const { autoUpdater } = pkg
@@ -13,10 +15,21 @@ const { autoUpdater } = pkg
 export class Updater extends BaseClass {
     public events = new EventEmitter()
     private timer: ReturnType<typeof setInterval> | null = null
+    // autoReplace = false
+    async triggerHotUpdate(autoReplace = false) {
+        await fetchHotUpdatePackage()
+        flagNeedUpdate()
+        if (!autoReplace) {
+            dialog.showMessageBox({
+                title: Locales.t("update.ready.hot.title"),
+                message: Locales.t("update.ready.hot.desc", { version: app.getVersion() }),
+            })
+        } else {
+            app.quit()
+        }
+    }
 
-    constructor(
-        // @inject(Setting) private _Setting: Setting
-    ) {
+    constructor() {
         super()
 
         // 配置自动更新
@@ -72,7 +85,7 @@ export class Updater extends BaseClass {
 
     destroy() {
         // 清理工作
-        if(this.timer){
+        if (this.timer) {
             clearInterval(this.timer)
             this.timer = null
         }

@@ -1,6 +1,12 @@
 {
   "title": "aaaaaa2 {name} bbbb",
   "update": {
+    "ready": {
+      "hot": {
+        "title": "提示",
+        "desc": "新版本 v{version} 已经准备好更新, 下次启动程序即可自动更新"
+      }
+    },
     "status": {
       "IDLE": "检查更新",
       "InitCheckingUpdate": "初始化检查更新",

@@ -1,8 +1,8 @@
 import { broadcast } from "main/utils"
 import { AllKeys } from "../common"
 
-function emitProgress(...argu) {
-    broadcast<AllKeys>("progress", ...argu)
+function emitHotUpdateReady(...argu) {
+    broadcast<AllKeys>("hot-update-ready", ...argu)
 }
 
-export { emitProgress }
+export { emitHotUpdateReady }

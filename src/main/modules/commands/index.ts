@@ -23,9 +23,9 @@ export default class Commands extends BaseClass {
         const run = await this._IOC.getAsync<any>(splitClass[0])
         if (run) {
             const result: Promise<any> | any = run[splitClass[1]](...argus)
-            return result
+            return [true, result]
         }
-        return null
+        return [false]
     }
 
     public async invoke(command, ...argus) {
@@ -37,8 +37,8 @@ export default class Commands extends BaseClass {
         ipcMain.addListener("command", async (event, key, command: string, ...argus) => {
             // console.log(event.sender);
             try {
-                const result = await this.handleCommand(command, ...argus)
-                if (result) {
+                const [isExist, result] = await this.handleCommand(command, ...argus)
+                if (isExist) {
                     if (isPromise(result)) {
                         result
                             .then((res: any) => {

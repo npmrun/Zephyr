@@ -15,7 +15,7 @@ type FlattenKeys<T> = FlattenObject<T>
 type TranslationKey = FlattenKeys<typeof zh>
 
 class Locale {
-    locale: string = "en"
+    locale: string = "zh"
 
     constructor() {
         try {
@@ -29,8 +29,22 @@ class Locale {
         return this.locale.startsWith("zh")
     }
 
-    t(key: TranslationKey): string {
-        return this.isCN() ? get(zh, key) : get(en, key)
+    t(key: TranslationKey, replacements?: Record<string, string>): string {
+        let text: string = this.isCN() ? get(zh, key) : get(en, key)
+        if (!text) {
+            text = get(zh, key)
+            if (!text) {
+                return key
+            }
+        }
+        if (replacements) {
+            // 替换所有形如 {key} 的占位符
+            Object.entries(replacements).forEach(([key, value]) => {
+                console.log(text)
+                text = text.replace(new RegExp(`{${key}}`, "g"), value)
+            })
+        }
+        return text
     }
 }
 

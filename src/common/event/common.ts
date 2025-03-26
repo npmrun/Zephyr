@@ -1,4 +1,4 @@
-const keys = ["progress"] as const
+const keys = ["hot-update-ready"] as const
 
 type AllKeys = (typeof keys)[number]
 

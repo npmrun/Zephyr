@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import Simplebar from "simplebar-vue"
+  import Simplebar from "simplebar-vue"
 </script>
 
 <template>
-    <Simplebar h-full>
-        <RouterView></RouterView>
-    </Simplebar>
+  <Simplebar h-full>
+    <RouterView></RouterView>
+  </Simplebar>
 </template>
 
 <style scoped>
-:deep(.simplebar-content) {
+  :deep(.simplebar-content) {
     height: 100%;
-}
+  }
 </style>

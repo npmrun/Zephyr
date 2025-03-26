@@ -13,100 +13,100 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite"
 import monacoEditorPlugin from "vite-plugin-monaco-editor"
 
 export default defineConfig({
-    main: {
-        resolve: {
-            alias: {
-                config: resolve("config"),
-                main: resolve("src/main"),
-                common: resolve("src/common"),
-                "@res": resolve("resources"),
-            },
-        },
-        plugins: [externalizeDepsPlugin()],
+  main: {
+    resolve: {
+      alias: {
+        config: resolve("config"),
+        main: resolve("src/main"),
+        common: resolve("src/common"),
+        "@res": resolve("resources"),
+      },
     },
-    preload: {
-        plugins: [externalizeDepsPlugin()],
+    plugins: [externalizeDepsPlugin()],
+  },
+  preload: {
+    plugins: [externalizeDepsPlugin()],
+  },
+  renderer: {
+    root: resolve(__dirname, "./src/renderer"),
+    resolve: {
+      alias: {
+        config: resolve("config"),
+        common: resolve("src/common"),
+        "@": resolve("src/renderer/src"),
+        "@res": resolve("resources"),
+      },
     },
-    renderer: {
-        root: resolve(__dirname, "./src/renderer"),
-        resolve: {
-            alias: {
-                config: resolve("config"),
-                common: resolve("src/common"),
-                "@": resolve("src/renderer/src"),
-                "@res": resolve("resources"),
-            },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@use "@/assets/style/global" as *;\n`,
+          api: "modern-compiler",
         },
-        css: {
-            preprocessorOptions: {
-                scss: {
-                    additionalData: `@use "@/assets/style/global" as *;\n`,
-                    api: "modern-compiler",
-                },
-            },
+      },
+    },
+    build: {
+      rollupOptions: {
+        input: {
+          main: resolve(__dirname, "./src/renderer/index.html"),
+          about: resolve(__dirname, "./src/renderer/about.html"),
         },
-        build: {
-            rollupOptions: {
-                input: {
-                    main: resolve(__dirname, "./src/renderer/index.html"),
-                    about: resolve(__dirname, "./src/renderer/about.html"),
-                },
-            },
+      },
+    },
+    plugins: [
+      UnoCSS(),
+      VueMacros({
+        plugins: {
+          vue: vue(),
+          vueJsx: vueJsx(),
+          vueRouter: VueRouter({
+            root: resolve(__dirname, "src/renderer"),
+            // https://github.com/posva/unplugin-vue-router
+            extensions: [".vue", ".setup.tsx"],
+            exclude: ["**/_ui"],
+          }),
         },
-        plugins: [
-            UnoCSS(),
-            VueMacros({
-                plugins: {
-                    vue: vue(),
-                    vueJsx: vueJsx(),
-                    vueRouter: VueRouter({
-                        root: resolve(__dirname, "src/renderer"),
-                        // https://github.com/posva/unplugin-vue-router
-                        extensions: [".vue", ".setup.tsx"],
-                        exclude: ["**/_ui"],
-                    }),
-                },
-            }),
-            VueI18nPlugin({
-                compositionOnly: false,
-                include: resolve(__dirname, "packages/locales/languages/**"),
-            }),
-            Layouts({
-                layoutsDirs: "src/layouts",
-                pagesDirs: "src/pages",
-                defaultLayout: "default",
-                extensions: ["vue", "setup.tsx"],
-                exclude: ["**/_ui"],
-            }),
-            // https://github.com/antfu/unplugin-auto-import
-            AutoImport({
-                imports: [
-                    "vue",
-                    "@vueuse/core",
-                    VueRouterAutoImports,
-                    {
-                        // add any other imports you were relying on
-                        "vue-router/auto": ["useLink"],
-                    },
-                    "vue-i18n",
-                ],
-                dts: true,
-                dirs: ["src/composables"],
-                vueTemplate: true,
-            }),
-            // https://github.com/antfu/vite-plugin-components
-            Components({
-                dts: true,
-                dirs: ["src/components"],
-            }),
-            // https://wf0.github.io/example/plugins/Formatter.html
-            // @ts-ignore ...
-            monacoEditorPlugin.default({
-                publicPath: "monacoeditorwork",
-                customDistPath() {
-                    return resolve(__dirname, "out/renderer/monacoeditorwork")
-                },
-            }),
+      }),
+      VueI18nPlugin({
+        compositionOnly: false,
+        include: resolve(__dirname, "packages/locales/languages/**"),
+      }),
+      Layouts({
+        layoutsDirs: "src/layouts",
+        pagesDirs: "src/pages",
+        defaultLayout: "default",
+        extensions: ["vue", "setup.tsx"],
+        exclude: ["**/_ui"],
+      }),
+      // https://github.com/antfu/unplugin-auto-import
+      AutoImport({
+        imports: [
+          "vue",
+          "@vueuse/core",
+          VueRouterAutoImports,
+          {
+            // add any other imports you were relying on
+            "vue-router/auto": ["useLink"],
+          },
+          "vue-i18n",
         ],
-    },
+        dts: true,
+        dirs: ["src/composables"],
+        vueTemplate: true,
+      }),
+      // https://github.com/antfu/vite-plugin-components
+      Components({
+        dts: true,
+        dirs: ["src/components"],
+      }),
+      // https://wf0.github.io/example/plugins/Formatter.html
+      // @ts-ignore ...
+      monacoEditorPlugin.default({
+        publicPath: "monacoeditorwork",
+        customDistPath() {
+          return resolve(__dirname, "out/renderer/monacoeditorwork")
+        },
+      }),
+    ],
+  },
 })

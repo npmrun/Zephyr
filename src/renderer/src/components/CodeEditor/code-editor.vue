@@ -1,300 +1,299 @@
 <script lang="ts" setup>
-import { judgeFile } from "./utils"
-import { monaco } from "./monaco"
-import { computed, getCurrentScope, onBeforeUnmount, onMounted, onScopeDispose, ref, watch } from "vue"
-import DefaultLogo from "./120x120.png"
-import { PlaceholderContentWidget } from "./PlaceholderContentWidget"
-const editorRef = ref<HTMLDivElement>()
-let editor: monaco.editor.IStandaloneCodeEditor | null = null
-let placeholderWidget: PlaceholderContentWidget | null = null
-const props = withDefaults(
+  import { judgeFile } from "./utils"
+  import { monaco } from "./monaco"
+  import { computed, getCurrentScope, onBeforeUnmount, onMounted, onScopeDispose, ref, watch } from "vue"
+  import DefaultLogo from "./120x120.png"
+  import { PlaceholderContentWidget } from "./PlaceholderContentWidget"
+  const editorRef = ref<HTMLDivElement>()
+  let editor: monaco.editor.IStandaloneCodeEditor | null = null
+  let placeholderWidget: PlaceholderContentWidget | null = null
+  const props = withDefaults(
     defineProps<{
-        modelValue?: string
-        name?: string
-        logoType?: "bg" | "logo"
-        logo?: string
-        placeholder?: string
-        fontFamily?: string
-        readonly?: boolean
+      modelValue?: string
+      name?: string
+      logoType?: "bg" | "logo"
+      logo?: string
+      placeholder?: string
+      fontFamily?: string
+      readonly?: boolean
     }>(),
     {
-        logo: DefaultLogo,
-        readonly: false,
-        logoType: "logo",
-        modelValue: "",
-        name: "",
+      logo: DefaultLogo,
+      readonly: false,
+      logoType: "logo",
+      modelValue: "",
+      name: "",
     },
-)
-const emit = defineEmits<{
+  )
+  const emit = defineEmits<{
     (e: "update:modelValue", code: string): void
     (e: "change", code: string): void
     (e: "cursor:position", position: [number, number]): void
-}>()
-defineExpose({
+  }>()
+  defineExpose({
     scrollTop() {
-        editor?.setScrollTop(0)
+      editor?.setScrollTop(0)
     },
     insertText(text: string, type = "cursor") {
-        if (editor) {
-            const m = editor.getModel()
-            const currentPosition = editor.getPosition()
-            if (m) {
-                console.log(currentPosition)
-                if (type === "cursor" && currentPosition) {
-                    m.pushEditOperations(
-                        [],
-                        [
-                            {
-                                range: new monaco.Range(
-                                    currentPosition.lineNumber,
-                                    currentPosition.column,
-                                    currentPosition.lineNumber,
-                                    currentPosition.column,
-                                ),
-                                text,
-                            },
-                        ],
-                        () => [
-                            new monaco.Selection(
-                                currentPosition.lineNumber,
-                                currentPosition.column,
-                                currentPosition.lineNumber,
-                                currentPosition.column,
-                            ),
-                        ],
-                    )
-                } else {
-                    const lineCount = m.getLineCount()
-                    const lastLineLength = m.getLineLength(lineCount)
-                    const range = new monaco.Selection(lineCount, lastLineLength + 1, lineCount, lastLineLength + 1)
-                    const text = "your text"
-                    const op = {
-                        range: range,
-                        text: text,
-                    }
-                    m.pushEditOperations([], [op], () => [range])
-                }
+      if (editor) {
+        const m = editor.getModel()
+        const currentPosition = editor.getPosition()
+        if (m) {
+          console.log(currentPosition)
+          if (type === "cursor" && currentPosition) {
+            m.pushEditOperations(
+              [],
+              [
+                {
+                  range: new monaco.Range(
+                    currentPosition.lineNumber,
+                    currentPosition.column,
+                    currentPosition.lineNumber,
+                    currentPosition.column,
+                  ),
+                  text,
+                },
+              ],
+              () => [
+                new monaco.Selection(
+                  currentPosition.lineNumber,
+                  currentPosition.column,
+                  currentPosition.lineNumber,
+                  currentPosition.column,
+                ),
+              ],
+            )
+          } else {
+            const lineCount = m.getLineCount()
+            const lastLineLength = m.getLineLength(lineCount)
+            const range = new monaco.Selection(lineCount, lastLineLength + 1, lineCount, lastLineLength + 1)
+            const text = "your text"
+            const op = {
+              range: range,
+              text: text,
             }
+            m.pushEditOperations([], [op], () => [range])
+          }
         }
+      }
     },
     setContent(content: string) {
-        if (editorRef.value && editor) {
-            editor.setValue(content)
-        }
+      if (editorRef.value && editor) {
+        editor.setValue(content)
+      }
     },
-})
+  })
 
-let isInnerChange = false
-function updateModel(name: string, content: string) {
+  let isInnerChange = false
+  function updateModel(name: string, content: string) {
     if (editor) {
-        const oldModel = editor.getModel() //获取旧模型
-        const file = judgeFile(name)
-        // 这样定义的话model无法清除
-        // monaco.editor.createModel("const a = 111","typescript", monaco.Uri.parse('file://root/file3.ts'))
-        const model: monaco.editor.ITextModel = monaco.editor.createModel(content ?? "", file?.language ?? "txt")
-        model.onDidChangeContent(() => {
-            if (model) {
-                isInnerChange = true
-                const code = model.getValue()
-                emit("update:modelValue", code)
-                emit("change", code)
-            }
-        })
-        if (oldModel) {
-            oldModel.dispose()
+      const oldModel = editor.getModel() //获取旧模型
+      const file = judgeFile(name)
+      // 这样定义的话model无法清除
+      // monaco.editor.createModel("const a = 111","typescript", monaco.Uri.parse('file://root/file3.ts'))
+      const model: monaco.editor.ITextModel = monaco.editor.createModel(content ?? "", file?.language ?? "txt")
+      model.onDidChangeContent(() => {
+        if (model) {
+          isInnerChange = true
+          const code = model.getValue()
+          emit("update:modelValue", code)
+          emit("change", code)
         }
-        editor.setModel(model)
+      })
+      if (oldModel) {
+        oldModel.dispose()
+      }
+      editor.setModel(model)
     }
-}
-function resizeLayout() {
+  }
+  function resizeLayout() {
     if (editor) {
-        editor.layout()
+      editor.layout()
     }
-}
+  }
 
-onMounted(() => {
+  onMounted(() => {
     if (editorRef.value && !editor) {
-        editor = monaco.editor.create(editorRef.value, {
-            theme: "vs-light",
-            fontFamily: props.fontFamily ?? "Cascadia Mono, Consolas, 'Courier New', monospace",
-            readOnly: props.readonly,
-            minimap: {
-                autohide: true,
-            },
-        }) as monaco.editor.IStandaloneCodeEditor
-        editor.onDidChangeCursorPosition(e => {
-            emit("cursor:position", [e.position.lineNumber, e.position.column])
-        })
-        editorRef.value.addEventListener("resize", resizeLayout)
+      editor = monaco.editor.create(editorRef.value, {
+        theme: "vs-light",
+        fontFamily: props.fontFamily ?? "Cascadia Mono, Consolas, 'Courier New', monospace",
+        readOnly: props.readonly,
+        minimap: {
+          autohide: true,
+        },
+      }) as monaco.editor.IStandaloneCodeEditor
+      editor.onDidChangeCursorPosition(e => {
+        emit("cursor:position", [e.position.lineNumber, e.position.column])
+      })
+      editorRef.value.addEventListener("resize", resizeLayout)
     }
     watch(
-        () => props.placeholder,
-        () => {
-            if (editor) {
-                if (placeholderWidget) {
-                    placeholderWidget.dispose()
-                    placeholderWidget = null
-                }
-                if (props.placeholder) {
-                    placeholderWidget = new PlaceholderContentWidget(props.placeholder, editor)
-                }
-            }
-        },
-        {
-            immediate: true,
-        },
+      () => props.placeholder,
+      () => {
+        if (editor) {
+          if (placeholderWidget) {
+            placeholderWidget.dispose()
+            placeholderWidget = null
+          }
+          if (props.placeholder) {
+            placeholderWidget = new PlaceholderContentWidget(props.placeholder, editor)
+          }
+        }
+      },
+      {
+        immediate: true,
+      },
     )
     // 如果不需要从动态外部更改代码的话应该就不需要这个
     watch(
-        () => props.modelValue,
-        async str => {
-            if (editor && !isInnerChange) {
-                editor.setValue(str)
-            } else {
-                isInnerChange = false
-            }
-        },
-        { immediate: true },
+      () => props.modelValue,
+      async str => {
+        if (editor && !isInnerChange) {
+          editor.setValue(str)
+        } else {
+          isInnerChange = false
+        }
+      },
+      { immediate: true },
     )
     watch(
-        () => props.name,
-        async name => {
-            if (editor) {
-                updateModel(name, props.modelValue)
-            }
-        },
-        { immediate: true },
+      () => props.name,
+      async name => {
+        if (editor) {
+          updateModel(name, props.modelValue)
+        }
+      },
+      { immediate: true },
     )
     watch(
-        () => props.readonly,
-        () => {
-            if (editor) {
-                editor.updateOptions({
-                    readOnly: props.readonly,
-                })
-            }
-        },
+      () => props.readonly,
+      () => {
+        if (editor) {
+          editor.updateOptions({
+            readOnly: props.readonly,
+          })
+        }
+      },
     )
     watch(
-        () => props.fontFamily,
-        () => {
-            if (editor) {
-                editor.updateOptions({
-                    fontFamily: props.fontFamily,
-                })
-            }
-        },
+      () => props.fontFamily,
+      () => {
+        if (editor) {
+          editor.updateOptions({
+            fontFamily: props.fontFamily,
+          })
+        }
+      },
     )
-}) 
-if (import.meta.hot) {
-    import.meta.hot.accept((newModule) => {
-        console.log(newModule);
-        
+  })
+  if (import.meta.hot) {
+    import.meta.hot.accept(newModule => {
+      console.log(newModule)
     })
-}
-onBeforeUnmount(() => {
+  }
+  onBeforeUnmount(() => {
     if (editorRef.value) {
-        editorRef.value.removeEventListener("resize", resizeLayout)
+      editorRef.value.removeEventListener("resize", resizeLayout)
     }
     if (editor) {
-        const oldModel = editor.getModel()
-        if (oldModel) {
-            oldModel.dispose()
-        }
-        editor.dispose()
-        editor = null
+      const oldModel = editor.getModel()
+      if (oldModel) {
+        oldModel.dispose()
+      }
+      editor.dispose()
+      editor = null
     }
-})
-const style = computed(() => {
+  })
+  const style = computed(() => {
     if (props.logo && props.logoType === "bg") {
-        return {
-            backgroundImage: `url(${props.logo})`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center center",
-        }
+      return {
+        backgroundImage: `url(${props.logo})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center center",
+      }
     }
     return {}
-})
+  })
 
-const getLogo = computed(() => {
+  const getLogo = computed(() => {
     if (props.logo) return props.logo
     return DefaultLogo
-})
+  })
 
-function useResizeObserver(callback: ResizeObserverCallback) {
+  function useResizeObserver(callback: ResizeObserverCallback) {
     const isSupported = window && "ResizeObserver" in window
     let observer: ResizeObserver | undefined
     const cleanup = () => {
-        if (observer) {
-            observer.disconnect()
-            observer = undefined
-        }
+      if (observer) {
+        observer.disconnect()
+        observer = undefined
+      }
     }
     const stopWatch = watch(
-        () => editorRef.value,
-        el => {
-            cleanup()
-            if (isSupported && window && el) {
-                observer = new ResizeObserver(callback)
-                observer!.observe(el, {})
-            }
-        },
-        { immediate: true },
+      () => editorRef.value,
+      el => {
+        cleanup()
+        if (isSupported && window && el) {
+          observer = new ResizeObserver(callback)
+          observer!.observe(el, {})
+        }
+      },
+      { immediate: true },
     )
     const stop = () => {
-        cleanup()
-        stopWatch()
+      cleanup()
+      stopWatch()
     }
     function tryOnScopeDispose(fn: () => void) {
-        if (getCurrentScope()) {
-            onScopeDispose(fn)
-            return true
-        }
-        return false
+      if (getCurrentScope()) {
+        onScopeDispose(fn)
+        return true
+      }
+      return false
     }
     tryOnScopeDispose(() => {
-        stop()
+      stop()
     })
-}
-useResizeObserver(() => {
+  }
+  useResizeObserver(() => {
     if (editor) {
-        editor.layout()
+      editor.layout()
     }
-})
+  })
 </script>
 
 <template>
-    <div class="monaco-wrapper">
-        <div class="monaco-editor" ref="editorRef"></div>
-        <div class="monaco-bg" :style="style">
-            <img v-if="logoType === 'logo' && getLogo" class="monaco-logo" :src="getLogo" alt="" />
-        </div>
+  <div class="monaco-wrapper">
+    <div class="monaco-editor" ref="editorRef"></div>
+    <div class="monaco-bg" :style="style">
+      <img v-if="logoType === 'logo' && getLogo" class="monaco-logo" :src="getLogo" alt="" />
     </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.monaco-wrapper {
+  .monaco-wrapper {
     height: 100%;
     position: relative;
 
     .monaco-editor {
-        height: 100%;
+      height: 100%;
     }
 
     .monaco-bg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        pointer-events: none;
-        opacity: 0.1;
-        overflow: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      opacity: 0.1;
+      overflow: hidden;
 
-        .monaco-logo {
-            @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
-        }
+      .monaco-logo {
+        @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+      }
     }
-}
+  }
 </style>

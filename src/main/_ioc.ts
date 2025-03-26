@@ -6,9 +6,9 @@ import iocCommand, { destroyAllCommand } from "common/_ioc.main"
 import App from "./App"
 
 async function destroyAll() {
-    await destroyAllModules(_ioc)
-    await destroyAllController(_ioc)
-    await destroyAllCommand(_ioc)
+  await destroyAllModules(_ioc)
+  await destroyAllController(_ioc)
+  await destroyAllCommand(_ioc)
 }
 
 const _ioc = new Container()

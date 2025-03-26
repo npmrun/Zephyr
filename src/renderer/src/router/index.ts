@@ -5,8 +5,8 @@ import { setupLayouts } from "virtual:generated-layouts"
 const routes = setupLayouts(generatedRoutes)
 
 const router = createRouter({
-    history: createWebHashHistory(),
-    routes,
+  history: createWebHashHistory(),
+  routes,
 })
 
 export { router }
@@ -14,5 +14,5 @@ export { router }
 export default router
 
 if (import.meta.hot) {
-    handleHotUpdate(router)
+  handleHotUpdate(router)
 }

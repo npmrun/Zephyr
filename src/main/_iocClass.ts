@@ -3,21 +3,21 @@ import BaseClass from "./base/base"
 import { destroyAll, _ioc } from "./_ioc"
 
 class IOC extends BaseClass {
-    init() {
-        // TODO
-    }
+  init() {
+    // TODO
+  }
 
-    destroy() {
-        destroyAll()
-    }
+  destroy() {
+    destroyAll()
+  }
 
-    get<T = unknown>(serviceIdentifier: interfaces.ServiceIdentifier<T>) {
-        return _ioc.get<T>(serviceIdentifier)
-    }
+  get<T = unknown>(serviceIdentifier: interfaces.ServiceIdentifier<T>) {
+    return _ioc.get<T>(serviceIdentifier)
+  }
 
-    getAsync<T = unknown>(serviceIdentifier: interfaces.ServiceIdentifier<T>) {
-        return _ioc.getAsync<T>(serviceIdentifier)
-    }
+  getAsync<T = unknown>(serviceIdentifier: interfaces.ServiceIdentifier<T>) {
+    return _ioc.getAsync<T>(serviceIdentifier)
+  }
 }
 
 export { IOC }

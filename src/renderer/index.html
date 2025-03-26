@@ -1,26 +1,27 @@
 <!doctype html>
 <html>
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>Electron</title>
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' api: 'unsafe-inline';
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' api: 'unsafe-inline';
              script-src 'self' api:;
              style-src 'self' 'unsafe-inline';
-             img-src 'self' data: *;" />
-</head>
+             img-src 'self' data: *;"
+    />
+  </head>
 
-<body>
+  <body>
     <div id="app"></div>
     <noscript>
-        <style>
-          [data-simplebar] {
-            overflow: auto;
-          }
-        </style>
+      <style>
+        [data-simplebar] {
+          overflow: auto;
+        }
+      </style>
     </noscript>
     <script type="module" src="/src/main.ts"></script>
-</body>
-
+  </body>
 </html>

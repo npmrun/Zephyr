@@ -1,32 +1,32 @@
 {
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": false,
-    "trailingComma": "all",
-    "bracketSpacing": true,
-    "arrowParens": "avoid",
-    "printWidth": 140,
-    "htmlWhitespaceSensitivity": "ignore",
-    "proseWrap": "preserve",
-    "endOfLine": "auto",
-    "vueIndentScriptAndStyle": true,
-    "embeddedLanguageFormatting": "auto",
-    "jsxSingleQuote": false,
-    "jsxBracketSameLine": false,
-    "quoteProps": "as-needed",
-    "overrides": [
-        {
-            "files": "*.json",
-            "options": {
-                "printWidth": 80
-            }
-        },
-        {
-            "files": ["*.vue", "*.tsx"],
-            "options": {
-                "singleAttributePerLine": false
-            }
-        }
-    ]
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": false,
+  "singleQuote": false,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "printWidth": 140,
+  "htmlWhitespaceSensitivity": "ignore",
+  "proseWrap": "preserve",
+  "endOfLine": "auto",
+  "vueIndentScriptAndStyle": true,
+  "embeddedLanguageFormatting": "auto",
+  "jsxSingleQuote": false,
+  "jsxBracketSameLine": false,
+  "quoteProps": "as-needed",
+  "overrides": [
+    {
+      "files": "*.json",
+      "options": {
+        "printWidth": 80
+      }
+    },
+    {
+      "files": ["*.vue", "*.tsx"],
+      "options": {
+        "singleAttributePerLine": false
+      }
+    }
+  ]
 }

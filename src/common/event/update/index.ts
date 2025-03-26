@@ -6,9 +6,9 @@ const curProgress = ref(0)
 // })
 
 function useUpdate() {
-    return {
-        curProgress,
-    }
+  return {
+    curProgress,
+  }
 }
 
 export { useUpdate }

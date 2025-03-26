@@ -2,9 +2,9 @@ import { inject } from "inversify"
 import Updater from "main/modules/updater"
 
 export default class PlatFormCommand {
-    constructor(@inject(Updater) private _Updater: Updater) {}
+  constructor(@inject(Updater) private _Updater: Updater) {}
 
-    async triggerHotUpdate() {
-        await this._Updater.triggerHotUpdate()
-    }
+  async triggerHotUpdate() {
+    await this._Updater.triggerHotUpdate()
+  }
 }

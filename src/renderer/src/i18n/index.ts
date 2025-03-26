@@ -13,13 +13,13 @@ import { datetimeFormats } from "locales" // 引入以便热更新同时提供da
 console.log(messages)
 
 const i18n = createI18n({
-    legacy: false,
-    allowComposition: true,
-    locale: "zh",
-    fallbackLocale: "zh",
-    messages: messages,
-    // @ts-ignore ...
-    datetimeFormats,
+  legacy: false,
+  allowComposition: true,
+  locale: "zh",
+  fallbackLocale: "zh",
+  messages: messages,
+  // @ts-ignore ...
+  datetimeFormats,
 })
 
 export { i18n }

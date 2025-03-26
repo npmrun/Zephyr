@@ -4,61 +4,61 @@ import WindowManager from "main/modules/window-manager"
 import { broadcast } from "main/utils"
 
 class TabsCommand {
-    constructor(
-        @inject(Tabs) private _Tabs: Tabs,
-        @inject(WindowManager) private _WindowManager: WindowManager,
-    ) {
-        this._Tabs.events.on("update", this.listenerTabActive)
-    }
+  constructor(
+    @inject(Tabs) private _Tabs: Tabs,
+    @inject(WindowManager) private _WindowManager: WindowManager,
+  ) {
+    this._Tabs.events.on("update", this.listenerTabActive)
+  }
 
-    listenerTabActive = () => {
-        broadcast("main:TabsCommand.update", this.getAllTabs())
-    }
+  listenerTabActive = () => {
+    broadcast("main:TabsCommand.update", this.getAllTabs())
+  }
 
-    bindElement(rect) {
-        this._Tabs.updateRect(rect)
-    }
+  bindElement(rect) {
+    this._Tabs.updateRect(rect)
+  }
 
-    reload() {
-        this._WindowManager.getMainWindow()?.reload()
-    }
+  reload() {
+    this._WindowManager.getMainWindow()?.reload()
+  }
 
-    sync() {
-        this.listenerTabActive()
-        if (!this.getAllTabs().length) {
-            this.add("about:blank")
-        }
+  sync() {
+    this.listenerTabActive()
+    if (!this.getAllTabs().length) {
+      this.add("about:blank")
     }
+  }
 
-    add(url) {
-        this._Tabs.add(url, true, this._WindowManager.getMainWindow()!)
-    }
+  add(url) {
+    this._Tabs.add(url, true, this._WindowManager.getMainWindow()!)
+  }
 
-    nagivate(index: number, url: string) {
-        this._Tabs.navigate(+index, url)
-    }
+  nagivate(index: number, url: string) {
+    this._Tabs.navigate(+index, url)
+  }
 
-    closeAll() {
-        this._Tabs.closeAll()
-    }
+  closeAll() {
+    this._Tabs.closeAll()
+  }
 
-    setActive(index) {
-        this._Tabs.changeActive(index)
-    }
+  setActive(index) {
+    this._Tabs.changeActive(index)
+  }
 
-    closeTab(e) {
-        this._Tabs.remove(e.body.active)
-    }
+  closeTab(e) {
+    this._Tabs.remove(e.body.active)
+  }
 
-    getAllTabs() {
-        return this._Tabs._tabs.map(v => ({
-            url: v.url,
-            showUrl: v.showUrl,
-            title: v.title,
-            favicons: v.favicons,
-            isActive: v.isActive,
-        }))
-    }
+  getAllTabs() {
+    return this._Tabs._tabs.map(v => ({
+      url: v.url,
+      showUrl: v.showUrl,
+      title: v.title,
+      favicons: v.favicons,
+      isActive: v.isActive,
+    }))
+  }
 }
 
 export { TabsCommand }

@@ -1,3 +1,3 @@
 <template>
-    <div @click="$router.back()">Not Found</div>
+  <div @click="$router.back()">Not Found</div>
 </template>

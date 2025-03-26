@@ -6,7 +6,7 @@ type LanguageType = "zh" | "en"
 type LogoType = "logo" | "bg"
 
 // 配置接口定义
-interface IDefaultConfig {
+export interface IDefaultConfig {
   language: LanguageType
   "common.theme": ThemeType
   "desktop:wallpaper": string

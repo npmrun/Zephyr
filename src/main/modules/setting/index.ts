@@ -4,12 +4,13 @@ import path from "path"
 import { cloneDeep } from "lodash"
 import { injectable } from "inversify"
 import Config from "config"
+import type { IDefaultConfig } from "config"
 import _debug from "debug"
 import BaseClass from "main/base/base"
 
 const debug = _debug("app:setting")
 
-type IConfig = typeof Config.default_config
+type IConfig = IDefaultConfig
 
 type IOnFunc = (n: IConfig, c: IConfig, keys?: (keyof IConfig)[]) => void
 type IT = (keyof IConfig)[] | keyof IConfig | "_"

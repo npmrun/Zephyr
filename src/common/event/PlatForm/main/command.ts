@@ -3,7 +3,7 @@ import { inject } from "inversify"
 import Tabs from "main/modules/tabs"
 import WindowManager from "main/modules/window-manager"
 
-export default class BasicCommand {
+export default class PlatFormCommand {
     constructor(
         @inject(WindowManager) private _WindowManager: WindowManager,
         @inject(Tabs) private _Tabs: Tabs,
@@ -18,6 +18,10 @@ export default class BasicCommand {
         if (mainWindow) {
             mainWindow.setTitleBarOverlay(options)
         }
+    }
+
+    showAbout() {
+        this._WindowManager.showWindow("about")
     }
 
     toggleDevTools() {

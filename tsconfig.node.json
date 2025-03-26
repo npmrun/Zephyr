@@ -8,6 +8,7 @@
         "src/types/**/*",
         "packages/locales/main.ts",
         "src/common/**/*.main.ts",
+        "src/common/**/main/**/*",
         "src/common/**/main.ts",
         "src/common/**/*.common.ts",
         "src/common/**/common.ts"

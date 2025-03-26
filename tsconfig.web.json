@@ -15,6 +15,7 @@
     ],
     "exclude": [
         "packages/locales/main.ts",
+        "src/common/**/main/**/*",
         "src/common/**/*.main.ts",
         "src/common/**/main.ts"
     ],

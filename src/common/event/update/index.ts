@@ -1,9 +1,9 @@
-import type { AllKeys } from "../common"
+// import type { AllKeys } from "../common"
 
 const curProgress = ref(0)
-api.on<AllKeys>("progress", () => {
-    curProgress.value = 10
-})
+// api.on<AllKeys>("progress", () => {
+//     curProgress.value = 10
+// })
 
 function useUpdate() {
     return {

@@ -70,8 +70,8 @@ class App extends BaseClass {
             this._Zephyr.init()
             electronApp.setAppUserModelId("top.xieyaxin")
             this._WindowManager.showMainWindow()
-            this._Command.invoke("BasicCommand.setTheme", "light")
-            this._Command.invoke("BasicCommand.setTitlBar", {
+            this._Command.invoke("PlatFormCommand.setTheme", "light")
+            this._Command.invoke("PlatFormCommand.setTitlBar", {
                 height: 29,
                 color: "#F8F8F8",
                 symbolColor: "#000000",

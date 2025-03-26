@@ -1,19 +1,31 @@
+// 定义主题类型
+type ThemeType = "light" | "dark" | "auto"
+// 定义语言类型
+type LanguageType = "zh" | "en"
+// 定义编辑器logo类型
+type LogoType = "logo" | "bg"
+
+// 配置接口定义
+interface IDefaultConfig {
+    language: LanguageType
+    "common.theme": ThemeType
+    "desktop:wallpaper": string
+    "update.repo"?: string
+    "update.owner"?: string
+    "update.allowDowngrade": boolean
+    "update.allowPrerelease": boolean
+    "editor.bg": string
+    "editor.logoType": LogoType
+    "editor.fontFamily": string
+    storagePath: string
+}
+
 interface IConfig {
     app_title: string
-    default_config: {
-        language: "zh" | "en"
-        "common.theme": "light" | "dark" | "auto"
-        "desktop:wallpaper": string
-        "update.repo"?: string
-        "update.owner"?: string
-        "update.allowDowngrade": boolean
-        "update.allowPrerelease": boolean
-        "editor.bg": string
-        "editor.logoType": "logo" | "bg"
-        "editor.fontFamily": string
-        storagePath: string
-    }
+    default_config: IDefaultConfig
 }
+
+// 默认配置导出
 export default {
     app_title: "zephyr", // 和风
     default_config: {
@@ -29,4 +41,4 @@ export default {
         "update.allowDowngrade": false,
         "update.allowPrerelease": false,
     },
-} as IConfig
+} as const satisfies IConfig

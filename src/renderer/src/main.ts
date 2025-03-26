@@ -10,6 +10,19 @@ import router from "./router"
 import i18n from "./i18n"
 
 const app = createApp(App)
+
+// 全局错误处理
+app.config.errorHandler = (err, instance, info) => {
+    console.error("应用错误:", err)
+    console.info("错误信息:", info)
+    // 可以添加错误上报逻辑
+}
+
+// 开发环境下的性能监控
+if (import.meta.env.DEV) {
+    app.config.performance = true
+}
+
 app.use(i18n)
-app.use(router as any)
+app.use(router)
 app.mount("#app")

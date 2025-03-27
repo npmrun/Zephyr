@@ -15,7 +15,7 @@
         <img w="16px" h="16px" :src="icon" />
         <div relative h-full inline-flex items-center text-sm>{{ config.app_title }}</div>
         <div relative class="list">
-          <div class="item" @click="onClickMenu">{{ t("caidan") }}</div>
+          <div class="item" @click="onClickMenu">{{ t("browser.navbar.menu.label") }}</div>
         </div>
       </div>
       <div float-right h-full flex items-center relative style="-webkit-app-region: no-drag">
@@ -68,14 +68,14 @@
   const onClickMenu = e => {
     const menu = new PopupMenu([
       {
-        label: isFullScreen.value ? t("qu-xiao-quan-ping") : t("quan-ping"),
+        label: isFullScreen.value ? t("browser.navbar.menu.quit-fullscreen") : t("browser.navbar.menu.fullscreen"),
         async click() {
           await PlatForm.toggleFullScreen()
           isFullScreen.value = !isFullScreen.value
         },
       },
       {
-        label: t("qie-huan-kai-fa-zhe-gong-ju"),
+        label: t("browser.navbar.menu.toggleDevTools"),
         async click() {
           PlatForm.toggleDevTools()
         },

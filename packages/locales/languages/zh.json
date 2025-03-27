@@ -1,83 +1,20 @@
 {
-  "title": "aaaaaa2 {name} bbbb",
   "update": {
     "ready": {
       "hot": {
         "title": "提示",
         "desc": "新版本 v{version} 已经准备好更新, 下次启动程序即可自动更新"
       }
-    },
-    "status": {
-      "IDLE": "检查更新",
-      "InitCheckingUpdate": "初始化检查更新",
-      "CheckingUpdate": "开始检查更新",
-      "Error": "检查更新出错",
-      "Avaliable": "检查到新版本 v{version}",
-      "Notavaliable": "当前版本已经是最新 v{version}",
-      "Downloading": "当前下载进度{percent}%",
-      "Downloaded": "新版本下载完毕,点击安装"
     }
   },
-  "setting": {
-    "tips": {
-      "notSave": "未保存"
-    },
-    "tabs": {
-      "common": "通用",
-      "editor": "编辑器",
-      "update": "更新"
-    },
-    "log_path_btn": "打开日志目录",
-    "update": {
-      "author": {
-        "title": "作者",
-        "desc": "更新的仓库作者",
-        "placeholder": "请输入作者"
-      },
-      "repo": {
-        "title": "仓库",
-        "desc": "更新的仓库",
-        "placeholder": "请输入仓库"
-      },
-      "version": {
-        "title": "检查更新",
-        "desc": "当前版本："
-      }
-    },
-    "editor": {
-      "bg": {
-        "title": "背景",
-        "desc": "改变编辑器背景",
-        "placeholder": "请输入图片链接"
-      },
-      "font": {
-        "title": "字体",
-        "desc": "改变编辑器字体",
-        "placeholder": "请输入字体"
-      }
-    },
-    "language": {
-      "title": "语言",
-      "desc": "切换语言显示",
-      "options": {
-        "zh": "中文",
-        "en": "英文"
-      }
-    },
-    "storagePath": {
-      "title": "数据保存路径",
-      "desc": "本地数据保存地址",
-      "buttons": {
-        "select": "选择目录",
-        "open": "打开目录"
+  "browser": {
+    "navbar": {
+      "menu": {
+        "label": "菜单",
+        "fullscreen": "全屏",
+        "quit-fullscreen": "取消全屏",
+        "toggleDevTools": "开发者面板"
       }
     }
-  },
-  "app-menu": {
-    "about": "关于"
-  },
-  "qie-huan-kai-fa-zhe-gong-ju": "切换开发者工具",
-  "qu-xiao-quan-ping": "取消全屏",
-  "quan-ping": "全屏",
-  "caidan": "菜单"
+  }
 }

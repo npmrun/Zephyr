@@ -22,6 +22,10 @@ class PlatForm extends _Base {
     return this.api.call("PlatFormCommand.fullscreen")
   }
 
+  async reload() {
+    return this.api.call("PlatFormCommand.reload")
+  }
+
   async toggleDevTools() {
     return this.api.call("PlatFormCommand.toggleDevTools")
   }

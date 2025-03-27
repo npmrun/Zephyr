@@ -42,9 +42,9 @@
   import icon from "@res/icon.png"
   import config from "config"
   import { PopupMenu } from "@/bridge/PopupMenu"
-  import { usePlatForm } from "common/usePlatform"
+  import { usePlatForm } from "common/event/PlatForm/hook"
 
-  const { PlatForm } = usePlatForm()
+  const PlatForm = usePlatForm()
 
   const router = useRouter()
   const route = useRoute()
@@ -78,6 +78,12 @@
         label: t("qie-huan-kai-fa-zhe-gong-ju"),
         async click() {
           PlatForm.toggleDevTools()
+        },
+      },
+      {
+        label: "重载",
+        async click() {
+          PlatForm.reload()
         },
       },
     ])

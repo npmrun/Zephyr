@@ -2,11 +2,10 @@ import fs from "fs-extra"
 import { app } from "electron"
 import path from "path"
 import { cloneDeep } from "lodash"
-import { injectable } from "inversify"
 import Config from "config"
 import type { IDefaultConfig } from "config"
 import _debug from "debug"
-import BaseClass from "main/base/base"
+import logger from "logger/main"
 
 const debug = _debug("app:setting")
 
@@ -59,16 +58,11 @@ function isEmptyDir(fPath: string) {
   }
 }
 
-@injectable()
-class Setting extends BaseClass {
+class SettingClass {
   constructor() {
-    super()
+    logger.info("setting", "aaaa")
     debug(`Setting inited`)
     this.init()
-  }
-
-  destroy() {
-    // TODO
   }
 
   #cb: [IT, IOnFunc][] = []
@@ -231,6 +225,8 @@ class Setting extends BaseClass {
     return this.#config[key]
   }
 }
+
+const Setting = new SettingClass()
 
 export default Setting
 export { Setting }

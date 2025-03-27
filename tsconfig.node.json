@@ -5,8 +5,11 @@
         "src/main/**/*",
         "src/preload/**/*",
         "config/**/*",
-        "src/types/**/*",
         "packages/locales/main.ts",
+        "packages/setting/main.ts",
+        "packages/logger/main.ts",
+        "packages/logger/preload.ts",
+        "packages/logger/common.ts",
         "src/common/**/*.main.ts",
         "src/common/**/main/**/*",
         "src/common/**/main.ts",
@@ -46,6 +49,12 @@
             ],
             "locales/*": [
                 "packages/locales/*"
+            ],
+            "setting/*": [
+                "packages/setting/*"
+            ],
+            "logger/*": [
+                "packages/logger/*"
             ],
         }
     }

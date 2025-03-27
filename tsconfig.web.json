@@ -7,7 +7,9 @@
         "src/renderer/src/**/*",
         "src/renderer/src/**/*.vue",
         "packages/locales/**/*.ts",
-        "src/preload/*.d.ts",
+        "packages/setting/**/*.ts",
+        "packages/logger/**/*.ts",
+        "src/preload/**/*",
         "src/types/**/*",
         "config/**/*",
         "./typed-router.d.ts",
@@ -15,6 +17,8 @@
     ],
     "exclude": [
         "packages/locales/main.ts",
+        "packages/setting/main.ts",
+        "packages/logger/main.ts",
         "src/common/**/main/**/*",
         "src/common/**/*.main.ts",
         "src/common/**/main.ts"

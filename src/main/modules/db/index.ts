@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify"
-import Setting from "../setting"
+import Setting from "setting/main"
 import { CustomAdapter, CustomLow } from "./custom"
 import path from "node:path"
 import BaseClass from "main/base/base"
@@ -14,7 +14,7 @@ class DB extends BaseClass {
   }
   Modules: Record<string, CustomLow<any>> = {}
 
-  constructor(@inject(Setting) private _setting: Setting) {
+  constructor() {
     super()
   }
 
@@ -31,12 +31,12 @@ class DB extends BaseClass {
 
   getDB(dbName: string) {
     if (this.Modules[dbName] === undefined) {
-      const filepath = path.resolve(this._setting.values("storagePath"), "./db/" + dbName + ".json")
+      const filepath = path.resolve(Setting.values("storagePath"), "./db/" + dbName + ".json")
       this.Modules[dbName] = this.create(filepath)
       return this.Modules[dbName]
     } else {
       const cur = this.Modules[dbName]
-      const filepath = path.resolve(this._setting.values("storagePath"), "./db/" + dbName + ".json")
+      const filepath = path.resolve(Setting.values("storagePath"), "./db/" + dbName + ".json")
       if (cur.filepath != filepath) {
         this.Modules[dbName] = this.create(filepath)
       }

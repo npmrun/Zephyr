@@ -9,6 +9,7 @@
         "packages/setting/main.ts",
         "packages/logger/main.ts",
         "packages/logger/main-error.ts",
+        "packages/logger/crash-handler.ts",
         "packages/logger/preload.ts",
         "packages/logger/preload-error.ts",
         "packages/logger/common.ts",

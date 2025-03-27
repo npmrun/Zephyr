@@ -86,6 +86,12 @@
           PlatForm.reload()
         },
       },
+      {
+        label: "崩溃",
+        async click() {
+          PlatForm.crash()
+        },
+      },
     ])
     const obj = e.target.getBoundingClientRect()
     menu.show({ x: ~~obj.x, y: ~~(obj.y + obj.height) })

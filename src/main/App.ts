@@ -11,6 +11,7 @@ import IOC from "./_ioc"
 import DB from "./modules/db"
 import Zephyr from "./modules/zephyr"
 import Updater from "./modules/updater"
+import { crashHandler } from "logger/crash-handler"
 
 protocol.registerSchemesAsPrivileged([
   // {
@@ -61,6 +62,7 @@ class App extends BaseClass {
   }
 
   async init() {
+    crashHandler.init()
     this._Updater.init()
     this._DB.init()
     this._Command.init()

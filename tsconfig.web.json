@@ -20,6 +20,7 @@
         "packages/setting/main.ts",
         "packages/logger/main.ts",
         "packages/logger/main-error.ts",
+        "packages/logger/crash-handler.ts",
         "src/common/**/main/**/*",
         "src/common/**/*.main.ts",
         "src/common/**/main.ts"

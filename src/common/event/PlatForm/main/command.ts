@@ -1,5 +1,6 @@
 import { app, dialog, nativeTheme, TitleBarOverlayOptions } from "electron"
 import { inject } from "inversify"
+import errorHandler from "logger/main-error"
 import Tabs from "main/modules/tabs"
 import WindowManager from "main/modules/window-manager"
 
@@ -37,6 +38,11 @@ export default class PlatFormCommand {
       const isFullScreen = focusedWindow!.isFullScreen()
       focusedWindow!.setFullScreen(!isFullScreen)
     }
+  }
+
+  crash() {
+    errorHandler.captureError(new Error("手动触发的崩溃"))
+    process.crash()
   }
 
   isFullscreen() {

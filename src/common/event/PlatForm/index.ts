@@ -14,6 +14,10 @@ class PlatForm extends _Base {
     return this.api.call("BasicService.showAbout")
   }
 
+  async crash() {
+    return this.api.call("PlatFormCommand.crash")
+  }
+
   async isFullScreen() {
     return this.api.call("PlatFormCommand.isFullscreen")
   }

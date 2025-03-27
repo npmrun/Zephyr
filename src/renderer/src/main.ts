@@ -1,4 +1,4 @@
-
+import 'logger/renderer-error'
 import "simplebar-vue/dist/simplebar.min.css"
 import "@unocss/reset/normalize.css"
 import "@/assets/style/_common.scss"

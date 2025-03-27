@@ -12,6 +12,20 @@ interface IRendererLogger {
   error(namespace: string, ...messages: any[]): void
   fatal(namespace: string, ...messages: any[]): void
   setLevel(level: LogLevel): void
+  createNamespace(namespace: string): INamespacedLogger
+}
+
+/**
+ * 命名空间作用域日志接口
+ */
+interface INamespacedLogger {
+  trace(...messages: any[]): void
+  debug(...messages: any[]): void
+  info(...messages: any[]): void
+  warn(...messages: any[]): void
+  error(...messages: any[]): void
+  fatal(...messages: any[]): void
+  setLevel(level: LogLevel): void
 }
 
 // 日志级别名称映射
@@ -108,6 +122,20 @@ const createRendererLogger = (): IRendererLogger => {
       currentLevel = level
       // 设置日志级别（可选，如果需要在渲染进程中动态调整日志级别）
       ipcRenderer.send("logger:setLevel", level)
+    },
+    createNamespace(namespace: string): INamespacedLogger {
+      return {
+        trace: (...messages: any[]) => sendLog(LogLevel.TRACE, namespace, ...messages),
+        debug: (...messages: any[]) => sendLog(LogLevel.DEBUG, namespace, ...messages),
+        info: (...messages: any[]) => sendLog(LogLevel.INFO, namespace, ...messages),
+        warn: (...messages: any[]) => sendLog(LogLevel.WARN, namespace, ...messages),
+        error: (...messages: any[]) => sendLog(LogLevel.ERROR, namespace, ...messages),
+        fatal: (...messages: any[]) => sendLog(LogLevel.FATAL, namespace, ...messages),
+        setLevel: (level: LogLevel) => {
+          currentLevel = level
+          ipcRenderer.send("logger:setLevel", level)
+        }
+      }
     },
   }
 }

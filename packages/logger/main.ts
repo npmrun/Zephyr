@@ -257,6 +257,24 @@ export class Logger {
   public fatal(namespace: string, ...messages: any[]): void {
     this.logWithLevel(LogLevel.FATAL, namespace, ...messages)
   }
+
+  /**
+   * 创建一个固定命名空间的日志记录器
+   * @param namespace 命名空间
+   * @returns 带有固定命名空间的日志记录器
+   */
+  public createNamespace(namespace: string) {
+    return {
+      trace: (...messages: any[]) => this.trace(namespace, ...messages),
+      debug: (...messages: any[]) => this.debug(namespace, ...messages),
+      info: (...messages: any[]) => this.info(namespace, ...messages),
+      warn: (...messages: any[]) => this.warn(namespace, ...messages),
+      error: (...messages: any[]) => this.error(namespace, ...messages),
+      fatal: (...messages: any[]) => this.fatal(namespace, ...messages),
+      setLevel: (level: LogLevel) => this.setLevel(level),
+      getLevel: () => this.getLevel(),
+    }
+  }
 }
 
 // 默认实例

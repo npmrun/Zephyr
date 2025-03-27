@@ -62,16 +62,18 @@ const createRendererLogger = (): IRendererLogger => {
 
   // 格式化消息
   const formatMessages = (messages: any[]): string => {
-    return messages.map(msg => {
-      if (typeof msg === "object") {
-        try {
-          return JSON.stringify(msg)
-        } catch (e) {
-          return String(msg)
+    return messages
+      .map(msg => {
+        if (typeof msg === "object") {
+          try {
+            return JSON.stringify(msg)
+          } catch (e) {
+            return String(msg)
+          }
         }
-      }
-      return String(msg)
-    }).join(" ")
+        return String(msg)
+      })
+      .join(" ")
   }
 
   // 本地打印日志
@@ -134,14 +136,18 @@ const createRendererLogger = (): IRendererLogger => {
         setLevel: (level: LogLevel) => {
           currentLevel = level
           ipcRenderer.send("logger:setLevel", level)
-        }
+        },
       }
     },
   }
 }
 
-// 暴露logger对象到渲染进程全局
-contextBridge.exposeInMainWorld("logger", createRendererLogger())
+const logger = createRendererLogger()
 
+// 暴露logger对象到渲染进程全局
+contextBridge.exposeInMainWorld("logger", logger)
+
+export { logger }
+export default logger
 // 导出类型定义，方便在渲染进程中使用
 export type { IRendererLogger }

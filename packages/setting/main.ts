@@ -5,7 +5,6 @@ import { cloneDeep } from "lodash"
 import Config from "config"
 import type { IDefaultConfig } from "config"
 import _debug from "debug"
-import logger from "logger/main"
 
 const debug = _debug("app:setting")
 
@@ -60,7 +59,6 @@ function isEmptyDir(fPath: string) {
 
 class SettingClass {
   constructor() {
-    logger.info("setting", "aaaa")
     debug(`Setting inited`)
     this.init()
   }

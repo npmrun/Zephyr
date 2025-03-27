@@ -19,6 +19,7 @@
         "packages/locales/main.ts",
         "packages/setting/main.ts",
         "packages/logger/main.ts",
+        "packages/logger/main-error.ts",
         "src/common/**/main/**/*",
         "src/common/**/*.main.ts",
         "src/common/**/main.ts"

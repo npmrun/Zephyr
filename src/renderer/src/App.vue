@@ -1,13 +1,14 @@
 <script setup lang="ts">
-logger.info('App.vue')
-console.log(222);
-
+function throwAnError() {
+  throw new Error('Error thrown from throwAnError function');
+}
 </script>
 
 <template>
   <div h-full flex flex-col overflow-hidden>
     <NavBar></NavBar>
     <div flex-1 h-0 overflow-hidden flex flex-col>
+      <button @click="throwAnError">抛出错误</button>
       <router-view v-slot="{ Component, route }">
         <Transition name="slide-fade" mode="out-in">
           <component :is="Component" :key="route.fullPath" />

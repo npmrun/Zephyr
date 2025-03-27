@@ -1,5 +1,6 @@
 import "reflect-metadata"
 import "logger/main"
+import "logger/main-error"
 import "setting/main"
 
 import { _ioc } from "main/_ioc"

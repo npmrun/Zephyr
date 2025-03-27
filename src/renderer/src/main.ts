@@ -1,3 +1,4 @@
+
 import "simplebar-vue/dist/simplebar.min.css"
 import "@unocss/reset/normalize.css"
 import "@/assets/style/_common.scss"
@@ -13,8 +14,10 @@ const app = createApp(App)
 
 // 全局错误处理
 app.config.errorHandler = (err, instance, info) => {
-  console.error("应用错误:", err)
-  console.info("错误信息:", info)
+  // console.error("应用错误:", err)
+  // console.info("错误信息:", info)
+  errorHandler.captureError(err)
+  errorHandler.captureError(info)
   // 可以添加错误上报逻辑
 }
 

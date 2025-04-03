@@ -84,7 +84,7 @@
     },
   })
 
-  let isInnerChange = false
+  let isInnerChange = "first" // waitting, out, in
   function updateModel(name: string, content: string) {
     if (editor) {
       const oldModel = editor.getModel() //获取旧模型
@@ -94,7 +94,11 @@
       const model: monaco.editor.ITextModel = monaco.editor.createModel(content ?? "", file?.language ?? "txt")
       model.onDidChangeContent(() => {
         if (model) {
-          isInnerChange = true
+          if(isInnerChange === "out") {
+            isInnerChange = "waitting"
+            return
+          }
+          isInnerChange = "in"
           const code = model.getValue()
           emit("update:modelValue", code)
           emit("change", code)
@@ -148,10 +152,13 @@
     watch(
       () => props.modelValue,
       async str => {
-        if (editor && !isInnerChange) {
+        if(isInnerChange === "waitting") {
+          isInnerChange = "out"
+        }
+        if (editor && isInnerChange === "out") {
           editor.setValue(str)
         } else {
-          isInnerChange = false
+          isInnerChange = "waitting"
         }
       },
       { immediate: true },

@@ -1,3 +1,4 @@
+import { LogLevel } from "logger/common"
 // 定义主题类型
 type ThemeType = "light" | "dark" | "auto"
 // 定义语言类型
@@ -9,6 +10,7 @@ type LogoType = "logo" | "bg"
 export interface IDefaultConfig {
   language: LanguageType
   "common.theme": ThemeType
+  "debug": LogLevel,
   "desktop:wallpaper": string
   "update.repo"?: string
   "update.owner"?: string
@@ -31,6 +33,7 @@ export default {
   default_config: {
     storagePath: "$storagePath$",
     language: "zh",
+    debug: LogLevel.INFO,
     "common.theme": "auto",
     "desktop:wallpaper": "",
     "editor.bg": "",

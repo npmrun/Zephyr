@@ -1,5 +1,6 @@
 import { _Base } from "common/lib/_Base"
 import { ApiFactory } from "common/lib/abstract"
+import { LogLevel } from "packages/logger/common"
 
 class PlatForm extends _Base {
   constructor() {
@@ -10,8 +11,17 @@ class PlatForm extends _Base {
     return ApiFactory.getApiClient()
   }
 
+  async logSetLevel(level: LogLevel) {
+    return this.api.call("PlatFormCommand.logSetLevel", level)
+  }
+
+  async logGetLevel() {
+    return this.api.call("PlatFormCommand.logGetLevel")
+  }
+
   async showAbout() {
-    return this.api.call("BasicService.showAbout")
+    // return this.api.call("BasicService.showAbout")
+    return this.api.call("PlatFormCommand.showAbout")
   }
 
   async crash() {

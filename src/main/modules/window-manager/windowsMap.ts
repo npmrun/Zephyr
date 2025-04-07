@@ -1,8 +1,7 @@
 import config from "config"
 import { BrowserWindowConstructorOptions } from "electron"
-import { getFileUrl } from "main/utils"
+import { getFileUrl, getPreloadUrl } from "main/utils"
 import icon from "@res/icon.png?asset"
-import { join } from "path"
 
 export type Param = Partial<IConfig> & Required<Pick<IConfig, "name">>
 
@@ -64,7 +63,7 @@ export function getWindowsMap(): Record<string, IConfig> {
         ...(process.platform === "linux" ? { icon } : {}),
         webPreferences: {
           webviewTag: false,
-          preload: join(__dirname, "../preload/index.mjs"),
+          preload: getPreloadUrl("index"),
           nodeIntegration: true,
           contextIsolation: true,
         },
@@ -101,28 +100,6 @@ export function getWindowsMap(): Record<string, IConfig> {
           contextIsolation: true,
           webviewTag: false,
           preload: undefined,
-        },
-      },
-    },
-    "^about": {
-      url: getFileUrl("about.html"),
-      overideWindowOpts: true,
-      confrimWindowClose: false,
-      type: "info",
-      windowOpts: {
-        width: 600,
-        height: 200,
-        minimizable: false,
-        darkTheme: true,
-        modal: true,
-        show: false,
-        resizable: false,
-        icon: icon,
-        webPreferences: {
-          devTools: false,
-          sandbox: false,
-          nodeIntegration: false,
-          contextIsolation: true,
         },
       },
     },

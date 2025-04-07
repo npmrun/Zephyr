@@ -118,7 +118,7 @@ class SettingClass {
       //     this.#config[key] = config[key] || this.#config[key]
       // }
       // 删除配置时本地的配置不会改变，想一下哪种方式更好
-      this.#config[key] = config[key] || this.#config[key]
+      this.#config[key] = config[key] ?? this.#config[key]
     }
   }
   init() {

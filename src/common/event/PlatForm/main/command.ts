@@ -3,6 +3,10 @@ import { inject } from "inversify"
 import errorHandler from "logger/main-error"
 import Tabs from "main/modules/tabs"
 import WindowManager from "main/modules/window-manager"
+import { getFileUrl } from "main/utils"
+import icon from "@res/icon.png?asset"
+import setting from "setting/main"
+import { LogLevel } from "logger/common"
 
 export default class PlatFormCommand {
   constructor(
@@ -14,6 +18,14 @@ export default class PlatFormCommand {
     nativeTheme.themeSource = theme
   }
 
+  logSetLevel(level: LogLevel) {
+    return setting.set("debug", level)
+  }
+
+  logGetLevel() {
+    return setting.values("debug")
+  }
+
   setTitlBar(options: TitleBarOverlayOptions) {
     const mainWindow = this._WindowManager.getMainWindow()
     if (mainWindow) {
@@ -22,7 +34,28 @@ export default class PlatFormCommand {
   }
 
   showAbout() {
-    this._WindowManager.showWindow("about")
+    this._WindowManager.createWindow("about", {
+      url: getFileUrl("about.html"),
+      overideWindowOpts: true,
+      confrimWindowClose: false,
+      type: "info",
+      windowOpts: {
+        width: 600,
+        height: 400,
+        minimizable: false,
+        darkTheme: true,
+        modal: true,
+        show: false,
+        resizable: false,
+        icon: icon,
+        webPreferences: {
+          devTools: false,
+          sandbox: false,
+          nodeIntegration: false,
+          contextIsolation: true,
+        },
+      },
+    })
   }
 
   toggleDevTools() {

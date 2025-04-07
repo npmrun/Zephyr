@@ -12,6 +12,10 @@ export function getFileUrl(app: string) {
   return slash(winURL)
 }
 
+export function getPreloadUrl(file){
+  return join(__dirname, `../preload/${file}.mjs`)
+}
+
 export function isPromise(value: () => any) {
   return value && Object.prototype.toString.call(value) === "[object Promise]"
 }

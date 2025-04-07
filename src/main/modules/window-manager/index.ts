@@ -4,8 +4,9 @@ import { defaultConfig, defaultWindowConfig, getWindowsMap, IConfig, Param } fro
 import { optimizer } from "@electron-toolkit/utils"
 import BaseClass from "main/base/base"
 import _debug from "debug"
+import _logger from "logger/main"
 
-const debug = _debug("app:window-manager")
+const logger = _logger.createNamespace("modlue:window-manager") // _debug("app:window-manager")
 
 declare module "electron" {
   interface BrowserWindow {
@@ -36,6 +37,7 @@ export default class WindowManager extends BaseClass {
       dialog.showErrorBox("错误", "窗口未指定唯一key")
       return
     }
+    logger.debug("创建窗口的参数：", info)
     const index = this.findIndex(info.name)
     if (index === -1) {
       this.#windows.push(this.#add(info))
@@ -61,6 +63,16 @@ export default class WindowManager extends BaseClass {
   private isMainShowReady
   async waitMainShowReady() {
     await this.isMainShowReady
+  }
+
+  createWindow(name: string, opts?: Partial<IConfig>){
+    let info = opts as Param
+    info.name = name
+    if (!info.ignoreEmptyUrl && !info.url) {
+      dialog.showErrorBox("错误", name + "窗口未提供url")
+      return
+    }
+    this.#showWin(info as Param)
   }
 
   showWindow(name: string, opts?: Partial<IConfig>) {
@@ -245,7 +257,7 @@ export default class WindowManager extends BaseClass {
     if (curConfig.windowOpts?.show === false) {
       if (curConfig.url) {
         browserWin.once("ready-to-show", () => {
-          debug(`准备展示：`, curConfig.url)
+          logger.debug(`准备展示：`, curConfig.url)
           browserWin?.show()
         })
       } else {
@@ -257,9 +269,9 @@ export default class WindowManager extends BaseClass {
 
   showCurrentWindow() {
     if (this.#windows.length) {
-      debug(`current open window: ${this.#windows.map(v => v.$$opts!.name).join(",")}`)
+      logger.debug(`current open window: ${this.#windows.map(v => v.$$opts!.name).join(",")}`)
     } else {
-      debug(`all closed`)
+      logger.debug(`all closed`)
     }
   }
 

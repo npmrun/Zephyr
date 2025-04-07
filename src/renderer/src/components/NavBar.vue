@@ -43,15 +43,18 @@
   import config from "config"
   import { PopupMenu } from "@/bridge/PopupMenu"
   import { usePlatForm } from "common/event/PlatForm/hook"
+import { LogLevel } from "logger/common"
 
   const PlatForm = usePlatForm()
 
   const router = useRouter()
   const route = useRoute()
   const isFullScreen = ref(false)
+  const curLogLevel = ref<LogLevel>()
 
   onBeforeMount(async () => {
     isFullScreen.value = await PlatForm.isFullScreen()
+    curLogLevel.value = await PlatForm.logGetLevel()
   })
 
   const isHome = computed(() => {
@@ -65,7 +68,7 @@
     router.push("/")
   }
   const { t } = useI18n()
-  const onClickMenu = e => {
+  const onClickMenu = async e => {
     const menu = new PopupMenu([
       {
         label: isFullScreen.value ? t("browser.navbar.menu.quit-fullscreen") : t("browser.navbar.menu.fullscreen"),
@@ -90,6 +93,18 @@
         label: "崩溃",
         async click() {
           PlatForm.crash()
+        },
+      },
+      {
+        label: curLogLevel.value === LogLevel.TRACE ? "关闭调试模式" : "开启调试模式",
+        async click() {
+          if(curLogLevel.value === LogLevel.TRACE) {
+            await PlatForm.logSetLevel(LogLevel.INFO)
+            curLogLevel.value = LogLevel.INFO
+            return
+          }
+          await PlatForm.logSetLevel(LogLevel.TRACE)
+          curLogLevel.value = LogLevel.TRACE
         },
       },
     ])

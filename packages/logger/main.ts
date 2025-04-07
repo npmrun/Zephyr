@@ -1,6 +1,7 @@
 import { app, ipcMain } from "electron"
 import fs from "fs"
 import path from "path"
+import setting from "setting/main"
 import * as rfs from "rotating-file-stream"
 import { LogLevel, LogLevelColor, LogLevelName } from "./common"
 
@@ -20,7 +21,7 @@ export interface LoggerOptions {
 
 // 默认配置
 const DEFAULT_OPTIONS: LoggerOptions = {
-  level: LogLevel.INFO,
+  level: setting.values("debug"),
   namespace: "app",
   console: true,
   file: true,
@@ -155,7 +156,7 @@ export class Logger {
    * 获取当前日志级别
    */
   public getLevel(): LogLevel {
-    return this.options.level || LogLevel.INFO
+    return this.options.level ?? LogLevel.INFO
   }
 
   /**
@@ -259,6 +260,9 @@ export class Logger {
 // 默认实例
 const logger = Logger.getInstance()
 logger.init()
+setting.onChange("debug", function(n){
+  logger.setLevel(n.debug)
+})
 
 // 应用退出时关闭日志流
 if (process.type === "browser" && app) {

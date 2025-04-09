@@ -3,8 +3,6 @@ import "simplebar-vue/dist/simplebar.min.css"
 import "@unocss/reset/normalize.css"
 import "@/assets/style/_common.scss"
 import "virtual:uno.css"
-import 'law-ui/theme-chalk/law-mask.css';
-import 'law-ui/theme-chalk/law-dialog.css';
 import 'nprogress/nprogress.css';
 
 import { createApp } from "vue"
@@ -16,7 +14,7 @@ import i18n from "./i18n"
 const app = createApp(App)
 
 // 全局错误处理
-app.config.errorHandler = (err, instance, info) => {
+app.config.errorHandler = (err, _, info) => {
   // console.error("应用错误:", err)
   // console.info("错误信息:", info)
   errorHandler.captureError(err)

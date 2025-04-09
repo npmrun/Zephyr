@@ -9,8 +9,8 @@ import { BrowserWindow } from "electron"
  */
 function createLoginWin(partition) {
   partition = partition || `persist:${Math.random()}`
-  const charset = require("superagent-charset")
-  const request = charset(require("superagent")) // HTTP
+  // const charset = require("superagent-charset")
+  // const request = charset(require("superagent")) // HTTP
   let presWindow = new BrowserWindow({
     width: 1280,
     height: 768,
@@ -22,9 +22,9 @@ function createLoginWin(partition) {
     },
   })
   let webContents = presWindow.webContents
-  return new Promise(function (resove, reject) {
+  return new Promise(function (resove, _) {
     // webContents.openDevTools();
-    presWindow.loadURL("http://taobao.com/#/login")
+    presWindow.loadURL("https://login.taobao.com/member/login.jhtml")
     webContents.on("did-navigate-in-page", async function () {
       // 这里可以看情况进行参数的传递，获取制定的 cookies
       const cookies = await webContents.session.cookies.get({})
@@ -37,6 +37,25 @@ function createLoginWin(partition) {
       //   }
       //   let obj = { partition, cookies }
       //   resove(obj)
+      // fetch("https://login.taobao.com/member/login.jhtml", {
+      //   method: "GET",
+      //   credentials: "include",
+      //   headers: {
+      //     Cookie: cookies.map(item => `${item.name}=${item.value};`).join(" "),
+      //     "Content-Type": "application/json",
+      //   },
+      // })
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     console.log(data)
+      //     presWindow.close()
+      //     resove(obj)
+      //   })
+      //   .catch(err => {
+      //     presWindow.close()
+      //     reject(err)
+      //   })
+      // })
       // 这一步并不是必需的。
       //   request
       //     .get("http://taobao.com/userinfo")

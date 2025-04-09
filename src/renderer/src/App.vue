@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ModalContainer } from "law-ui"
+
 </script>
 
 <template>
@@ -11,7 +11,6 @@ import { ModalContainer } from "law-ui"
           <component :is="Component" :key="route.fullPath" />
         </Transition>
       </router-view>
-      <ModalContainer to="#page-container"/>
     </div>
   </div>
 </template>

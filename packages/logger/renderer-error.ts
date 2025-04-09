@@ -1,4 +1,4 @@
-import { LogLevel, LogLevelName } from "./common"
+import { LogLevel } from "./common"
 
 /**
  * 错误详情接口

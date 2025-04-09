@@ -3,7 +3,7 @@ import { routes as generatedRoutes, handleHotUpdate } from "vue-router/auto-rout
 import { setupLayouts } from "virtual:generated-layouts"
 import NProgress from 'nprogress'
 
-NProgress.configure({ showSpinner: false, parent: "#page-container" }) 
+NProgress.configure({ showSpinner: false, parent: "#page-container" })
 
 const routes = setupLayouts(generatedRoutes)
 
@@ -12,13 +12,13 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from, next)=>{
+router.beforeEach((_to, _from, next)=>{
   console.log("开始导航");
   NProgress.start();
   return next()
 })
-
-router.afterEach((to, from, failure) => {
+router
+router.afterEach((_to, _from, failure) => {
   console.log("结束导航");
   NProgress.done();
   if (isNavigationFailure(failure)) {

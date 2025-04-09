@@ -1,4 +1,4 @@
-import { inject, injectable } from "inversify"
+import { injectable } from "inversify"
 import Setting from "setting/main"
 import { CustomAdapter, CustomLow } from "./custom"
 import path from "node:path"

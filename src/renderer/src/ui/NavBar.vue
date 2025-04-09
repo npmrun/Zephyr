@@ -34,7 +34,7 @@
         >
           <icon-stash:arrow-reply-duotone></icon-stash:arrow-reply-duotone>
         </div>
-        <div
+        <!-- <div
           v-if="!isHome"
           text-sm
           px-2
@@ -46,7 +46,7 @@
           @click="backHome"
         >
           🏠
-        </div>
+        </div> -->
         <div text-sm px-2 hover:rounded-md hover:bg-gray-2 hover:cursor-pointer text="hover:hover" @click="onClickAbout">关于</div>
       </div>
     </div>
@@ -79,9 +79,9 @@ import { LogLevel } from "logger/common"
     return false
   })
 
-  function backHome() {
-    router.push("/")
-  }
+  // function backHome() {
+  //   router.push("/")
+  // }
   function back() {
     router.back()
   }

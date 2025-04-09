@@ -53,7 +53,7 @@ export class CrashHandler {
   private crashReportDir: string
   private initialized: boolean = false
   private startTime: number = Date.now()
-  private normalShutdown: boolean = false
+  // private normalShutdown: boolean = false
 
   /**
    * 获取单例实例
@@ -104,7 +104,7 @@ export class CrashHandler {
 
     // 设置应用退出处理
     app.on("before-quit", () => {
-      this.normalShutdown = true
+      // this.normalShutdown = true
       this.clearStartupMarker()
     })
 

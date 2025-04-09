@@ -14,8 +14,6 @@ import monacoEditorPlugin from "vite-plugin-monaco-editor"
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 
-import LawUIResolver from "law-ui/es/resolver"
-
 export default defineConfig({
   main: {
     resolve: {
@@ -29,6 +27,14 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin()],
   },
   preload: {
+    build: {
+      lib: {
+        entry: {
+          index: resolve(__dirname, "./src/preload/index.ts"),
+          loading: resolve(__dirname, "./src/preload/loading.ts"),
+        }
+      }
+    },
     plugins: [externalizeDepsPlugin()],
   },
   renderer: {
@@ -101,12 +107,11 @@ export default defineConfig({
       // https://github.com/antfu/vite-plugin-components
       Components({
         dts: true,
-        dirs: ["src/components"],
+        dirs: ["src/components", "src/ui"],
         resolvers: [
           IconsResolver({
             prefix: 'icon',
           }),
-          LawUIResolver({ importStyle: 'sass' })
         ]
       }),
       Icons(),

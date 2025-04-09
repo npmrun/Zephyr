@@ -56,7 +56,6 @@
     "eslint": "^8.57.1",
     "eslint-plugin-vue": "^9.32.0",
     "extract-zip": "^2.0.1",
-    "law-ui": "0.0.2-bate.7",
     "locales": "workspace:*",
     "lodash-es": "^4.17.21",
     "logger": "workspace:^",

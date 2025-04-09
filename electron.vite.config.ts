@@ -11,6 +11,10 @@ import VueRouter from "unplugin-vue-router/vite"
 import Layouts from "vite-plugin-vue-layouts"
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite"
 import monacoEditorPlugin from "vite-plugin-monaco-editor"
+import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
+
+import LawUIResolver from "law-ui/es/resolver"
 
 export default defineConfig({
   main: {
@@ -98,7 +102,14 @@ export default defineConfig({
       Components({
         dts: true,
         dirs: ["src/components"],
+        resolvers: [
+          IconsResolver({
+            prefix: 'icon',
+          }),
+          LawUIResolver({ importStyle: 'sass' })
+        ]
       }),
+      Icons(),
       // https://wf0.github.io/example/plugins/Formatter.html
       // @ts-ignore ...
       monacoEditorPlugin.default({

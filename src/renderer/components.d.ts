@@ -10,6 +10,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     AdjustLine: typeof import('./src/components/AdjustLine.vue')['default']
     CodeEditor: typeof import('./src/components/CodeEditor/code-editor.vue')['default']
+    'IconStash:arrowReplyDuotone': typeof import('~icons/stash/arrow-reply-duotone')['default']
+    LawDialog: typeof import('law-ui/es')['LawDialog']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

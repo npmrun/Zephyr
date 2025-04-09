@@ -3,6 +3,9 @@ import "simplebar-vue/dist/simplebar.min.css"
 import "@unocss/reset/normalize.css"
 import "@/assets/style/_common.scss"
 import "virtual:uno.css"
+import 'law-ui/theme-chalk/law-mask.css';
+import 'law-ui/theme-chalk/law-dialog.css';
+import 'nprogress/nprogress.css';
 
 import { createApp } from "vue"
 import App from "./App.vue"

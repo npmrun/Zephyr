@@ -1,12 +1,17 @@
+<script setup lang="ts">
+import { ModalContainer } from "law-ui"
+</script>
+
 <template>
   <div h-full flex flex-col overflow-hidden>
     <NavBar></NavBar>
-    <div flex-1 h-0 overflow-hidden flex flex-col>
+    <div flex-1 h-0 overflow-hidden flex flex-col relative id="page-container" style="transform: scale(1);">
       <router-view v-slot="{ Component, route }">
         <Transition name="slide-fade" mode="out-in">
           <component :is="Component" :key="route.fullPath" />
         </Transition>
       </router-view>
+      <ModalContainer to="#page-container"/>
     </div>
   </div>
 </template>

@@ -23,12 +23,27 @@
           v-if="!isHome"
           text-sm
           px-2
+          flex
+          items-center
           hover:rounded-md
           hover:bg-gray-2
           hover:cursor-pointer
           text="hover:hover"
-          title="返回上一页"
+          title="返回"
           @click="back"
+        >
+          <icon-stash:arrow-reply-duotone></icon-stash:arrow-reply-duotone>
+        </div>
+        <div
+          v-if="!isHome"
+          text-sm
+          px-2
+          hover:rounded-md
+          hover:bg-gray-2
+          hover:cursor-pointer
+          text="hover:hover"
+          title="返回首页"
+          @click="backHome"
         >
           🏠
         </div>
@@ -64,8 +79,11 @@ import { LogLevel } from "logger/common"
     return false
   })
 
-  function back() {
+  function backHome() {
     router.push("/")
+  }
+  function back() {
+    router.back()
   }
   const { t } = useI18n()
   const onClickMenu = async e => {

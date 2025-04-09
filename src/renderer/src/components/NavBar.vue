@@ -114,6 +114,18 @@ import { LogLevel } from "logger/common"
         },
       },
       {
+        label: "打开研发云",
+        async click() {
+          PlatForm.showSrd()
+        },
+      },
+      {
+        label: "打开研发云Cookie",
+        async click() {
+          PlatForm.getSrdCookie()
+        },
+      },
+      {
         label: curLogLevel.value === LogLevel.TRACE ? "关闭调试模式" : "开启调试模式",
         async click() {
           if(curLogLevel.value === LogLevel.TRACE) {

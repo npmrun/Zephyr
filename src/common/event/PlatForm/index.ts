@@ -24,6 +24,16 @@ class PlatForm extends _Base {
     return this.api.call("PlatFormCommand.showAbout")
   }
 
+  async showSrd() {
+    // return this.api.call("BasicService.showAbout")
+    return this.api.call("PlatFormCommand.showSrd")
+  }
+
+  async getSrdCookie() {
+    // return this.api.call("BasicService.showAbout")
+    return this.api.call("PlatFormCommand.getSrdCookie")
+  }
+
   async crash() {
     return this.api.call("PlatFormCommand.crash")
   }

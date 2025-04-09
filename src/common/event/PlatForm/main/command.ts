@@ -33,6 +33,39 @@ export default class PlatFormCommand {
     }
   }
 
+  getSrdCookie() {
+    let srdWindow = this._WindowManager.get("srd")
+    let mainWindow = this._WindowManager.getMainWindow()
+    if (srdWindow && mainWindow) {
+      console.log(srdWindow.webContents.session);
+      console.log(srdWindow.webContents.session.storagePath);
+      console.log(srdWindow.webContents.session.cookies);
+    }
+  }
+
+  showSrd(){
+    this._WindowManager.createWindow("srd", {
+      url: "https://www.srdcloud.cn/",
+      overideWindowOpts: true,
+      confrimWindowClose: false,
+      type: "info",
+      windowOpts: {
+        width: 600,
+        height: 400,
+        darkTheme: true,
+        modal: true,
+        show: false,
+        resizable: true,
+        webPreferences: {
+          devTools: false,
+          sandbox: false,
+          nodeIntegration: false,
+          contextIsolation: true,
+        },
+      },
+    })
+  }
+
   showAbout() {
     this._WindowManager.createWindow("about", {
       url: getFileUrl("about.html"),

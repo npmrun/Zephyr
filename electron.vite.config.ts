@@ -31,7 +31,7 @@ export default defineConfig({
       lib: {
         entry: {
           index: resolve(__dirname, "./src/preload/index.ts"),
-          loading: resolve(__dirname, "./src/preload/loading.ts"),
+          plugin: resolve(__dirname, "./src/preload/plugin.ts"),
         }
       }
     },

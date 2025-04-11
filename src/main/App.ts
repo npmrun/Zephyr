@@ -12,6 +12,7 @@ import DB from "./modules/db"
 import Zephyr from "./modules/zephyr"
 import Updater from "./modules/updater"
 import { crashHandler } from "logger/crash-handler"
+import { eventbus } from "./event"
 
 protocol.registerSchemesAsPrivileged([
   // {
@@ -43,6 +44,11 @@ protocol.registerSchemesAsPrivileged([
 
 @injectable()
 class App extends BaseClass {
+
+  static events = {
+    AppReady: "App.ready",
+  }
+
   destroy() {
     this._IOC.destroy()
     // 这里是应用正常退出, 可以检测应用是不是非正常退出，比如应用启动时记录一个启动时间并删除上一次结束时间和开始时间，结束时记录一个结束时间，
@@ -65,6 +71,8 @@ class App extends BaseClass {
     // 新开窗口的时候，会有个窗口闪烁的问题，也可以理解为渐入效果
     // 主进程中添加如下代码即可
     app.commandLine.appendSwitch("wm-window-animations-disabled")
+    // 开启硬件加速
+    app.disableHardwareAcceleration();
     crashHandler.init()
     this._Updater.init()
     this._DB.init()
@@ -81,6 +89,7 @@ class App extends BaseClass {
         color: "#F8F8F8",
         symbolColor: "#000000",
       })
+      eventbus.emit(App.events.AppReady)
     })
     app.on("will-quit", () => {
       this.destroy()

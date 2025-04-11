@@ -3,7 +3,7 @@ import { inject } from "inversify"
 import errorHandler from "logger/main-error"
 import Tabs from "main/modules/tabs"
 import WindowManager from "main/modules/window-manager"
-import { getFileUrl, getPreloadUrl } from "main/utils"
+import { getFileUrl } from "main/utils"
 import icon from "@res/icon.png?asset"
 import setting from "setting/main"
 import { LogLevel } from "logger/common"
@@ -33,41 +33,6 @@ export default class PlatFormCommand {
     }
   }
 
-  getSrdCookie() {
-    let srdWindow = this._WindowManager.get("srd")
-    let mainWindow = this._WindowManager.getMainWindow()
-    if (srdWindow && mainWindow) {
-      console.log(srdWindow.webContents.session)
-      console.log(srdWindow.webContents.session.storagePath)
-      console.log(srdWindow.webContents.session.cookies)
-    }
-  }
-
-  showSrd() {
-    this._WindowManager.createWindow("srd", {
-      url: "https://baidu.com/",
-      overideWindowOpts: true,
-      confrimWindowClose: false,
-      type: "info",
-      windowOpts: {
-        width: 600,
-        height: 400,
-        darkTheme: true,
-        modal: true,
-        show: true,
-        resizable: true,
-        icon: icon,
-        webPreferences: {
-          preload: getPreloadUrl("loading"),
-          devTools: false,
-          sandbox: false,
-          nodeIntegration: false,
-          contextIsolation: true,
-        },
-      },
-    })
-  }
-
   showAbout() {
     this._WindowManager.createWindow("about", {
       url: getFileUrl("about.html"),
@@ -80,6 +45,7 @@ export default class PlatFormCommand {
         minimizable: false,
         darkTheme: true,
         modal: true,
+        title: "关于我",
         show: true,
         resizable: false,
         icon: icon,

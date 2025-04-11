@@ -15,10 +15,15 @@ export class PopupMenu {
   private _id: string
   private _items: IMenuItemOption[]
   private _offs: any[] = []
+  private clickEvent: Function = ()=>{}
 
   constructor(menu_items: IMenuItemOption[]) {
     this._id = `popup_menu_${Math.floor(Math.random() * 1e8)}`
     this._items = menu_items
+  }
+
+  setClickEvent(fn: Function) {
+    this.clickEvent = fn
   }
 
   show(popupOptions?: PopupOptions) {
@@ -33,6 +38,16 @@ export class PopupMenu {
           const r = Math.floor(Math.random() * 1e8)
           const evt = `popup_menu_item_${_idx++}_${r}`
           const off = api.once(evt, d.click as any)
+          that._offs.push(off)
+          d._click_evt = evt
+          delete d.click
+        }
+        if(!d.click) {
+          const r = Math.floor(Math.random() * 1e8)
+          const evt = `popup_menu_item_${_idx++}_${r}`
+          const off = api.once(evt, (...argus)=>{
+            that.clickEvent(i, ...argus)
+          })
           that._offs.push(off)
           d._click_evt = evt
           delete d.click

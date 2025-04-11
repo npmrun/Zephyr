@@ -16,6 +16,7 @@
         <div relative h-full inline-flex items-center text-sm>{{ config.app_title }}</div>
         <div relative class="list">
           <div class="item" @click="onClickMenu">{{ t("browser.navbar.menu.label") }}</div>
+          <div class="item" @click="onClickPage">{{ ModuleStore.curModule?.label ?? "选择模块" }}</div>
         </div>
       </div>
       <div float-right h-full flex items-center relative style="-webkit-app-region: no-drag">
@@ -58,7 +59,8 @@
   import config from "config"
   import { PopupMenu } from "@/bridge/PopupMenu"
   import { usePlatForm } from "common/event/PlatForm/hook"
-import { LogLevel } from "logger/common"
+  import { LogLevel } from "logger/common"
+  import { useModuleStore } from "@/store/module.store"
 
   const PlatForm = usePlatForm()
 
@@ -114,21 +116,9 @@ import { LogLevel } from "logger/common"
         },
       },
       {
-        label: "打开研发云",
-        async click() {
-          PlatForm.showSrd()
-        },
-      },
-      {
-        label: "打开研发云Cookie",
-        async click() {
-          PlatForm.getSrdCookie()
-        },
-      },
-      {
         label: curLogLevel.value === LogLevel.TRACE ? "关闭调试模式" : "开启调试模式",
         async click() {
-          if(curLogLevel.value === LogLevel.TRACE) {
+          if (curLogLevel.value === LogLevel.TRACE) {
             await PlatForm.logSetLevel(LogLevel.INFO)
             curLogLevel.value = LogLevel.INFO
             return
@@ -145,11 +135,25 @@ import { LogLevel } from "logger/common"
   const onClickAbout = () => {
     PlatForm.showAbout()
   }
+
+  const ModuleStore = useModuleStore()
+
+  const onClickPage = async e => {
+    const menu = new PopupMenu(toRaw(ModuleStore.modules as any))
+    menu.setClickEvent(item => {
+      ModuleStore.setModule(item.id)
+      if(item.id === ModuleStore.ModuleType.CommonPanel) {
+        
+      }
+    })
+    const obj = e.target.getBoundingClientRect()
+    menu.show({ x: ~~obj.x, y: ~~(obj.y + obj.height) })
+  }
 </script>
 
 <style lang="scss" scoped>
   .list {
-    @apply: flex gap="5px";
+    @apply: flex gap-5px;
     -webkit-app-region: no-drag;
 
     .item {

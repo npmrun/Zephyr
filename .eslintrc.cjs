@@ -1,9 +1,9 @@
-const { readFileSync, readFile } = require("node:fs")
+const { readFileSync } = require("node:fs")
 
 /* eslint-env node */
 require("@rushstack/eslint-patch/modern-module-resolution")
 
-const prettierConfig = JSON.parse(readFileSync("./.prettierrc.json", { encoding: "utf-8" }))
+const prettierConfig = JSON.parse(readFileSync("./.prettierrc", { encoding: "utf-8" }))
 
 module.exports = {
   extends: [

@@ -80,7 +80,7 @@ export class Logger {
   /**
    * 构造函数
    */
-  private constructor() {}
+  // private constructor() {}
 
   public init(options?: LoggerOptions): void {
     this.callInitialize = true
@@ -260,7 +260,7 @@ export class Logger {
 // 默认实例
 const logger = Logger.getInstance()
 logger.init()
-setting.onChange("debug", function(n){
+setting.onChange("debug", function (n) {
   logger.setLevel(n.debug)
 })
 

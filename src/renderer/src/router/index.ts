@@ -13,13 +13,11 @@ const router = createRouter({
 })
 
 router.beforeEach((_to, _from, next)=>{
-  console.log("开始导航");
   NProgress.start();
   return next()
 })
-router
+
 router.afterEach((_to, _from, failure) => {
-  console.log("结束导航");
   NProgress.done();
   if (isNavigationFailure(failure)) {
     console.log('failed navigation', failure)

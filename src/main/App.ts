@@ -46,6 +46,7 @@ protocol.registerSchemesAsPrivileged([
 class App extends BaseClass {
 
   static events = {
+    AppInit: "App.init",
     AppReady: "App.ready",
   }
 
@@ -73,6 +74,7 @@ class App extends BaseClass {
     app.commandLine.appendSwitch("wm-window-animations-disabled")
     // 开启硬件加速
     app.disableHardwareAcceleration();
+    eventbus.emit(App.events.AppInit)
     crashHandler.init()
     this._Updater.init()
     this._DB.init()

@@ -11,8 +11,8 @@ import VueRouter from "unplugin-vue-router/vite"
 import Layouts from "vite-plugin-vue-layouts"
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite"
 import monacoEditorPlugin from "vite-plugin-monaco-editor"
-import IconsResolver from 'unplugin-icons/resolver'
-import Icons from 'unplugin-icons/vite'
+import IconsResolver from "unplugin-icons/resolver"
+import Icons from "unplugin-icons/vite"
 
 export default defineConfig({
   main: {
@@ -32,8 +32,8 @@ export default defineConfig({
         entry: {
           index: resolve(__dirname, "./src/preload/index.ts"),
           plugin: resolve(__dirname, "./src/preload/plugin.ts"),
-        }
-      }
+        },
+      },
     },
     plugins: [externalizeDepsPlugin()],
   },
@@ -110,9 +110,9 @@ export default defineConfig({
         dirs: ["src/components", "src/ui"],
         resolvers: [
           IconsResolver({
-            prefix: 'icon',
+            prefix: "icon",
           }),
-        ]
+        ],
       }),
       Icons(),
       // https://wf0.github.io/example/plugins/Formatter.html

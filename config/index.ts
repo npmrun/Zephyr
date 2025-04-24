@@ -10,7 +10,7 @@ type LogoType = "logo" | "bg"
 export interface IDefaultConfig {
   language: LanguageType
   "common.theme": ThemeType
-  "debug": LogLevel,
+  debug: LogLevel
   "desktop:wallpaper": string
   "update.repo"?: string
   "update.owner"?: string
@@ -19,6 +19,7 @@ export interface IDefaultConfig {
   "editor.bg": string
   "editor.logoType": LogoType
   "editor.fontFamily": string
+  "snippet.storagePath": string
   storagePath: string
 }
 
@@ -43,5 +44,6 @@ export default {
     "update.owner": "npmrun",
     "update.allowDowngrade": false,
     "update.allowPrerelease": false,
+    "snippet.storagePath": "$storagePath$/snippets",
   },
 } as const satisfies IConfig

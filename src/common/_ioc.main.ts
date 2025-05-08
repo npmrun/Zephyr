@@ -1,16 +1,26 @@
 import { Container, ContainerModule } from "inversify"
-import UpdateCommand from "common/event/Update/main/command"
-import PlatFormCommand from "common/event/PlatForm/main/command"
-import SnippetCommand from "common/event/Snippet/main/command"
-import TabsCommand from "common/event/Tabs/main/command"
+
+/**
+ * 自动加载所有命令模块
+ */
+const commandModules = import.meta.glob("./event/**/main/command.{ts,js}", { eager: true })
 
 const modules = new ContainerModule(bind => {
-  bind("TabsCommand").to(TabsCommand).inSingletonScope()
-  bind("PlatFormCommand").to(PlatFormCommand).inSingletonScope()
-  bind("SnippetCommand").to(SnippetCommand).inSingletonScope()
-  bind("UpdateCommand").to(UpdateCommand).inSingletonScope()
+  // 自动绑定所有命令类
+  Object.values(commandModules).forEach(module => {
+    // 由于 module 类型为 unknown，先进行类型断言为包含 default 属性的对象
+    const CommandClass = (module as { default: any }).default
+    if (CommandClass) {
+      const className = CommandClass.name.replace("Command", "")
+      bind(className + "Command").to(CommandClass).inSingletonScope()
+    }
+  })
 })
 
+/**
+ * 销毁所有命令绑定
+ * @param ioc - Inversify 容器实例
+ */
 async function destroyAllCommand(ioc: Container) {
   await ioc.unloadAsync(modules)
 }

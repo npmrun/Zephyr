@@ -17,6 +17,7 @@
         <div relative class="list">
           <div class="item" @click="onClickMenu">{{ t("browser.navbar.menu.label") }}</div>
           <div class="item" @click="onClickPage">{{ ModuleStore.curModule?.label ?? "选择模块" }}</div>
+          <div class="item" @click="onClickSetting">设置</div>
         </div>
       </div>
       <div float-right h-full flex items-center relative style="-webkit-app-region: no-drag">
@@ -149,6 +150,10 @@
     const obj = e.target.getBoundingClientRect()
     menu.show({ x: ~~obj.x, y: ~~(obj.y + obj.height) })
   }
+
+const onClickSetting = () => {
+  router.push("/setting")
+}
 </script>
 
 <style lang="scss" scoped>

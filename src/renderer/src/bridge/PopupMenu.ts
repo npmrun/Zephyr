@@ -34,20 +34,21 @@ export class PopupMenu {
     function readMenu(_items: IMenuItemOption[]) {
       return _items.map(i => {
         const d = { ...i }
-        if (typeof d.click === "function") {
-          const r = Math.floor(Math.random() * 1e8)
-          const evt = `popup_menu_item_${_idx++}_${r}`
-          const off = api.once(evt, d.click as any)
-          that._offs.push(off)
-          d._click_evt = evt
-          delete d.click
-        }
         if(!d.click) {
           const r = Math.floor(Math.random() * 1e8)
           const evt = `popup_menu_item_${_idx++}_${r}`
           const off = api.once(evt, (...argus)=>{
+            console.log(1231);
             that.clickEvent(i, ...argus)
           })
+          that._offs.push(off)
+          d._click_evt = evt
+          delete d.click
+        }
+        if (typeof d.click === "function") {
+          const r = Math.floor(Math.random() * 1e8)
+          const evt = `popup_menu_item_${_idx++}_${r}`
+          const off = api.once(evt, d.click as any)
           that._offs.push(off)
           d._click_evt = evt
           delete d.click

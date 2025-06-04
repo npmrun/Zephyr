@@ -1,6 +1,6 @@
-import { _Base } from "../../lib/_Base"
+import { BaseSingleton } from "base"
 
-export class Tabs extends _Base {
+export class Tabs extends BaseSingleton {
   constructor() {
     super()
   }

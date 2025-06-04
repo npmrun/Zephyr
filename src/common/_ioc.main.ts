@@ -12,7 +12,12 @@ const modules = new ContainerModule(bind => {
     const CommandClass = (module as { default: any }).default
     if (CommandClass) {
       const className = CommandClass.name.replace("Command", "")
-      bind(className + "Command").to(CommandClass).inSingletonScope()
+      if (CommandClass["init"]) {
+        CommandClass["init"]()
+      }
+      bind(className + "Command")
+        .to(CommandClass)
+        .inSingletonScope()
     }
   })
 })

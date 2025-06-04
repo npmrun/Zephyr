@@ -1,7 +1,7 @@
-import { _Base } from "common/lib/_Base"
+import { BaseSingleton } from "base"
 import { ApiFactory } from "common/lib/abstract"
 
-class Snippet extends _Base {
+class Snippet extends BaseSingleton {
   constructor() {
     super()
   }

@@ -5,11 +5,9 @@ import { WindowManager } from "./window-manager"
 import { Tabs } from "./tabs"
 import Commands from "./commands"
 import Zephyr from "./zephyr"
-import Updater from "./updater"
 
 const modules = new ContainerModule(bind => {
   bind(Zephyr).toSelf().inSingletonScope()
-  bind(Updater).toSelf().inSingletonScope()
   bind(Api).toSelf().inSingletonScope()
   bind(WindowManager).toSelf().inSingletonScope()
   bind(Commands).toSelf().inSingletonScope()
@@ -21,7 +19,6 @@ async function destroyAllModules(ioc: Container) {
   await Promise.all([
     ioc.get(WindowManager).destroy(),
     ioc.get(Commands).destroy(),
-    ioc.get(Updater).destroy(),
     ioc.get(Zephyr).destroy(),
     ioc.get(Tabs).destroy(),
     ioc.get(Api).destroy(),

@@ -12,7 +12,7 @@ export function getFileUrl(app: string) {
   return slash(winURL)
 }
 
-export function getPreloadUrl(file){
+export function getPreloadUrl(file) {
   return join(__dirname, `../preload/${file}.mjs`)
 }
 

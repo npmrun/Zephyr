@@ -11,7 +11,7 @@ interface IRect {
   height: number
 }
 
-const debug = _debug("app:tabs")
+const debug = _debug("tabs")
 
 class Tabs extends BaseClass {
   destroy() {

@@ -1,23 +1,22 @@
 import pkg from "electron-updater"
 import { app, dialog } from "electron"
-import { injectable } from "inversify"
-import BaseClass from "main/base/base"
-// import { Setting } from "../setting"
-import _debug from "debug"
+import Setting from "setting/main"
 import EventEmitter from "events"
+import { BaseSingleton } from "base"
 import { fetchHotUpdatePackage, flagNeedUpdate } from "./hot"
 import Locales from "locales/main"
+import _logger from "logger/main"
 
-const debug = _debug("app:updater")
+const logger = _logger.createNamespace("updater")
 const { autoUpdater } = pkg
 
-@injectable()
-export class Updater extends BaseClass {
+class _Updater extends BaseSingleton {
   public events = new EventEmitter()
   private timer: ReturnType<typeof setInterval> | null = null
   // autoReplace = false
   async triggerHotUpdate(autoReplace = false) {
-    await fetchHotUpdatePackage()
+    const url = Setting.values("update.hoturl")
+    await fetchHotUpdatePackage(url)
     flagNeedUpdate()
     if (!autoReplace) {
       dialog.showMessageBox({
@@ -31,42 +30,41 @@ export class Updater extends BaseClass {
 
   constructor() {
     super()
-
     // 配置自动更新
     autoUpdater.autoDownload = false
     autoUpdater.autoInstallOnAppQuit = true
 
     // 检查更新错误
     autoUpdater.on("error", error => {
-      debug("Update error:", error)
+      logger.debug("Update error:", error)
     })
 
     // 检查更新
     autoUpdater.on("checking-for-update", () => {
-      debug("Checking for updates...")
+      logger.debug("Checking for updates...")
     })
 
     // 有可用更新
     autoUpdater.on("update-available", info => {
-      debug("Update available:", info)
+      logger.debug("Update available:", info)
       this.promptUserToUpdate()
     })
 
     // 没有可用更新
     autoUpdater.on("update-not-available", info => {
-      debug("Update not available:", info)
+      logger.debug("Update not available:", info)
     })
 
     // 更新下载进度
     autoUpdater.on("download-progress", progressObj => {
-      debug(
+      logger.debug(
         `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`,
       )
     })
 
     // 更新下载完成
     autoUpdater.on("update-downloaded", info => {
-      debug("Update downloaded:", info)
+      logger.debug("Update downloaded:", info)
       this.promptUserToInstall()
     })
   }
@@ -95,9 +93,12 @@ export class Updater extends BaseClass {
     if (app.isPackaged) {
       try {
         await autoUpdater.checkForUpdates()
+        logger.debug("Updater初始化检查成功.")
       } catch (error) {
-        debug("Failed to check for updates:", error)
+        logger.debug("Failed to check for updates:", error)
       }
+    } else {
+      logger.debug("正在开发模式，跳过更新检查.")
     }
   }
 
@@ -130,4 +131,7 @@ export class Updater extends BaseClass {
   }
 }
 
+const Updater = _Updater.getInstance()
+
+export { Updater }
 export default Updater

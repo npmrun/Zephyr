@@ -10,9 +10,7 @@ import BaseClass from "./base/base"
 import IOC from "./_ioc"
 import DB from "./modules/db"
 import Zephyr from "./modules/zephyr"
-import Updater from "./modules/updater"
 import { crashHandler } from "logger/crash-handler"
-import { eventbus } from "./event"
 
 protocol.registerSchemesAsPrivileged([
   // {
@@ -44,12 +42,6 @@ protocol.registerSchemesAsPrivileged([
 
 @injectable()
 class App extends BaseClass {
-
-  static events = {
-    AppInit: "App.init",
-    AppReady: "App.ready",
-  }
-
   destroy() {
     this._IOC.destroy()
     // 这里是应用正常退出, 可以检测应用是不是非正常退出，比如应用启动时记录一个启动时间并删除上一次结束时间和开始时间，结束时记录一个结束时间，
@@ -63,7 +55,6 @@ class App extends BaseClass {
     @inject(DB) private _DB: DB,
     @inject(WindowManager) private _WindowManager: WindowManager,
     @inject(Zephyr) private _Zephyr: Zephyr,
-    @inject(Updater) private _Updater: Updater,
   ) {
     super()
   }
@@ -73,10 +64,8 @@ class App extends BaseClass {
     // 主进程中添加如下代码即可
     app.commandLine.appendSwitch("wm-window-animations-disabled")
     // 开启硬件加速
-    app.disableHardwareAcceleration();
-    eventbus.emit(App.events.AppInit)
+    app.disableHardwareAcceleration()
     crashHandler.init()
-    this._Updater.init()
     this._DB.init()
     this._Command.init()
     this._WindowManager.init()
@@ -91,7 +80,6 @@ class App extends BaseClass {
         color: "#F8F8F8",
         symbolColor: "#000000",
       })
-      eventbus.emit(App.events.AppReady)
     })
     app.on("will-quit", () => {
       this.destroy()

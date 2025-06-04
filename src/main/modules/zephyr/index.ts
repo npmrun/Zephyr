@@ -1,12 +1,12 @@
 import { session, net } from "electron"
 import { injectable } from "inversify"
 import BaseClass from "main/base/base"
-import _debug from "debug"
+import _logger from "logger/main"
 import fs from "fs"
 import path from "path"
 import { app } from "electron"
 
-const debug = _debug("app:zephyr")
+const logger = _logger.createNamespace("zephyr")
 
 /**
  * Zephyr 模块 - 安全的本地文件访问协议
@@ -108,7 +108,7 @@ class Zephyr extends BaseClass {
     super()
     this.interceptHandlerZephyr = this.interceptHandlerZephyr.bind(this)
     this.initLogFile()
-    debug("zephyr init")
+    logger.debug("zephyr init")
   }
 
   private async initLogFile() {
@@ -135,7 +135,7 @@ class Zephyr extends BaseClass {
     const count = this.rateLimiter.get(filePath) || 0
 
     if (count >= this.MAX_REQUESTS) {
-      debug("访问频率超限:", filePath)
+      logger.debug("访问频率超限:", filePath)
       return true
     }
 
@@ -164,7 +164,7 @@ class Zephyr extends BaseClass {
     try {
       await fs.promises.appendFile(this.LOG_FILE, JSON.stringify(logEntry) + "\n", "utf8")
     } catch (error) {
-      debug("写入审计日志失败:", error)
+      logger.debug("写入审计日志失败:", error)
     }
   }
 
@@ -197,18 +197,17 @@ class Zephyr extends BaseClass {
     ses.protocol.unhandle("zephyr")
     this.fileLocks.clear()
     this.rateLimiter.clear()
-    debug("zephyr destroyed")
   }
 
   init(partition?: string) {
     const ses = partition ? session.fromPartition(partition) : session.defaultSession
     ses.protocol.handle("zephyr", this.interceptHandlerZephyr)
-    debug("zephyr initialized with partition:", partition)
+    logger.debug("zephyr initialized with partition:", partition)
   }
 
   setAllowedPaths(config: Partial<typeof this.pathConfig>) {
     Object.assign(this.pathConfig, config)
-    debug("Updated allowed paths:", this.pathConfig)
+    logger.debug("Updated allowed paths:", this.pathConfig)
   }
 
   private isValidPath(filePath: string): boolean {
@@ -233,32 +232,32 @@ class Zephyr extends BaseClass {
     try {
       // 1. 基本路径检查
       if (!this.isValidPath(filePath)) {
-        debug("不安全的路径字符:", filePath)
+        logger.debug("不安全的路径字符:", filePath)
         return false
       }
 
       // 2. 检查是否包含 .. 路径
       if (filePath.includes("..")) {
-        debug("检测到路径遍历尝试")
+        logger.debug("检测到路径遍历尝试")
         return false
       }
 
       // 3. 检查符号链接
       if (await this.isSymlink(filePath)) {
-        debug("不允许访问符号链接")
+        logger.debug("不允许访问符号链接")
         return false
       }
 
       // 4. 检查文件大小
       if (!(await this.checkFileSize(filePath))) {
-        debug("文件超出大小限制")
+        logger.debug("文件超出大小限制")
         return false
       }
 
       // 5. 文件类型检查
       const ext = path.extname(filePath).toLowerCase()
       if (!this.ALLOWED_EXTENSIONS.includes(ext)) {
-        debug("不允许的文件类型:", ext)
+        logger.debug("不允许的文件类型:", ext)
         return false
       }
 
@@ -274,7 +273,7 @@ class Zephyr extends BaseClass {
       })
 
       if (!isInAllowedPath) {
-        debug("路径不在允许范围内")
+        logger.debug("路径不在允许范围内")
         return false
       }
 
@@ -294,7 +293,7 @@ class Zephyr extends BaseClass {
       return true
     } catch (error: any) {
       await this.logAccess(operation, filePath, false, error.message)
-      debug("路径安全检查错误:", error)
+      logger.debug("路径安全检查错误:", error)
       return false
     }
   }
@@ -314,7 +313,7 @@ class Zephyr extends BaseClass {
       }
 
       if (!(await this.isPathSafe(filePath, operation))) {
-        debug("访问被拒绝:", filePath)
+        logger.debug("访问被拒绝:", filePath)
         return new Response("Access Denied", { status: 403 })
       }
 
@@ -328,7 +327,7 @@ class Zephyr extends BaseClass {
           return new Response("Operation not supported", { status: 400 })
       }
     } catch (error) {
-      debug("处理请求错误:", error)
+      logger.debug("处理请求错误:", error)
       return new Response("Internal Server Error", { status: 500 })
     }
   }
@@ -420,7 +419,7 @@ class Zephyr extends BaseClass {
       case this.OPERATIONS.WRITE:
         return this.pathConfig.write
       default:
-        debug("未知的操作类型:", operation)
+        logger.debug("未知的操作类型:", operation)
         return null
     }
   }

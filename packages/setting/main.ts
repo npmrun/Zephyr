@@ -4,9 +4,9 @@ import path from "path"
 import { cloneDeep } from "lodash"
 import Config from "config"
 import type { IDefaultConfig } from "config"
-import _debug from "debug"
+import _logger from "logger/main"
 
-const debug = _debug("app:setting")
+const logger = _logger.createNamespace("setting")
 
 type IConfig = IDefaultConfig
 
@@ -59,7 +59,7 @@ function isEmptyDir(fPath: string) {
 
 class SettingClass {
   constructor() {
-    debug(`Setting inited`)
+    logger.debug(`Setting inited`)
     this.init()
   }
 
@@ -122,7 +122,7 @@ class SettingClass {
     }
   }
   init() {
-    debug(`位置：${this.#pathFile}`)
+    logger.debug(`位置：${this.#pathFile}`)
 
     if (fs.pathExistsSync(this.#pathFile)) {
       const confingPath = fs.readFileSync(this.#pathFile, { encoding: "utf8" })

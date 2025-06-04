@@ -1,8 +1,8 @@
-import { _Base } from "common/lib/_Base"
 import { ApiFactory } from "common/lib/abstract"
+import { BaseSingleton } from "base"
 import { LogLevel } from "packages/logger/common"
 
-class PlatForm extends _Base {
+class PlatForm extends BaseSingleton {
   constructor() {
     super()
   }

@@ -13,12 +13,17 @@
         "packages/logger/preload.ts",
         "packages/logger/preload-error.ts",
         "packages/logger/common.ts",
+        "packages/**/*.main.ts",
+        "packages/**/main/**/*",
+        "packages/**/main.ts",
+        "packages/**/*.common.ts",
+        "packages/**/common.ts",
         "src/common/**/*.main.ts",
         "src/common/**/main/**/*",
         "src/common/**/main.ts",
         "src/common/**/*.common.ts",
         "src/common/**/common.ts"
-, "src/common/event/_Base.ts"    ],
+    ],
     "compilerOptions": {
         "composite": true,
         "emitDecoratorMetadata": true,
@@ -58,6 +63,9 @@
             ],
             "logger/*": [
                 "packages/logger/*"
+            ],
+            "base/*": [
+                "packages/base/*"
             ],
         }
     }

@@ -5,7 +5,6 @@ import setting from "setting/main"
 import * as rfs from "rotating-file-stream"
 import { LogLevel, LogLevelColor, LogLevelName } from "./common"
 
-
 // 重置颜色的ANSI代码
 const RESET_COLOR = "\x1b[0m"
 

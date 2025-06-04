@@ -5,8 +5,9 @@ import _debug from "debug"
 // import { Layout } from "./Constant"
 import FuckHTML from "@res/fuck.html?asset"
 import { fileURLToPath, pathToFileURL } from "node:url"
+import EventEmitter from "node:events"
 
-const debug = _debug("app:tab")
+const debug = _debug("tab")
 
 interface IOption {
   url: string
@@ -24,6 +25,7 @@ class Tab extends BaseClass {
   init() {
     // TODO
   }
+  public events = new EventEmitter()
   public url: string = ""
   public showUrl: string = ""
   public title: string = ""
@@ -53,10 +55,6 @@ class Tab extends BaseClass {
 
   get isActive() {
     return this.active
-  }
-
-  get events() {
-    return this._events
   }
 
   constructor(options = {}, window: BrowserWindow, curRect?: IRect) {

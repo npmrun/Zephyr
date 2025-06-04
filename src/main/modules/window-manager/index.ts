@@ -3,7 +3,6 @@ import { cloneDeep, merge } from "lodash"
 import { defaultConfig, defaultWindowConfig, getWindowsMap, IConfig, Param } from "./windowsMap"
 import { optimizer } from "@electron-toolkit/utils"
 import BaseClass from "main/base/base"
-import _debug from "debug"
 import _logger from "logger/main"
 
 const logger = _logger.createNamespace("modlue:window-manager") // _debug("app:window-manager")
@@ -66,7 +65,7 @@ export default class WindowManager extends BaseClass {
   }
 
   createWindow(name: string, opts?: Partial<IConfig>){
-    let info = opts as Param
+    const info = opts as Param
     info.name = name
     if (!info.ignoreEmptyUrl && !info.url) {
       dialog.showErrorBox("错误", name + "窗口未提供url")

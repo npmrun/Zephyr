@@ -3,14 +3,14 @@ import Setting from "setting/main"
 import { CustomAdapter, CustomLow } from "./custom"
 import path from "node:path"
 import BaseClass from "main/base/base"
-import _debug from "debug"
+import _logger from "logger/main"
 
-const debug = _debug("app:db")
+const logger = _logger.createNamespace("db")
 
 @injectable()
 class DB extends BaseClass {
   destroy() {
-    debug(`DB destroy`)
+    logger.debug(`DB destroy`)
   }
   Modules: Record<string, CustomLow<any>> = {}
 

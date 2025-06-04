@@ -3,11 +3,13 @@ import fs from "node:fs"
 import path from "node:path"
 import os from "node:os"
 import { app } from "electron"
+import download from "./download"
 import extract from "extract-zip"
-import { emitHotUpdateReady } from "common/event/Update/main"
 
-import _debug from "debug"
-const debug = _debug("app:hot-updater")
+import _logger from "logger/main"
+import { emit, EventEnum } from "../handler"
+
+const logger = _logger.createNamespace("hot-updater")
 
 function getUpdateScriptTemplate() {
   return process.platform === "win32"
@@ -71,7 +73,7 @@ app.once("will-quit", event => {
 })
 
 // 下载热更新包
-export async function fetchHotUpdatePackage(updatePackageUrl: string = "https://example.com/updates/latest.zip") {
+export async function fetchHotUpdatePackage(updatePackageUrl: string) {
   if (isReadyUpdate) return
 
   // 清除临时目录
@@ -86,24 +88,22 @@ export async function fetchHotUpdatePackage(updatePackageUrl: string = "https://
 
   try {
     // 使用 fetch 下载更新包
-    const response = await fetch(updatePackageUrl)
-    if (!response.ok) {
-      throw new Error(`下载失败: ${response.status} ${response.statusText}`)
-    }
-
-    // 将下载内容写入文件
-    const arrayBuffer = await response.arrayBuffer()
+    const arrayBuffer = await download({
+      url: updatePackageUrl,
+      onprocess(now, all) {
+        logger.debug(`下载进度: ${((now / all) * 100).toFixed(2)}%`)
+        emit(EventEnum.UPDATE_PROGRESS, { percent: (now / all) * 100, now, all })
+      },
+    })
     fs.writeFileSync(downloadPath, Buffer.from(arrayBuffer))
-
     // 解压更新包
     await extract(downloadPath, { dir: updateTempDirPath })
 
     // 删除下载的zip文件
     fs.unlinkSync(downloadPath)
     isReadyUpdate = true
-    emitHotUpdateReady()
   } catch (error) {
-    debug("热更新包下载失败:", error)
+    logger.debug("热更新包下载失败:", error)
     throw error
   }
 }

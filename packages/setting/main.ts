@@ -228,3 +228,4 @@ const Setting = new SettingClass()
 
 export default Setting
 export { Setting }
+export type { IConfig, IOnFunc }

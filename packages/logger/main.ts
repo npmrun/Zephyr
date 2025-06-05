@@ -1,9 +1,10 @@
 import { app, ipcMain } from "electron"
 import fs from "fs"
 import path from "path"
-import setting from "setting/main"
+import config from "config"
 import * as rfs from "rotating-file-stream"
 import { LogLevel, LogLevelColor, LogLevelName } from "./common"
+import { emitter } from "setting/main/event"
 
 // 重置颜色的ANSI代码
 const RESET_COLOR = "\x1b[0m"
@@ -20,7 +21,7 @@ export interface LoggerOptions {
 
 // 默认配置
 const DEFAULT_OPTIONS: LoggerOptions = {
-  level: setting.values("debug"),
+  level: config.default_config.debug,
   namespace: "app",
   console: true,
   file: true,
@@ -259,8 +260,8 @@ export class Logger {
 // 默认实例
 const logger = Logger.getInstance()
 logger.init()
-setting.onChange("debug", function (n) {
-  logger.setLevel(n.debug)
+emitter.on("update", setting => {
+  logger.setLevel(setting.debug)
 })
 
 // 应用退出时关闭日志流

@@ -21,7 +21,7 @@ export interface LoggerOptions {
 
 // 默认配置
 const DEFAULT_OPTIONS: LoggerOptions = {
-  level: config.default_config.debug,
+  level: config.AppConfig["dev:debug"],
   namespace: "app",
   console: true,
   file: true,
@@ -261,7 +261,7 @@ export class Logger {
 const logger = Logger.getInstance()
 logger.init()
 emitter.on("update", setting => {
-  logger.setLevel(setting.debug)
+  logger.setLevel(setting["dev:debug"])
 })
 
 // 应用退出时关闭日志流

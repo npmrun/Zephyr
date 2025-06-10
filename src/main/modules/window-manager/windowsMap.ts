@@ -1,4 +1,4 @@
-import config from "config"
+import Config from "config"
 import { BrowserWindowConstructorOptions } from "electron"
 import { getFileUrl, getPreloadUrl } from "main/utils"
 import icon from "@res/icon.png?asset"
@@ -49,7 +49,7 @@ export function getWindowsMap(): Record<string, IConfig> {
       url: getFileUrl("index.html"),
       confrimWindowClose: true,
       confrimWindowCloseText: {
-        title: config.app_title,
+        title: Config.ExeConfig.name,
         defaultId: 0,
         cancelId: 0,
         message: "确定要关闭吗？",
@@ -73,7 +73,7 @@ export function getWindowsMap(): Record<string, IConfig> {
       overideWindowOpts: false,
       confrimWindowClose: true,
       confrimWindowCloseText: {
-        title: config.app_title,
+        title: Config.ExeConfig.name,
         defaultId: 0,
         cancelId: 0,
         message: "确定要关闭吗？",
@@ -92,7 +92,7 @@ export function getWindowsMap(): Record<string, IConfig> {
         transparent: false,
         alwaysOnTop: false,
         icon: icon,
-        title: config.app_title,
+        title: Config.ExeConfig.name,
         webPreferences: {
           devTools: false,
           sandbox: true,

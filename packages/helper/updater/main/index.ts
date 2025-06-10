@@ -1,17 +1,17 @@
 import pkg from "electron-updater"
 import { app, dialog } from "electron"
 import Setting from "setting/main"
-import EventEmitter from "events"
 import { BaseSingleton } from "base"
 import { fetchHotUpdatePackage, flagNeedUpdate } from "./hot"
 import Locales from "locales/main"
 import _logger from "logger/main"
+import { buildEmitter } from "base/event/main"
 
 const logger = _logger.createNamespace("updater")
 const { autoUpdater } = pkg
 
 class _Updater extends BaseSingleton {
-  public events = new EventEmitter()
+  public events = buildEmitter()
   private timer: ReturnType<typeof setInterval> | null = null
   // autoReplace = false
   async triggerHotUpdate(autoReplace = false) {

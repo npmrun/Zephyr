@@ -1,10 +1,10 @@
-import { EventEnum } from "helper/updater/common"
+// import { EventEnum } from "helper/updater/common"
 
 const curProgress = ref(0)
 
-api.on(EventEnum.UPDATE_PROGRESS, ({ percent, now, all }) => {
-  curProgress.value = percent
-})
+// .on(EventEnum.UPDATE_PROGRESS, ({ percent, now, all }) => {
+//   curProgress.value = percent
+// })
 
 function useUpdate() {
   return {

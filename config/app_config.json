@@ -1,0 +1,11 @@
+{
+  "storagePath": "$storagePath$",
+  "language": "zh",
+  "dev:debug": 2,
+  "common.theme": "auto",
+  "update.hoturl": "https://alist.xieyaxin.top/d/%E8%B5%84%E6%BA%90/%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6.zip?sign=eqy35CR-J1SOQZz0iUN2P3B0BiyZPdYH0362nLXbUhE=:1749085071",
+  "update.repo": "wood-desktop",
+  "update.owner": "npmrun",
+  "update.allowDowngrade": false,
+  "update.allowPrerelease": false
+}

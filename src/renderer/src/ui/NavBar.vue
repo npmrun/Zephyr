@@ -13,7 +13,7 @@
     <div h-full px-2 flex items-center gap-1 justify-between>
       <div flex items-center gap-1>
         <img w="16px" h="16px" :src="icon" />
-        <div relative h-full inline-flex items-center text-sm>{{ config.app_title }}</div>
+        <div relative h-full inline-flex items-center text-sm>{{ Config.ExeConfig.name }}</div>
         <div relative class="list">
           <div class="item" @click="onClickMenu">{{ t("browser.navbar.menu.label") }}</div>
           <div class="item" @click="onClickPage">{{ ModuleStore.curModule?.label ?? "选择模块" }}</div>
@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
   import icon from "@res/icon.png"
-  import config from "config"
+  import Config from "config"
   import { PopupMenu } from "@/bridge/PopupMenu"
   import { usePlatForm } from "common/event/PlatForm/hook"
   import { LogLevel } from "logger/common"
@@ -143,17 +143,15 @@
     const menu = new PopupMenu(toRaw(ModuleStore.modules as any))
     menu.setClickEvent(item => {
       ModuleStore.setModule(item.id)
-      if(item.id === ModuleStore.ModuleType.CommonPanel) {
-        
-      }
+      // if (item.id === ModuleStore.ModuleType.CommonPanel) {}
     })
     const obj = e.target.getBoundingClientRect()
     menu.show({ x: ~~obj.x, y: ~~(obj.y + obj.height) })
   }
 
-const onClickSetting = () => {
-  router.push("/setting")
-}
+  const onClickSetting = () => {
+    router.push("/setting")
+  }
 </script>
 
 <style lang="scss" scoped>

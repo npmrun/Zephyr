@@ -1,0 +1,16 @@
+{
+  "name": "zephyr",
+  "appId": "com.zephyr.app",
+  "win": {
+    "executableName": "zephyr"
+  },
+  "linux": {
+    "target": ["AppImage", "snap", "deb"],
+    "maintainer": "electronjs.org",
+    "category": "Utility"
+  },
+  "publish": {
+    "provider": "generic",
+    "url": "https://example.com/auto-updates"
+  }
+}

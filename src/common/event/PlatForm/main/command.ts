@@ -19,11 +19,11 @@ export default class PlatFormCommand {
   }
 
   logSetLevel(level: LogLevel) {
-    return setting.set("debug", level)
+    return setting.set("dev:debug", level)
   }
 
   logGetLevel() {
-    return setting.values("debug")
+    return setting.values("dev:debug")
   }
 
   setTitlBar(options: TitleBarOverlayOptions) {

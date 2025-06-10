@@ -3,24 +3,22 @@ import { app } from "electron"
 import path from "path"
 import { cloneDeep } from "lodash"
 import Config from "config"
-import type { IDefaultConfig } from "config"
+import type { IConfig } from "config"
 import _logger from "logger/main"
 
 const logger = _logger.createNamespace("setting")
 
-type IConfig = IDefaultConfig
-
 type IOnFunc = (n: IConfig, c: IConfig, keys?: (keyof IConfig)[]) => void
 type IT = (keyof IConfig)[] | keyof IConfig | "_"
 
-let storagePath = path.join(app.getPath("documents"), Config.app_title)
-const storagePathDev = path.join(app.getPath("documents"), Config.app_title + "-dev")
+let storagePath = path.join(app.getPath("documents"), Config.ExeConfig.name)
+const storagePathDev = path.join(app.getPath("documents"), Config.ExeConfig.name + "-dev")
 
 if (process.env.NODE_ENV === "development") {
   storagePath = storagePathDev
 }
 
-const _tempConfig = cloneDeep(Config.default_config as IConfig)
+const _tempConfig = cloneDeep(Config.AppConfig as IConfig)
 Object.keys(_tempConfig).forEach(key => {
   if (typeof _tempConfig[key] === "string" && _tempConfig[key].includes("$storagePath$")) {
     _tempConfig[key] = _tempConfig[key].replace(/\$storagePath\$/g, storagePath)

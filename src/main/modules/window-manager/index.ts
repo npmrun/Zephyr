@@ -64,7 +64,7 @@ export default class WindowManager extends BaseClass {
     await this.isMainShowReady
   }
 
-  createWindow(name: string, opts?: Partial<IConfig>){
+  createWindow(name: string, opts?: Partial<IConfig>) {
     const info = opts as Param
     info.name = name
     if (!info.ignoreEmptyUrl && !info.url) {

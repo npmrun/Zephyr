@@ -1,14 +1,17 @@
-import fs from "node:fs"
+// import fs from "fs"
+const fs = require("fs")
 const text = fs.readFileSync("./config/exe_config.json", "utf8")
 const ExeConfig = JSON.parse(text)
 
-export default {
+module.exports = {
   appId: ExeConfig.appId,
   productName: ExeConfig.name,
   directories: {
     buildResources: "build",
   },
   files: [
+    "out/**/*",
+    "package.json",
     "!**/.vscode/*",
     "!src/*",
     "!electron.vite.config.{js,ts,mjs,cjs}",

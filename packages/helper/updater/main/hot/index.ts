@@ -7,7 +7,7 @@ import download from "./download"
 import extract from "extract-zip"
 
 import _logger from "logger/main"
-import { emit, EventEnum } from "../handler"
+import { emit } from "../handler"
 
 const logger = _logger.createNamespace("hot-updater")
 
@@ -92,7 +92,7 @@ export async function fetchHotUpdatePackage(updatePackageUrl: string) {
       url: updatePackageUrl,
       onprocess(now, all) {
         logger.debug(`下载进度: ${((now / all) * 100).toFixed(2)}%`)
-        emit(EventEnum.UPDATE_PROGRESS, { percent: (now / all) * 100, now, all })
+        emit("update-progress", { percent: (now / all) * 100, now, all })
       },
     })
     fs.writeFileSync(downloadPath, Buffer.from(arrayBuffer))

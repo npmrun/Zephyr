@@ -1,7 +1,7 @@
 import { inject } from "inversify"
 import Tabs from "main/modules/tabs"
 import WindowManager from "main/modules/window-manager"
-import { broadcast } from "main/utils"
+import { broadcast } from "utils/main"
 
 class TabsCommand {
   constructor(

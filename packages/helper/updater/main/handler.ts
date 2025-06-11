@@ -1,8 +1,6 @@
-import { broadcast } from "main/utils"
-import { EventEnum } from "../common"
+import { broadcast } from "utils/main"
+import { EventMaps } from "../common"
 
-export { EventEnum }
-
-export function emit(key: EventEnum, ...args: any[]) {
+export function emit(key: keyof EventMaps, ...args: Parameters<EventMaps[keyof EventMaps]>) {
   broadcast(key, ...args)
 }

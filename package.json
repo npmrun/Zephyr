@@ -73,6 +73,7 @@
     "simplebar-vue": "^2.4.0",
     "typescript": "^5.7.3",
     "unocss": "^0.64.1",
+    "utils": "workspace:*",
     "unplugin-auto-import": "^19.1.0",
     "unplugin-icons": "^22.1.0",
     "unplugin-vue-components": "^28.4.0",

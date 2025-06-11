@@ -1,12 +1,12 @@
 type FireFN = (...argu: any[]) => void
 
 type Api<T extends Record<string | symbol, FireFN>> = {
-  call: <S extends keyof T>(command: S, ...args: Parameters<T[S]>) => ReturnType<T[S]>
-  callLong: <S extends keyof T>(command: S, ...args: Parameters<T[S]>) => ReturnType<T[S]>
-  callSync: <S extends keyof T>(command: S, ...args: Parameters<T[S]>) => ReturnType<T[S]>
-  send: <S extends keyof T>(command: S, ...argu: Parameters<T[S]>) => ReturnType<T[S]>
-  sendSync: <S extends keyof T>(command: S, ...argu: Parameters<T[S]>) => ReturnType<T[S]>
-  on: <S extends keyof T>(command: S, cb: (event: IpcRendererEvent, ...args: Parameters<T[S]>) => void) => () => void
+  call: (command: string, ...args: any[]) => any
+  callLong: (command: string, ...args: any[]) => any
+  callSync: (command: string, ...args: any[]) => any
+  send: (command: string, ...argu: any[]) => any
+  sendSync: (command: string, ...argu: any[]) => any
+  on: <S extends keyof T>(command: S, cb: (event: IpcRendererEventIpcRendererEvent, ...args: Parameters<T[S]>) => void) => () => void
   once: <S extends keyof T>(command: S, cb: (event: IpcRendererEvent, ...args: Parameters<T[S]>) => void) => () => void
   off: <S extends keyof T>(command: S, cb: (event: IpcRendererEvent, ...args: Parameters<T[S]>) => void) => void
   offAll: <S extends keyof T>(command: S) => void

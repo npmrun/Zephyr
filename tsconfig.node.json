@@ -3,6 +3,7 @@
     "include": [
         "electron.vite.config.*",
         "src/main/**/*",
+        "src/types/popup-menu.d.ts",
         "src/preload/**/*",
         "config/**/*",
         "packages/locales/main.ts",
@@ -66,6 +67,9 @@
             ],
             "base/*": [
                 "packages/base/*"
+            ],
+            "utils/*": [
+                "packages/utils/*"
             ],
         }
     }

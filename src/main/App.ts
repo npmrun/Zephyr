@@ -11,6 +11,7 @@ import IOC from "./_ioc"
 import DB from "./modules/db"
 import Zephyr from "./modules/zephyr"
 import { crashHandler } from "logger/crash-handler"
+import logger from "logger/main"
 
 protocol.registerSchemesAsPrivileged([
   // {
@@ -60,6 +61,7 @@ class App extends BaseClass {
   }
 
   async init() {
+    logger.debug("初始化App")
     // 新开窗口的时候，会有个窗口闪烁的问题，也可以理解为渐入效果
     // 主进程中添加如下代码即可
     app.commandLine.appendSwitch("wm-window-animations-disabled")

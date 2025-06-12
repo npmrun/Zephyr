@@ -11,6 +11,11 @@ export class BrowserApiClient implements IApiClient {
     }).then(res => res.json())
   }
 
+  callSync(): void {
+    // 浏览器特定实现，可能使用 fetch 或其他方式
+    console.log("不支持 callSync 方法")
+  }
+
   // 实现其他方法...
   on<K extends string>(channel: K, callback: (...args: any[]) => void): void {
     // 浏览器中可能使用 WebSocket 或其他方式

@@ -1,9 +1,11 @@
 import { ElectronApiClient } from "common/lib/electron"
 import { BrowserApiClient } from "common/lib/browser"
+import { BaseSingleton } from "base/index"
 
 // 定义抽象 API 接口
 export interface IApiClient {
   call<T = any>(command: string, ...args: any[]): Promise<T>
+  callSync(command: string, ...args: any[]): void
   on<K extends string>(channel: K, callback: (...args: any[]) => void): void
   off<K extends string>(channel: K, callback: (...args: any[]) => void): void
   offAll<K extends string>(channel: K): void
@@ -13,6 +15,11 @@ class NullApiClient implements IApiClient {
   async call<T = any>(command: string, ...args: any[]): Promise<T> {
     args
     console.warn(`API call to ${command} failed: API client not initialized`)
+    return undefined as any
+  }
+  callSync(command: string, ...args: any[]): void {
+    args
+    console.warn(`API callSync to ${command} failed: API client not initialized`)
     return undefined as any
   }
 
@@ -49,5 +56,15 @@ export class ApiFactory {
       }
     }
     return this.instance
+  }
+}
+
+export class BaseEvent extends BaseSingleton {
+  constructor() {
+    super()
+  }
+
+  public get api() {
+    return ApiFactory.getApiClient()
   }
 }

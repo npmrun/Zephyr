@@ -3,8 +3,8 @@ import { ipcMain, Menu, MenuItem } from "electron"
 import { inject } from "inversify"
 import IOC from "main/_ioc"
 import BaseClass from "main/base/base"
-import { isPromise } from "main/utils"
 import WindowManager from "../window-manager"
+import { isPromise } from "utils"
 
 export default class Commands extends BaseClass {
   destroy() {

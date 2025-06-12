@@ -15,9 +15,7 @@
         <img w="16px" h="16px" :src="icon" />
         <div relative h-full inline-flex items-center text-sm>{{ Config.ExeConfig.name }}</div>
         <div relative class="list">
-          <div class="item" @click="onClickMenu">{{ t("browser.navbar.menu.label") }}</div>
-          <div class="item" @click="onClickPage">{{ ModuleStore.curModule?.label ?? "选择模块" }}</div>
-          <div class="item" @click="onClickSetting">设置</div>
+          <div v-for="(menu, index) in menuList" :key="index" class="item" @click="menu.click">{{ menu.label }}</div>
         </div>
       </div>
       <div float-right h-full flex items-center relative style="-webkit-app-region: no-drag">
@@ -61,7 +59,6 @@
   import { PopupMenu } from "@/bridge/PopupMenu"
   import { usePlatForm } from "common/event/PlatForm/hook"
   import { LogLevel } from "logger/common"
-  import { useModuleStore } from "@/store/module.store"
 
   const PlatForm = usePlatForm()
 
@@ -82,75 +79,76 @@
     return false
   })
 
-  // function backHome() {
-  //   router.push("/")
-  // }
   function back() {
     router.back()
   }
   const { t } = useI18n()
-  const onClickMenu = async e => {
-    const menu = new PopupMenu([
-      {
-        label: isFullScreen.value ? t("browser.navbar.menu.quit-fullscreen") : t("browser.navbar.menu.fullscreen"),
-        async click() {
-          await PlatForm.toggleFullScreen()
-          isFullScreen.value = !isFullScreen.value
-        },
+  const menuList = [
+    {
+      label: t("browser.navbar.menu.label"),
+      async click(e) {
+        const menu = new PopupMenu([
+          {
+            label: "首选项",
+            async click() {
+              router.push("/setting")
+            },
+          },
+          {
+            label: t("browser.navbar.menu.toggleDevTools"),
+            async click() {
+              PlatForm.toggleDevTools()
+            },
+          },
+          {
+            label: "重载",
+            async click() {
+              PlatForm.reload()
+            },
+          },
+          {
+            label: "崩溃",
+            async click() {
+              PlatForm.crash()
+            },
+          },
+          {
+            label: curLogLevel.value === LogLevel.TRACE ? "关闭调试模式" : "开启调试模式",
+            async click() {
+              if (curLogLevel.value === LogLevel.TRACE) {
+                await PlatForm.logSetLevel(LogLevel.INFO)
+                curLogLevel.value = LogLevel.INFO
+                return
+              }
+              await PlatForm.logSetLevel(LogLevel.TRACE)
+              curLogLevel.value = LogLevel.TRACE
+            },
+          },
+        ])
+        const obj = e.target.getBoundingClientRect()
+        menu.show({ x: ~~obj.x, y: ~~(obj.y + obj.height) })
       },
-      {
-        label: t("browser.navbar.menu.toggleDevTools"),
-        async click() {
-          PlatForm.toggleDevTools()
-        },
+    },
+    {
+      label: "查看",
+      async click(e) {
+        const menu = new PopupMenu([
+          {
+            label: isFullScreen.value ? t("browser.navbar.menu.quit-fullscreen") : t("browser.navbar.menu.fullscreen"),
+            async click() {
+              await PlatForm.toggleFullScreen()
+              isFullScreen.value = !isFullScreen.value
+            },
+          },
+        ])
+        const obj = e.target.getBoundingClientRect()
+        menu.show({ x: ~~obj.x, y: ~~(obj.y + obj.height) })
       },
-      {
-        label: "重载",
-        async click() {
-          PlatForm.reload()
-        },
-      },
-      {
-        label: "崩溃",
-        async click() {
-          PlatForm.crash()
-        },
-      },
-      {
-        label: curLogLevel.value === LogLevel.TRACE ? "关闭调试模式" : "开启调试模式",
-        async click() {
-          if (curLogLevel.value === LogLevel.TRACE) {
-            await PlatForm.logSetLevel(LogLevel.INFO)
-            curLogLevel.value = LogLevel.INFO
-            return
-          }
-          await PlatForm.logSetLevel(LogLevel.TRACE)
-          curLogLevel.value = LogLevel.TRACE
-        },
-      },
-    ])
-    const obj = e.target.getBoundingClientRect()
-    menu.show({ x: ~~obj.x, y: ~~(obj.y + obj.height) })
-  }
+    },
+  ]
 
   const onClickAbout = () => {
     PlatForm.showAbout()
-  }
-
-  const ModuleStore = useModuleStore()
-
-  const onClickPage = async e => {
-    const menu = new PopupMenu(toRaw(ModuleStore.modules as any))
-    menu.setClickEvent(item => {
-      ModuleStore.setModule(item.id)
-      // if (item.id === ModuleStore.ModuleType.CommonPanel) {}
-    })
-    const obj = e.target.getBoundingClientRect()
-    menu.show({ x: ~~obj.x, y: ~~(obj.y + obj.height) })
-  }
-
-  const onClickSetting = () => {
-    router.push("/setting")
   }
 </script>
 

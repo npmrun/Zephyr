@@ -3,10 +3,10 @@ import { inject } from "inversify"
 import errorHandler from "logger/main-error"
 import Tabs from "main/modules/tabs"
 import WindowManager from "main/modules/window-manager"
-import { getFileUrl } from "main/utils"
 import icon from "@res/icon.png?asset"
 import setting from "setting/main"
 import { LogLevel } from "logger/common"
+import { getFileUrl } from "utils/main"
 
 export default class PlatFormCommand {
   constructor(

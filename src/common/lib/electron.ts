@@ -6,6 +6,11 @@ export class ElectronApiClient implements IApiClient {
     return window.api.call(command, ...args)
   }
 
+  callSync<T = any>(command: string, ...args: any[]): Promise<T> {
+    // Electron 特定实现
+    return window.api.callSync(command, ...args)
+  }
+
   on<K extends string>(channel: K, callback: (...args: any[]) => void): void {
     window.api.on(channel, callback)
   }

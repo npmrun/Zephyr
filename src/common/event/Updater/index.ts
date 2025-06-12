@@ -1,15 +1,13 @@
-import { EventMaps } from "helper/updater/common"
+import { BaseEvent } from "common/lib/abstract"
 
-const curProgress = ref(0)
+class Updater extends BaseEvent {
+  constructor() {
+    super()
+  }
 
-getApi<EventMaps>().on("update-progress", (_, data) => {
-  console.log(data)
-})
-
-function useUpdate() {
-  return {
-    curProgress,
+  test() {
+    this.api
   }
 }
 
-export { useUpdate }
+export { Updater }

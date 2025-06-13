@@ -15,6 +15,7 @@
         "./typed-router.d.ts",
         "src/common/**/*",
         "packages/**/*",
+        "packages/**/renderer/**/*",
     ],
     "exclude": [
         "packages/locales/main.ts",

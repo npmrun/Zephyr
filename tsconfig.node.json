@@ -27,7 +27,7 @@
         "src/common/**/common.ts"
     ],
     "exclude": [
-        "packages/renderer/**/*",
+        "packages/**/renderer/**/*",
     ],
     "compilerOptions": {
         "composite": true,

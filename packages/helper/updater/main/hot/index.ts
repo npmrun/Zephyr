@@ -7,7 +7,6 @@ import download from "./download"
 import extract from "extract-zip"
 
 import _logger from "logger/main"
-import { emit } from "../handler"
 
 const logger = _logger.createNamespace("hot-updater")
 
@@ -73,7 +72,7 @@ app.once("will-quit", event => {
 })
 
 // 下载热更新包
-export async function fetchHotUpdatePackage(updatePackageUrl: string) {
+export async function fetchHotUpdatePackage(updatePackageUrl: string, onProgress?: (percent: number, now: number, all: number) => void) {
   if (isReadyUpdate) return
 
   // 清除临时目录
@@ -92,7 +91,7 @@ export async function fetchHotUpdatePackage(updatePackageUrl: string) {
       url: updatePackageUrl,
       onprocess(now, all) {
         logger.debug(`下载进度: ${((now / all) * 100).toFixed(2)}%`)
-        emit("update-progress", { percent: (now / all) * 100, now, all })
+        onProgress && onProgress((now / all) * 100, now, all)
       },
     })
     fs.writeFileSync(downloadPath, Buffer.from(arrayBuffer))

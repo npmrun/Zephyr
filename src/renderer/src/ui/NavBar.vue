@@ -4,7 +4,7 @@
     h="30px"
     leading="29px"
     pr="137px"
-    :style="{ paddingRight: isFullScreen ? '0' : '' }"
+    :style="{ paddingRight: PlatForm.isFullScreen.value ? '0' : '' }"
     select-none
     border-b="1px solid #E5E5E5"
     bg="#F8F8F8"
@@ -19,6 +19,20 @@
         </div>
       </div>
       <div float-right h-full flex items-center relative style="-webkit-app-region: no-drag">
+        <div
+          v-if="UpdaterStore.isNeedUpdate"
+          text-sm
+          px-2
+          py-1
+          flex
+          items-center
+          hover:bg-gray-2
+          hover:cursor-pointer
+          text="hover:hover"
+          @click="UpdaterStore.checkForUpdates"
+        >
+          <icon-grommet-icons:update :class="{ rotate: UpdaterStore.isChecking }"></icon-grommet-icons:update>
+        </div>
         <div
           v-if="!isHome"
           text-sm
@@ -59,17 +73,17 @@
   import { PopupMenu } from "@/bridge/PopupMenu"
   import { usePlatForm } from "common/event/PlatForm/hook"
   import { LogLevel } from "logger/common"
+  import { useUpdaterStore } from "common/event/Updater/hook"
 
   const PlatForm = usePlatForm()
+  const UpdaterStore = useUpdaterStore()
 
   const router = useRouter()
   const route = useRoute()
-  const isFullScreen = ref(false)
   const curLogLevel = ref<LogLevel>()
 
   onBeforeMount(async () => {
-    isFullScreen.value = await PlatForm.isFullScreen()
-    curLogLevel.value = await PlatForm.logGetLevel()
+    curLogLevel.value = await PlatForm.power.logGetLevel()
   })
 
   const isHome = computed(() => {
@@ -97,30 +111,30 @@
           {
             label: t("browser.navbar.menu.toggleDevTools"),
             async click() {
-              PlatForm.toggleDevTools()
+              PlatForm.power.toggleDevTools()
             },
           },
           {
             label: "重载",
             async click() {
-              PlatForm.reload()
+              PlatForm.power.reload()
             },
           },
           {
             label: "崩溃",
             async click() {
-              PlatForm.crash()
+              PlatForm.power.crash()
             },
           },
           {
             label: curLogLevel.value === LogLevel.TRACE ? "关闭调试模式" : "开启调试模式",
             async click() {
               if (curLogLevel.value === LogLevel.TRACE) {
-                await PlatForm.logSetLevel(LogLevel.INFO)
+                await PlatForm.power.logSetLevel(LogLevel.INFO)
                 curLogLevel.value = LogLevel.INFO
                 return
               }
-              await PlatForm.logSetLevel(LogLevel.TRACE)
+              await PlatForm.power.logSetLevel(LogLevel.TRACE)
               curLogLevel.value = LogLevel.TRACE
             },
           },
@@ -134,10 +148,9 @@
       async click(e) {
         const menu = new PopupMenu([
           {
-            label: isFullScreen.value ? t("browser.navbar.menu.quit-fullscreen") : t("browser.navbar.menu.fullscreen"),
+            label: PlatForm.isFullScreen.value ? t("browser.navbar.menu.quit-fullscreen") : t("browser.navbar.menu.fullscreen"),
             async click() {
-              await PlatForm.toggleFullScreen()
-              isFullScreen.value = !isFullScreen.value
+              PlatForm.toggleFullScreen()
             },
           },
         ])
@@ -148,7 +161,7 @@
   ]
 
   const onClickAbout = () => {
-    PlatForm.showAbout()
+    PlatForm.power.showAbout()
   }
 </script>
 
@@ -159,6 +172,19 @@
 
     .item {
       @apply: text-sm px-2 hover:rounded-md hover:bg-gray-2 hover:cursor-pointer text="hover:hover";
+    }
+  }
+
+  .rotate {
+    animation: rotate 1.5s linear infinite forwards running;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
     }
   }
 </style>

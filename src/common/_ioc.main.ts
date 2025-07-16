@@ -1,4 +1,7 @@
 import { Container, ContainerModule } from "inversify"
+import _logger from "logger/main"
+
+const logger = _logger.createNamespace("command")
 
 /**
  * 自动加载所有命令模块
@@ -12,6 +15,7 @@ const modules = new ContainerModule(bind => {
     const CommandClass = (module as { default: any }).default
     if (CommandClass) {
       const className = CommandClass.name.replace("Command", "")
+      logger.debug(`绑定命令类: ${className}Command`)
       if (CommandClass["init"]) {
         CommandClass["init"]()
       }
@@ -27,6 +31,18 @@ const modules = new ContainerModule(bind => {
  * @param ioc - Inversify 容器实例
  */
 async function destroyAllCommand(ioc: Container) {
+  const allIOC: any[] = []
+  Object.values(commandModules).forEach(module => {
+    const CommandClass = (module as { default: any }).default
+    if (CommandClass) {
+      const className = CommandClass.name.replace("Command", "")
+      const m = ioc.get(className + "Command") as any
+      if (m && m.destroy) {
+        allIOC.push(m.destroy())
+      }
+    }
+  })
+  await Promise.all(allIOC)
   await ioc.unloadAsync(modules)
 }
 

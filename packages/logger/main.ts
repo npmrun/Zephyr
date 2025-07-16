@@ -260,6 +260,9 @@ export class Logger {
 // 默认实例
 const logger = Logger.getInstance()
 logger.init()
+emitter.on("init", setting => {
+  logger.setLevel(setting["dev:debug"])
+})
 emitter.on("update", setting => {
   logger.setLevel(setting["dev:debug"])
 })

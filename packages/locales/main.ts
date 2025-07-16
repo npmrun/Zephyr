@@ -21,7 +21,7 @@ class Locale {
     try {
       this.locale = app.getLocale()
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   }
 
@@ -40,7 +40,6 @@ class Locale {
     if (replacements) {
       // 替换所有形如 {key} 的占位符
       Object.entries(replacements).forEach(([key, value]) => {
-        console.log(text)
         text = text.replace(new RegExp(`{${key}}`, "g"), value)
       })
     }

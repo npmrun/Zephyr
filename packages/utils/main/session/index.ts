@@ -11,7 +11,7 @@ function createLoginWin(partition) {
   partition = partition || `persist:${Math.random()}`
   // const charset = require("superagent-charset")
   // const request = charset(require("superagent")) // HTTP
-  let presWindow = new BrowserWindow({
+  const presWindow = new BrowserWindow({
     width: 1280,
     height: 768,
     title: "用户登陆",
@@ -21,14 +21,14 @@ function createLoginWin(partition) {
       partition,
     },
   })
-  let webContents = presWindow.webContents
-  return new Promise(function (resove, _) {
+  const webContents = presWindow.webContents
+  return new Promise(function (resove) {
     // webContents.openDevTools();
     presWindow.loadURL("https://login.taobao.com/member/login.jhtml")
     webContents.on("did-navigate-in-page", async function () {
       // 这里可以看情况进行参数的传递，获取制定的 cookies
       const cookies = await webContents.session.cookies.get({})
-      let obj = { partition, cookies }
+      const obj = { partition, cookies }
       resove(obj)
       // webContents.session.cookies.get({}, function (err, cookies) {
       //   if (err) {
@@ -77,6 +77,4 @@ function createLoginWin(partition) {
   })
 }
 
-export {
-    createLoginWin
-}
+export { createLoginWin }

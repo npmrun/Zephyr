@@ -5,6 +5,7 @@ import { cloneDeep } from "lodash"
 import Config from "config"
 import type { IConfig } from "config"
 import _logger from "logger/main"
+import { emitter } from "./main/event"
 
 const logger = _logger.createNamespace("setting")
 
@@ -137,6 +138,7 @@ class SettingClass {
       this.#sync()
     }
     init.call(this, this.#config)
+    emitter.emit("update", this.#config, this.#config)
   }
   config() {
     return this.#config
@@ -215,6 +217,7 @@ class SettingClass {
     if (isChange) {
       this.#sync()
       this.#runCB(this.#config, oldMainConfig, changeKeys)
+      emitter.emit("update", this.#config, oldMainConfig, changeKeys)
     }
   }
   values<T extends keyof IConfig>(key: T): IConfig[T] {

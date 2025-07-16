@@ -1,17 +1,19 @@
-import pkg from "electron-updater"
-import { app, dialog } from "electron"
+import { NsisUpdater } from "electron-updater"
+import { app, BrowserWindow, dialog } from "electron"
+import { is } from "@electron-toolkit/utils"
 import Setting from "setting/main"
 import { BaseSingleton } from "base"
 import { fetchHotUpdatePackage, flagNeedUpdate } from "./hot"
 import Locales from "locales/main"
 import _logger from "logger/main"
 import { buildEmitter } from "base/event/main"
+import { EventMaps } from "../common"
+import path from "path"
 
 const logger = _logger.createNamespace("updater")
-const { autoUpdater } = pkg
 
 class _Updater extends BaseSingleton {
-  public events = buildEmitter()
+  public events = buildEmitter<EventMaps>()
   private timer: ReturnType<typeof setInterval> | null = null
   // autoReplace = false
   async triggerHotUpdate(autoReplace = false) {
@@ -28,42 +30,83 @@ class _Updater extends BaseSingleton {
     }
   }
 
+  updateInfo: ConstructorParameters<typeof NsisUpdater>[0]
+  autoUpdater: NsisUpdater
+
   constructor() {
     super()
+
+    this.autoUpdater = new NsisUpdater({
+      provider: "github",
+      owner: "npmrun",
+      repo: "electron-app",
+    })
+
+    Setting.onChange("update.allowDowngrade", () => {
+      this.autoUpdater.allowDowngrade = Setting.values("update.allowDowngrade")
+    })
+    Setting.onChange("update.allowPrerelease", () => {
+      this.autoUpdater.allowPrerelease = Setting.values("update.allowPrerelease")
+    })
+    Setting.onChange(["update.owner", "update.repo"], () => {
+      this.autoUpdater.setFeedURL({
+        provider: "github",
+        owner: "npmrun",
+        repo: "electron-app",
+      })
+    })
+
     // 配置自动更新
-    autoUpdater.autoDownload = false
-    autoUpdater.autoInstallOnAppQuit = true
+    this.autoUpdater.autoDownload = false
+    this.autoUpdater.autoInstallOnAppQuit = true
+
+    this.autoUpdater.allowPrerelease = true
+    this.autoUpdater.allowDowngrade = true
+    this.autoUpdater.forceDevUpdateConfig = is.dev
+    if (is.dev) {
+      this.autoUpdater.updateConfigPath = path.resolve(process.cwd(), "temp/dev.yml")
+    }
 
     // 检查更新错误
-    autoUpdater.on("error", error => {
+    this.autoUpdater.on("error", error => {
       logger.debug("Update error:", error)
+      this.events.emit("error", error)
     })
 
     // 检查更新
-    autoUpdater.on("checking-for-update", () => {
+    this.autoUpdater.on("checking-for-update", () => {
       logger.debug("Checking for updates...")
+      this.events.emit("checking-for-update")
     })
 
     // 有可用更新
-    autoUpdater.on("update-available", info => {
+    this.autoUpdater.on("update-available", info => {
       logger.debug("Update available:", info)
+      this.events.emit("update-available", info)
       this.promptUserToUpdate()
     })
 
     // 没有可用更新
-    autoUpdater.on("update-not-available", info => {
+    this.autoUpdater.on("update-not-available", info => {
       logger.debug("Update not available:", info)
+      this.events.emit("update-not-available", info)
     })
 
     // 更新下载进度
-    autoUpdater.on("download-progress", progressObj => {
+    this.autoUpdater.on("download-progress", progressObj => {
       logger.debug(
         `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`,
       )
+      this.events.emit("update-progress", {
+        speed: progressObj.bytesPerSecond,
+        percent: progressObj.percent,
+        all: progressObj.total,
+        now: progressObj.transferred,
+      })
     })
 
     // 更新下载完成
-    autoUpdater.on("update-downloaded", info => {
+    this.autoUpdater.on("update-downloaded", info => {
       logger.debug("Update downloaded:", info)
       this.promptUserToInstall()
     })
@@ -89,16 +132,12 @@ class _Updater extends BaseSingleton {
     }
   }
 
-  private async checkForUpdates() {
-    if (app.isPackaged) {
-      try {
-        await autoUpdater.checkForUpdates()
-        logger.debug("Updater初始化检查成功.")
-      } catch (error) {
-        logger.debug("Failed to check for updates:", error)
-      }
-    } else {
-      logger.debug("正在开发模式，跳过更新检查.")
+  async checkForUpdates() {
+    try {
+      this.autoUpdater.checkForUpdates()
+      logger.debug("Updater初始化检查成功.")
+    } catch (error) {
+      logger.debug("Failed to check for updates:", error)
     }
   }
 
@@ -112,21 +151,21 @@ class _Updater extends BaseSingleton {
     })
 
     if (result.response === 0) {
-      autoUpdater.downloadUpdate()
+      this.autoUpdater.downloadUpdate()
     }
   }
 
   private async promptUserToInstall() {
-    const result = await dialog.showMessageBox({
+    const result = await dialog.showMessageBox(BrowserWindow.getFocusedWindow()!, {
       type: "info",
       title: "更新已就绪",
       message: "新版本已下载完成，是否立即安装？",
-      buttons: ["立即安装", "稍后安装"],
+      buttons: ["立即安装"],
       defaultId: 0,
     })
 
     if (result.response === 0) {
-      autoUpdater.quitAndInstall(false, true)
+      this.autoUpdater.quitAndInstall(false, true)
     }
   }
 }

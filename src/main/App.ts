@@ -8,7 +8,6 @@ import { electronApp } from "@electron-toolkit/utils"
 import Command from "./modules/commands"
 import BaseClass from "./base/base"
 import IOC from "./_ioc"
-import DB from "./modules/db"
 import Zephyr from "./modules/zephyr"
 import { crashHandler } from "logger/crash-handler"
 import logger from "logger/main"
@@ -53,7 +52,6 @@ class App extends BaseClass {
     @inject(IOC) private _IOC: IOC,
     @inject(Api) private _Api: Api,
     @inject(Command) private _Command: Command,
-    @inject(DB) private _DB: DB,
     @inject(WindowManager) private _WindowManager: WindowManager,
     @inject(Zephyr) private _Zephyr: Zephyr,
   ) {
@@ -68,7 +66,6 @@ class App extends BaseClass {
     // 开启硬件加速
     app.disableHardwareAcceleration()
     crashHandler.init()
-    this._DB.init()
     this._Command.init()
     this._WindowManager.init()
     app.whenReady().then(() => {

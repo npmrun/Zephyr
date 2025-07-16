@@ -1,7 +1,6 @@
 import { app, dialog, nativeTheme, TitleBarOverlayOptions } from "electron"
 import { inject } from "inversify"
 import errorHandler from "logger/main-error"
-import Tabs from "main/modules/tabs"
 import WindowManager from "main/modules/window-manager"
 import icon from "@res/icon.png?asset"
 import setting from "setting/main"
@@ -9,10 +8,7 @@ import { LogLevel } from "logger/common"
 import { getFileUrl } from "utils/main"
 
 export default class PlatFormCommand {
-  constructor(
-    @inject(WindowManager) private _WindowManager: WindowManager,
-    @inject(Tabs) private _Tabs: Tabs,
-  ) {}
+  constructor(@inject(WindowManager) private _WindowManager: WindowManager) {}
 
   setTheme(theme: typeof nativeTheme.themeSource) {
     nativeTheme.themeSource = theme
@@ -115,7 +111,6 @@ export default class PlatFormCommand {
         return
       }
     }
-    this._Tabs.closeAll()
     focusedWindow!.reload()
   }
 }

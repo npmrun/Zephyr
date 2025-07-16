@@ -107,7 +107,7 @@ const formatError = (error: any, options: ErrorHandlerOptions): ErrorDetail => {
   return errorDetail
 }
 
-// @ts-ignore
+// @ts-ignore 忽略preload层不存在的问题
 const preloadErrorHandler = window.preloadErrorHandler
 
 /**
@@ -223,6 +223,7 @@ const errorHandler = createRendererErrorHandler()
 // 安装全局错误处理器
 errorHandler.installGlobalHandlers()
 
+// @ts-ignore 忽略全局问题
 window.errorHandler = errorHandler
 
 /**

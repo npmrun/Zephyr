@@ -1,26 +1,12 @@
-import { injectable } from "inversify"
 import Setting from "setting/main"
 import { CustomAdapter, CustomLow } from "./custom"
 import path from "node:path"
-import BaseClass from "main/base/base"
-import _logger from "logger/main"
+// import _logger from "logger/main"
 
-const logger = _logger.createNamespace("db")
+// const logger = _logger.createNamespace("db")
 
-@injectable()
-class DB extends BaseClass {
-  destroy() {
-    logger.debug(`DB destroy`)
-  }
+class DB {
   Modules: Record<string, CustomLow<any>> = {}
-
-  constructor() {
-    super()
-  }
-
-  init() {
-    console.log("DB Init")
-  }
 
   create(filepath) {
     const adapter = new CustomAdapter<any>(filepath)

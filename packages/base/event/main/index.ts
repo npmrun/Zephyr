@@ -8,17 +8,31 @@ class FireEvent<T extends Record<string | symbol, FireFN>> {
       console.log(`${key}: ${this.#events[key]}\n`)
     })
   }
-  on<S extends keyof T>(name: S, fn: T[S]) {
+  on<S extends keyof T | "*">(name: S, fn: S extends "*" ? (...argus: [keyof T, T[keyof T]]) => void : T[S]) {
     if (!this.#events[name]) {
       this.#events[name] = []
     }
-    this.#events[name].push(fn)
+    this.#events[name].push(fn as any)
   }
-  emit<S extends keyof T>(name: S, ...argu: Parameters<T[S]>) {
+  async emit<S extends keyof T>(name: S, ...argu: Parameters<T[S]>) {
     if (this.#events[name]) {
-      this.#events[name].forEach(fn => {
-        fn(...argu)
-      })
+      const returnValues: any = []
+      for (let i = 0; i < this.#events[name].length; i++) {
+        const fn = this.#events[name][i]
+        let r
+        if (Object.prototype.toString.call(fn) === "[object AsyncFunction]") {
+          r = await fn(...argu)
+        } else {
+          r = fn(...argu)
+        }
+        returnValues.push(r)
+      }
+    }
+    if (this.#events["*"]) {
+      for (let i = 0; i < this.#events["*"].length; i++) {
+        const fn = this.#events["*"][i]
+        fn(name, ...argu)
+      }
     }
   }
   off<S extends keyof T>(name: S, fn?: T[S]) {

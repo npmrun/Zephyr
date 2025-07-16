@@ -1,13 +1,13 @@
 import { inject, injectable } from "inversify"
 import BaseContainer from "main/base/baseContainer"
-import Tabs from "main/modules/tabs"
+// import Tabs from "main/modules/tabs"
 import WindowManager from "main/modules/window-manager"
 
 @injectable()
 class BasicService extends BaseContainer {
   constructor(
     @inject(WindowManager) private _WindowManager: WindowManager,
-    @inject(Tabs) private _Tabs: Tabs,
+    // @inject(Tabs) private _Tabs: Tabs,
   ) {
     super()
   }
@@ -21,7 +21,7 @@ class BasicService extends BaseContainer {
 
   openTabDevtool() {
     // this._Tabs.reload(0)
-    this._Tabs.openDevtool(0)
+    // this._Tabs.openDevtool(0)
   }
 }
 

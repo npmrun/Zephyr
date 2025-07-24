@@ -83,7 +83,7 @@ class _Updater extends BaseSingleton {
     this.autoUpdater.on("update-available", info => {
       logger.debug("Update available:", info)
       this.events.emit("update-available", info)
-      this.promptUserToUpdate()
+      this.promptUserToUpdate(info.releaseNotes)
     })
 
     // 没有可用更新
@@ -134,18 +134,18 @@ class _Updater extends BaseSingleton {
 
   async checkForUpdates() {
     try {
-      this.autoUpdater.checkForUpdates()
-      logger.debug("Updater初始化检查成功.")
+      logger.debug("Update开始检查更新.")
+      await this.autoUpdater.checkForUpdates()
     } catch (error) {
       logger.debug("Failed to check for updates:", error)
     }
   }
 
-  private async promptUserToUpdate() {
+  private async promptUserToUpdate(releaseNotes) {
     const result = await dialog.showMessageBox({
       type: "info",
       title: "发现新版本",
-      message: "是否下载新版本？",
+      message: releaseNotes, // "是否下载新版本？",
       buttons: ["下载", "暂不更新"],
       defaultId: 0,
     })

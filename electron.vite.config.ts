@@ -50,7 +50,7 @@ export default defineConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@use "@/assets/style/global" as *;\n`,
+          additionalData: `@use "@/assets/style/global/_index.scss";\n`,
           api: "modern-compiler",
         },
       },

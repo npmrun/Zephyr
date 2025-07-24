@@ -10,6 +10,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AdjustLine: typeof import('./src/components/AdjustLine.vue')['default']
     CodeEditor: typeof import('./src/components/CodeEditor/code-editor.vue')['default']
+    'IconBxs:error': typeof import('~icons/bxs/error')['default']
     IconFluentCollections24Regular: typeof import('~icons/fluent/collections24-regular')['default']
     'IconGrommetIcons:update': typeof import('~icons/grommet-icons/update')['default']
     IconHugeiconsInbox: typeof import('~icons/hugeicons/inbox')['default']
@@ -20,6 +21,7 @@ declare module 'vue' {
     NavBar: typeof import('./src/ui/NavBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Update: typeof import('./src/ui/Update.vue')['default']
     Versions: typeof import('./src/components/Versions.vue')['default']
   }
 }

@@ -19,20 +19,7 @@
         </div>
       </div>
       <div float-right h-full flex items-center relative style="-webkit-app-region: no-drag">
-        <div
-          v-if="UpdaterStore.isNeedUpdate"
-          text-sm
-          px-2
-          py-1
-          flex
-          items-center
-          hover:bg-gray-2
-          hover:cursor-pointer
-          text="hover:hover"
-          @click="UpdaterStore.checkForUpdates"
-        >
-          <icon-grommet-icons:update :class="{ rotate: UpdaterStore.isChecking }"></icon-grommet-icons:update>
-        </div>
+        <Update />
         <div
           v-if="!isHome"
           text-sm
@@ -48,19 +35,6 @@
         >
           <icon-stash:arrow-reply-duotone></icon-stash:arrow-reply-duotone>
         </div>
-        <!-- <div
-          v-if="!isHome"
-          text-sm
-          px-2
-          hover:rounded-md
-          hover:bg-gray-2
-          hover:cursor-pointer
-          text="hover:hover"
-          title="返回首页"
-          @click="backHome"
-        >
-          🏠
-        </div> -->
         <div text-sm px-2 hover:rounded-md hover:bg-gray-2 hover:cursor-pointer text="hover:hover" @click="onClickAbout">关于</div>
       </div>
     </div>
@@ -73,10 +47,9 @@
   import { PopupMenu } from "@/bridge/PopupMenu"
   import { usePlatForm } from "common/event/PlatForm/hook"
   import { LogLevel } from "logger/common"
-  import { useUpdaterStore } from "common/event/Updater/hook"
+  import Update from "./Update.vue"
 
   const PlatForm = usePlatForm()
-  const UpdaterStore = useUpdaterStore()
 
   const router = useRouter()
   const route = useRoute()

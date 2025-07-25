@@ -1,9 +1,6 @@
 <script setup lang="ts">
   import Simplebar from "simplebar-vue"
-  import { useSettingStore } from "common/event/Setting/hook"
-
-  const settingStore = useSettingStore()
-  console.log(settingStore.config)
+  const settingStore = useApiSetting()
 </script>
 
 <template>

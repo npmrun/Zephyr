@@ -6,7 +6,7 @@ const logger = _logger.createNamespace("command")
 /**
  * 自动加载所有命令模块
  */
-const commandModules = import.meta.glob("./event/**/main/command.{ts,js}", { eager: true })
+const commandModules = import.meta.glob("./**/command.{ts,js}", { eager: true })
 
 const modules = new ContainerModule(bind => {
   // 自动绑定所有命令类

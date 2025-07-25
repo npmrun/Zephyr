@@ -1,7 +1,7 @@
 import { LogLevel } from "logger/common"
-import { PlatForm } from "."
+import { PlatForm } from "./_"
 
-export function usePlatForm() {
+export function useApiPlatForm() {
   const plat = PlatForm.getInstance<PlatForm>()
 
   // 全屏状态

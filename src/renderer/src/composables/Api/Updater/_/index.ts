@@ -1,4 +1,4 @@
-import { BaseEvent } from "common/lib/abstract"
+import { BaseEvent } from "base/api/abstract"
 
 class Updater extends BaseEvent {
   constructor() {

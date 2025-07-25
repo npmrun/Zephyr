@@ -1,34 +1,34 @@
 <script setup lang="ts">
-  import { useSnippet } from "common/event/Snippet/hook"
-  definePage({
-    meta: {
-      home: true,
-    },
-  })
+  // import { useSnippet } from "common/event/Snippet/hook"
+  // definePage({
+  //   meta: {
+  //     home: true,
+  //   },
+  // })
 
-  const { getTree } = useSnippet()
+  // const { getTree } = useSnippet()
 
-  const activeLeft = ref<number | null>(null)
-  function clickActive(e: any) {
-    const el = e.target as HTMLDivElement
-    const { x } = el.getBoundingClientRect()
-    const { width: parentWidth } = el.parentElement!.getBoundingClientRect()
-    const newLeft = +((x / parentWidth) * 100).toFixed(2)
-    if (newLeft === activeLeft.value) {
-      activeLeft.value = null
-      return
-    }
-    activeLeft.value = +((x / parentWidth) * 100).toFixed(2)
-  }
+  // const activeLeft = ref<number | null>(null)
+  // function clickActive(e: any) {
+  //   const el = e.target as HTMLDivElement
+  //   const { x } = el.getBoundingClientRect()
+  //   const { width: parentWidth } = el.parentElement!.getBoundingClientRect()
+  //   const newLeft = +((x / parentWidth) * 100).toFixed(2)
+  //   if (newLeft === activeLeft.value) {
+  //     activeLeft.value = null
+  //     return
+  //   }
+  //   activeLeft.value = +((x / parentWidth) * 100).toFixed(2)
+  // }
 
-  async function click() {
-    console.log(await getTree())
-  }
+  // async function click() {
+  //   console.log(await getTree())
+  // }
 </script>
 
 <template>
   <div h-full flex>
-    <div border-r-coolGray-200 border-r-1 border-r-solid flex flex-col max-w-300px w="3/10">
+    <!-- <div border-r-coolGray-200 border-r-1 border-r-solid flex flex-col max-w-300px w="3/10">
       <div class="list">
         <div v-if="activeLeft !== null" class="active" :style="{ left: activeLeft + '%' }"></div>
         <div class="item" @click="clickActive">
@@ -51,7 +51,7 @@
       <div @click="click">文件树</div>
     </div>
     <div max-w-300px w="3/10" border-r-coolGray-200 border-r-1 border-r-solid>文件树</div>
-    <div>aa</div>
+    <div>aa</div> -->
   </div>
 </template>
 

@@ -13,7 +13,6 @@
         "src/types/**/*",
         "config/**/*",
         "./typed-router.d.ts",
-        "src/common/**/*",
         "packages/**/*",
         "packages/**/renderer/**/*",
     ],
@@ -26,9 +25,6 @@
         "packages/**/main/**/*",
         "packages/**/*.main.ts",
         "packages/**/main.ts",
-        "src/common/**/main/**/*",
-        "src/common/**/*.main.ts",
-        "src/common/**/main.ts"
     ],
     "vueCompilerOptions": {
         "plugins": [
@@ -55,9 +51,6 @@
             ],
             "config/*": [
                 "config/*"
-            ],
-            "common/*": [
-                "src/common/*"
             ],
             "@/*": [
                 "src/renderer/src/*"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import { useUpdaterStore } from "common/event/Updater/hook"
+  // import { useUpdaterStore } from "common/event/Updater/hook"
 
-  const UpdaterStore = useUpdaterStore()
+  // const UpdaterStore = useUpdaterStore()
 </script>
 
 <template>
@@ -16,7 +16,8 @@
         </div>
       </div>
       <button class="button">Button</button>
-      <button @click="UpdaterStore.checkForUpdates()">更新</button>
+      <!-- <button @click="UpdaterStore.checkForUpdates()">更新</button> -->
+      <button @click="$router.push('/browser')">浏览器</button>
     </div>
   </div>
 </template>

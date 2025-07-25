@@ -1,4 +1,4 @@
-import { ApiFactory } from "common/lib/abstract"
+import { ApiFactory } from "base/api/abstract"
 import { BaseSingleton } from "base"
 import { IConfig } from "config"
 

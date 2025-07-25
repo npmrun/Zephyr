@@ -19,12 +19,7 @@
         "packages/**/main.ts",
         "packages/**/*.common.ts",
         "packages/**/common.ts",
-        "packages/**/*",
-        "src/common/**/*.main.ts",
-        "src/common/**/main/**/*",
-        "src/common/**/main.ts",
-        "src/common/**/*.common.ts",
-        "src/common/**/common.ts"
+        "packages/**/*"
     ],
     "exclude": [
         "packages/**/renderer/**/*",
@@ -53,9 +48,6 @@
             ],
             "main/*": [
                 "src/main/*"
-            ],
-            "common/*": [
-                "src/common/*"
             ],
             "@res/*": [
                 "resources/*"

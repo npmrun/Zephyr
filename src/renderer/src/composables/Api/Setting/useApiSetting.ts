@@ -1,10 +1,10 @@
 import { defineStore } from "pinia"
-import { Setting } from "."
+import { Setting } from "./_"
 import type { IConfig } from "config"
 
 let rawConfig: IConfig = Setting.getInstance().sync() as unknown as IConfig
 
-export const useSettingStore = defineStore(
+export const useApiSetting = defineStore(
   "Setting",
   () => {
     const config = ref(JSON.parse(JSON.stringify(rawConfig)))

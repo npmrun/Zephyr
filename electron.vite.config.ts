@@ -31,7 +31,7 @@ export default defineConfig({
       lib: {
         entry: {
           index: resolve(__dirname, "./src/preload/index.ts"),
-          plugin: resolve(__dirname, "./src/preload/plugin.ts"),
+          // plugin: resolve(__dirname, "./src/preload/plugin.ts"),
         },
       },
     },
@@ -101,7 +101,7 @@ export default defineConfig({
           "vue-i18n",
         ],
         dts: true,
-        dirs: ["src/composables"],
+        dirs: ["src/composables/**/*.ts", "!src/composables/**/_/**/*.ts"],
         vueTemplate: true,
       }),
       // https://github.com/antfu/vite-plugin-components

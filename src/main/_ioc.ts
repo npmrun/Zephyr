@@ -2,7 +2,7 @@ import IOC from "./_iocClass"
 import { Container } from "inversify"
 import iocModules, { destroyAllModules } from "./modules/_ioc"
 import iocController, { destroyAllController } from "./controller/_ioc"
-import iocCommand, { destroyAllCommand } from "common/_ioc.main"
+import iocCommand, { destroyAllCommand } from "./command/_ioc"
 import App from "./App"
 
 async function destroyAll() {

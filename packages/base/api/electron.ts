@@ -1,3 +1,5 @@
+// @ts-nocheck window.api 不需要检查
+
 import { IApiClient } from "./abstract"
 
 export class ElectronApiClient implements IApiClient {

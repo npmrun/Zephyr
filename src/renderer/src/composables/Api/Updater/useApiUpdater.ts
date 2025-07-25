@@ -1,7 +1,7 @@
 import { EventMaps, UpdaterCommand } from "helper/updater/common"
 import { defineStore } from "pinia"
 
-export const enum UpdaterStatus {
+export const enum ApiUpdaterStatus {
   Idle = "idle",
   Checking = "checking",
   StartChecking = "start-checking",
@@ -11,10 +11,10 @@ export const enum UpdaterStatus {
   Error = "error",
 }
 
-export const useUpdaterStore = defineStore(
+export const useApiUpdater = defineStore(
   "Updater",
   () => {
-    const curStatus = ref(UpdaterStatus.Idle)
+    const curStatus = ref(ApiUpdaterStatus.Idle)
     const speed = ref(0)
     const percent = ref(0)
     const all = ref(0)
@@ -24,19 +24,19 @@ export const useUpdaterStore = defineStore(
 
     const api = getApi<UpdaterCommand, EventMaps, "UpdaterCommand">()
     api.on("error", (_, data) => {
-      curStatus.value = UpdaterStatus.Error
+      curStatus.value = ApiUpdaterStatus.Error
       console.log(data)
     })
     api.on("update-not-available", () => {
-      curStatus.value = UpdaterStatus.UpdateNotAvailable
+      curStatus.value = ApiUpdaterStatus.UpdateNotAvailable
       isNeedUpdate.value = false
     })
     api.on("update-available", () => {
-      curStatus.value = UpdaterStatus.UpdateAvailable
+      curStatus.value = ApiUpdaterStatus.UpdateAvailable
       isNeedUpdate.value = true
     })
     api.on("update-progress", (_, data) => {
-      curStatus.value = UpdaterStatus.Downloading
+      curStatus.value = ApiUpdaterStatus.Downloading
       speed.value = +(data.speed / 1000).toFixed(2) // Convert to KB/s
       percent.value = data.percent
       all.value = data.all
@@ -44,7 +44,7 @@ export const useUpdaterStore = defineStore(
       isNeedUpdate.value = false
     })
     api.on("checking-for-update", () => {
-      curStatus.value = UpdaterStatus.Checking
+      curStatus.value = ApiUpdaterStatus.Checking
     })
     if (import.meta.env.PROD) {
       api.callLong("UpdaterCommand.checkForUpdates")
@@ -57,9 +57,9 @@ export const useUpdaterStore = defineStore(
       now: now,
       isNeedUpdate,
       checkForUpdates() {
-        if (curStatus.value === UpdaterStatus.Checking) return
-        if (curStatus.value === UpdaterStatus.Downloading) return
-        curStatus.value = UpdaterStatus.StartChecking
+        if (curStatus.value === ApiUpdaterStatus.Checking) return
+        if (curStatus.value === ApiUpdaterStatus.Downloading) return
+        curStatus.value = ApiUpdaterStatus.StartChecking
         api.callLong("UpdaterCommand.checkForUpdates")
       },
     }

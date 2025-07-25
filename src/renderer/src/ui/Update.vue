@@ -13,16 +13,16 @@
   >
     <icon-grommet-icons:update
       v-if="
-        UpdaterStore.status === UpdaterStatus.StartChecking ||
-        UpdaterStore.status === UpdaterStatus.Checking ||
-        UpdaterStore.status === UpdaterStatus.UpdateAvailable
+        UpdaterStore.status === ApiUpdaterStatus.StartChecking ||
+        UpdaterStore.status === ApiUpdaterStatus.Checking ||
+        UpdaterStore.status === ApiUpdaterStatus.UpdateAvailable
       "
-      :class="{ rotate: UpdaterStore.status === UpdaterStatus.Checking }"
+      :class="{ rotate: UpdaterStore.status === ApiUpdaterStatus.Checking }"
     ></icon-grommet-icons:update>
-    <icon-bxs:error v-if="UpdaterStore.status === UpdaterStatus.Error" title="更新失败" class="text-red-400"></icon-bxs:error>
+    <icon-bxs:error v-if="UpdaterStore.status === ApiUpdaterStatus.Error" title="更新失败" class="text-red-400"></icon-bxs:error>
   </div>
   <div
-    v-if="UpdaterStore.status === UpdaterStatus.Downloading"
+    v-if="UpdaterStore.status === ApiUpdaterStatus.Downloading"
     class="progress"
     style="font-size: 12px"
     px-2
@@ -38,9 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { UpdaterStatus, useUpdaterStore } from "common/event/Updater/hook"
-
-  const UpdaterStore = useUpdaterStore()
+  const UpdaterStore = useApiUpdater()
 </script>
 
 <style lang="scss" scoped>

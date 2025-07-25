@@ -1,5 +1,5 @@
-import { ElectronApiClient } from "common/lib/electron"
-import { BrowserApiClient } from "common/lib/browser"
+import { ElectronApiClient } from "./electron"
+import { BrowserApiClient } from "./browser"
 import { BaseSingleton } from "base/index"
 
 // 定义抽象 API 接口
@@ -49,6 +49,7 @@ export class ApiFactory {
   static getApiClient(): IApiClient {
     if (this.instance instanceof NullApiClient) {
       // 根据环境选择合适的 API 客户端
+      // @ts-ignore 忽略类型检查
       if (window.api && window.electron) {
         this.instance = new ElectronApiClient()
       } else {

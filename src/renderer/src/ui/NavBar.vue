@@ -45,11 +45,11 @@
   import icon from "@res/icon.png"
   import Config from "config"
   import { PopupMenu } from "@/bridge/PopupMenu"
-  import { usePlatForm } from "common/event/PlatForm/hook"
+  // import { usePlatForm } from "common/event/PlatForm/hook"
   import { LogLevel } from "logger/common"
   import Update from "./Update.vue"
 
-  const PlatForm = usePlatForm()
+  const PlatForm = useApiPlatForm()
 
   const router = useRouter()
   const route = useRoute()

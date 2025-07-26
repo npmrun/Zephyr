@@ -62,6 +62,7 @@ class SettingClass {
     this.init()
   }
 
+  events = emitter
   #cb: [IT, IOnFunc][] = []
 
   onChange(fn: IOnFunc, that?: any)
@@ -138,7 +139,7 @@ class SettingClass {
       this.#sync()
     }
     init.call(this, this.#config)
-    emitter.emit("update", this.#config, this.#config)
+    this.events.emit("update", this.#config, this.#config)
   }
   config() {
     return this.#config
@@ -217,7 +218,11 @@ class SettingClass {
     if (isChange) {
       this.#sync()
       this.#runCB(this.#config, oldMainConfig, changeKeys)
-      emitter.emit("update", this.#config, oldMainConfig, changeKeys)
+      this.events.emit("update", this.#config, oldMainConfig, changeKeys)
+      for (let i = 0; i < changeKeys.length; i++) {
+        const k = changeKeys[i]
+        this.events.emit("change", k, this.#config[k])
+      }
     }
   }
   values<T extends keyof IConfig>(key: T): IConfig[T] {

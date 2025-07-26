@@ -99,18 +99,6 @@
               PlatForm.power.crash()
             },
           },
-          {
-            label: curLogLevel.value === LogLevel.TRACE ? "关闭调试模式" : "开启调试模式",
-            async click() {
-              if (curLogLevel.value === LogLevel.TRACE) {
-                await PlatForm.power.logSetLevel(LogLevel.INFO)
-                curLogLevel.value = LogLevel.INFO
-                return
-              }
-              await PlatForm.power.logSetLevel(LogLevel.TRACE)
-              curLogLevel.value = LogLevel.TRACE
-            },
-          },
         ])
         const obj = e.target.getBoundingClientRect()
         menu.show({ x: ~~obj.x, y: ~~(obj.y + obj.height) })

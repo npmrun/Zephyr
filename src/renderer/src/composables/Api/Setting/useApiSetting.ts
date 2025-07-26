@@ -1,12 +1,20 @@
 import { defineStore } from "pinia"
 import { Setting } from "./_"
 import type { IConfig } from "config"
+import type { EventMaps, SettingCommand } from "command/Setting/type"
 
 let rawConfig: IConfig = Setting.getInstance().sync() as unknown as IConfig
 
 export const useApiSetting = defineStore(
   "Setting",
   () => {
+    const api = getApi<SettingCommand, EventMaps, "SettingCommand">()
+
+    api.on("SettingCommand.change", (_, k, v) => {
+      rawConfig[k] = v
+      config.value = JSON.parse(JSON.stringify(rawConfig))
+    })
+
     const config = ref(JSON.parse(JSON.stringify(rawConfig)))
     const diffKeys = ref<(keyof IConfig)[]>([])
     const isSame = computed(() => {

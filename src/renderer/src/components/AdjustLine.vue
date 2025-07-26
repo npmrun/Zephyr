@@ -10,9 +10,6 @@
 </template>
 
 <script setup lang="ts">
-  import { nextTick, onMounted, ref, watch, computed, onBeforeUnmount, onErrorCaptured } from "vue"
-  import { useDebounceFn } from "@vueuse/core"
-
   const adjustLineEL = ref<HTMLElement>()
 
   // 定义方向类型
@@ -153,32 +150,32 @@
     if (nextContainer && el && container && parentContainer) {
       if (props.direction === "left" || props.direction === "right") {
         if (props.mid) {
-          let w = localStorage.getItem(props.mid)
+          const w = localStorage.getItem(props.mid)
           if (w != undefined) {
             container.style.width = w + "px"
           }
         }
         el.onmousedown = function (e) {
-          let width = container.clientWidth
-          let nwidth = nextContainer.clientWidth
+          const width = container.clientWidth
+          const nwidth = nextContainer.clientWidth
           // let owidth = nwidth + width
           let owidth = parentContainer.clientWidth
-          let wwidth = watchContainer?.clientWidth ?? 0
+          const wwidth = watchContainer?.clientWidth ?? 0
 
           if (isThree) {
             owidth = nwidth + width
           }
 
-          let startX = e.clientX
+          const startX = e.clientX
 
-          let lastPointerEvents = document.body.style.pointerEvents
-          let lastUserSelect = document.body.style.userSelect
-          let lastOnmousemove = document.onmousemove
-          let lastOnmouseup = document.onmouseup
+          const lastPointerEvents = document.body.style.pointerEvents
+          const lastUserSelect = document.body.style.userSelect
+          const lastOnmousemove = document.onmousemove
+          const lastOnmouseup = document.onmouseup
           document.onmousemove = function (e) {
-            let nowX = e.clientX
+            const nowX = e.clientX
             let w = 0
-            let offset = startX - nowX
+            const offset = startX - nowX
             if (props.direction == "left") {
               w = width + offset
             }
@@ -203,7 +200,7 @@
             document.body.style.pointerEvents = "none"
             document.body.style.userSelect = "none"
             if (!isThree && watchContainer) {
-              let ww = wwidth - offset
+              const ww = wwidth - offset
               if (width >= -offset) {
                 watchContainer.style.width = ww + "px"
               }
@@ -226,7 +223,7 @@
             document.body.style.pointerEvents = lastPointerEvents
             document.body.style.userSelect = lastUserSelect
             if (props.mid) {
-              let width = container.clientWidth
+              const width = container.clientWidth
               localStorage.setItem(props.mid, String(width))
             }
           }
@@ -234,40 +231,38 @@
       }
       if (props.direction === "top" || props.direction === "bottom") {
         if (props.mid) {
-          let w = localStorage.getItem(props.mid)
+          const w = localStorage.getItem(props.mid)
           if (w != undefined) {
             container.style.height = w + "px"
           }
         }
         el.onmousedown = function (e) {
-          let height = container.clientHeight
-          let nheight = nextContainer.clientHeight
+          const height = container.clientHeight
+          const nheight = nextContainer.clientHeight
           // let oheight = nheight + height
           let oheight = parentContainer.clientHeight
-          let hheight = watchContainer?.clientHeight ?? 0
+          const hheight = watchContainer?.clientHeight ?? 0
           if (isThree) {
             oheight = nheight + height
           }
 
-          let startY = e.clientY
+          const startY = e.clientY
 
-          let lastPointerEvents = document.body.style.pointerEvents
-          let lastUserSelect = document.body.style.userSelect
-          let lastOnmousemove = document.onmousemove
-          let lastOnmouseup = document.onmouseup
+          const lastPointerEvents = document.body.style.pointerEvents
+          const lastUserSelect = document.body.style.userSelect
+          const lastOnmousemove = document.onmousemove
+          const lastOnmouseup = document.onmouseup
 
           document.onmousemove = function (e) {
-            let nowY = e.clientY
+            const nowY = e.clientY
             let h = 0
-            let offset = startY - nowY
+            const offset = startY - nowY
             if (props.direction == "top") {
               h = height + startY - nowY
             }
             if (props.direction == "bottom") {
               h = height - offset
             }
-            console.log(oheight)
-
             if (h >= oheight) {
               h = oheight
             }
@@ -286,7 +281,7 @@
             document.body.style.pointerEvents = "none"
             document.body.style.userSelect = "none"
             if (!isThree && watchContainer) {
-              let hh = hheight - offset
+              const hh = hheight - offset
               if (height >= -offset) {
                 watchContainer.style.height = hh + "px"
               }
@@ -309,7 +304,7 @@
             document.body.style.pointerEvents = lastPointerEvents
             document.body.style.userSelect = lastUserSelect
             if (props.mid) {
-              let height = container.clientHeight
+              const height = container.clientHeight
               localStorage.setItem(props.mid, String(height))
             }
           }

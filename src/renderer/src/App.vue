@@ -1,13 +1,24 @@
 <script setup lang="ts">
+  const getKey = route => {
+    if (route.matched.length > 0) {
+      for (let i = 0; i < route.matched.length; i++) {
+        const r = route.matched[i]
+        if (r.meta?.isLayout) {
+          return r.path
+        }
+      }
+    }
+    return route.fullPath
+  }
 </script>
 
 <template>
   <div h-full flex flex-col overflow-hidden>
     <NavBar></NavBar>
-    <div flex-1 h-0 overflow-hidden flex flex-col relative id="page-container" style="transform: scale(1);">
+    <div id="page-container" flex-1 h-0 overflow-hidden flex flex-col relative style="transform: scale(1)">
       <router-view v-slot="{ Component, route }">
         <Transition name="slide-fade" mode="out-in">
-          <component :is="Component" :key="route.fullPath" />
+          <component :is="Component" :key="getKey(route)" />
         </Transition>
       </router-view>
     </div>
@@ -15,17 +26,5 @@
 </template>
 
 <style lang="scss" scoped>
-  .slide-fade-enter-active {
-    transition: all 0.2s ease-out;
-  }
 
-  .slide-fade-leave-active {
-    transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
-  }
-
-  .slide-fade-enter-from,
-  .slide-fade-leave-to {
-    // transform: translateX(20px);
-    opacity: 0;
-  }
 </style>

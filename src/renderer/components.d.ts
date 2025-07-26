@@ -12,6 +12,8 @@ declare module 'vue' {
     CodeEditor: typeof import('./src/components/CodeEditor/code-editor.vue')['default']
     'IconBxs:error': typeof import('~icons/bxs/error')['default']
     'IconGrommetIcons:update': typeof import('~icons/grommet-icons/update')['default']
+    'IconIx:reset': typeof import('~icons/ix/reset')['default']
+    'IconMaterialSymbols:save': typeof import('~icons/material-symbols/save')['default']
     'IconStash:arrowReplyDuotone': typeof import('~icons/stash/arrow-reply-duotone')['default']
     NavBar: typeof import('./src/ui/NavBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

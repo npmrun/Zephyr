@@ -4,12 +4,21 @@ type Api<M extends Record<string, (...argu: any[]) => void>, T extends Record<st
   call: <S extends keyof M>(command: `${N}${N extends string ? "." : ""}${S}`, ...args: Parameters<M[S]>) => any
   callLong: <S extends keyof M>(command: `${N}${N extends string ? "." : ""}${S}`, ...args: Parameters<M[S]>) => any
   callSync: <S extends keyof M>(command: `${N}${N extends string ? "." : ""}${S}`, ...args: Parameters<M[S]>) => any
-  send: <S extends keyof M>(command: string, ...argu: Parameters<M[S]>) => any
-  sendSync: <S extends keyof M>(command: string, ...argu: Parameters<M[S]>) => any
-  on: <S extends keyof T>(command: S, cb: (event: IpcRendererEventIpcRendererEvent, ...args: Parameters<T[S]>) => void) => () => void
-  once: <S extends keyof T>(command: S, cb: (event: IpcRendererEvent, ...args: Parameters<T[S]>) => void) => () => void
-  off: <S extends keyof T>(command: S, cb: (event: IpcRendererEvent, ...args: Parameters<T[S]>) => void) => void
-  offAll: <S extends keyof T>(command: S) => void
+  send: <S extends keyof M>(command: `${N}${N extends string ? "." : ""}${S}`, ...argu: Parameters<M[S]>) => any
+  sendSync: <S extends keyof M>(command: `${N}${N extends string ? "." : ""}${S}`, ...argu: Parameters<M[S]>) => any
+  on: <S extends keyof T>(
+    command: `${N}${N extends string ? "." : ""}${S}`,
+    cb: (event: IpcRendererEventIpcRendererEvent, ...args: Parameters<T[S]>) => void,
+  ) => () => void
+  once: <S extends keyof T>(
+    command: `${N}${N extends string ? "." : ""}${S}`,
+    cb: (event: IpcRendererEvent, ...args: Parameters<T[S]>) => void,
+  ) => () => void
+  off: <S extends keyof T>(
+    command: `${N}${N extends string ? "." : ""}${S}`,
+    cb: (event: IpcRendererEvent, ...args: Parameters<T[S]>) => void,
+  ) => void
+  offAll: <S extends keyof T>(command: `${N}${N extends string ? "." : ""}${S}`) => void
   popupMenu: (options: IPopupMenuOption) => void
 }
 

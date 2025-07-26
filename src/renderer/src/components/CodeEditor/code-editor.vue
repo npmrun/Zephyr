@@ -7,6 +7,25 @@
   const editorRef = ref<HTMLDivElement>()
   let editor: monaco.editor.IStandaloneCodeEditor | null = null
   let placeholderWidget: PlaceholderContentWidget | null = null
+
+  function getOptions(): monaco.editor.IStandaloneEditorConstructionOptions {
+    return {
+      ...{
+        fontSize: 14,
+        readOnly: false,
+        theme: "vs-light",
+        fontFamily: "Cascadia Mono, Consolas, 'Courier New', monospace",
+        lineHeight: 22,
+        scrollBeyondLastLine: false,
+        automaticLayout: true,
+        minimap: {
+          enabled: false,
+        },
+      },
+      ...(props.options ?? {}),
+    }
+  }
+
   const props = withDefaults(
     defineProps<{
       modelValue?: string
@@ -14,8 +33,7 @@
       logoType?: "bg" | "logo"
       logo?: string
       placeholder?: string
-      fontFamily?: string
-      readonly?: boolean
+      options?: ReturnType<typeof getOptions>
     }>(),
     {
       logo: DefaultLogo,
@@ -94,7 +112,7 @@
       const model: monaco.editor.ITextModel = monaco.editor.createModel(content ?? "", file?.language ?? "txt")
       model.onDidChangeContent(() => {
         if (model) {
-          if(isInnerChange === "out") {
+          if (isInnerChange === "out") {
             isInnerChange = "waitting"
             return
           }
@@ -118,14 +136,7 @@
 
   onMounted(() => {
     if (editorRef.value && !editor) {
-      editor = monaco.editor.create(editorRef.value, {
-        theme: "vs-light",
-        fontFamily: props.fontFamily ?? "Cascadia Mono, Consolas, 'Courier New', monospace",
-        readOnly: props.readonly,
-        minimap: {
-          autohide: true,
-        },
-      }) as monaco.editor.IStandaloneCodeEditor
+      editor = monaco.editor.create(editorRef.value, getOptions()) as monaco.editor.IStandaloneCodeEditor
       editor.onDidChangeCursorPosition(e => {
         emit("cursor:position", [e.position.lineNumber, e.position.column])
       })
@@ -152,7 +163,7 @@
     watch(
       () => props.modelValue,
       async str => {
-        if(isInnerChange === "waitting") {
+        if (isInnerChange === "waitting") {
           isInnerChange = "out"
         }
         if (editor && isInnerChange === "out") {
@@ -172,23 +183,11 @@
       },
       { immediate: true },
     )
-    watch(
-      () => props.readonly,
+    watchDeep(
+      () => props.options,
       () => {
         if (editor) {
-          editor.updateOptions({
-            readOnly: props.readonly,
-          })
-        }
-      },
-    )
-    watch(
-      () => props.fontFamily,
-      () => {
-        if (editor) {
-          editor.updateOptions({
-            fontFamily: props.fontFamily,
-          })
+          editor.updateOptions(getOptions())
         }
       },
     )
@@ -272,7 +271,7 @@
 
 <template>
   <div class="monaco-wrapper">
-    <div class="monaco-editor" ref="editorRef"></div>
+    <div ref="editorRef" class="monaco-editor"></div>
     <div class="monaco-bg" :style="style">
       <img v-if="logoType === 'logo' && getLogo" class="monaco-logo" :src="getLogo" alt="" />
     </div>

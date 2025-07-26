@@ -4,6 +4,8 @@ import "@unocss/reset/normalize.css"
 import "@/assets/style/_common.scss"
 import "virtual:uno.css"
 import "nprogress/nprogress.css"
+import Vue3Toastify, { type ToastContainerOptions } from "vue3-toastify"
+import "vue3-toastify/dist/index.css"
 
 import { createApp } from "vue"
 import App from "./App.vue"
@@ -28,6 +30,15 @@ if (import.meta.env.DEV) {
   app.config.performance = true
 }
 
+app.use(Vue3Toastify, {
+  autoClose: 3000,
+  clearOnUrlChange: false,
+  pauseOnFocusLoss: false,
+  newestOnTop: true,
+  style: {
+    top: "40px",
+  },
+} as ToastContainerOptions)
 app.use(i18n)
 app.use(pinia)
 app.use(router)

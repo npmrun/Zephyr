@@ -1,7 +1,4 @@
 import { buildEmitter } from "base/event/main"
-import type { IOnFunc } from "setting/main"
+import { EventMaps } from "setting/common"
 
-export const emitter = buildEmitter<{
-  init: IOnFunc
-  update: IOnFunc
-}>()
+export const emitter = buildEmitter<EventMaps>()

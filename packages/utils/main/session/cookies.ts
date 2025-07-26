@@ -2,12 +2,12 @@ import { BrowserView, BrowserWindow } from "electron"
 
 const cookies = {
   getCurrCookies(params = {}, currWin: BrowserView | BrowserWindow) {
-    let currSession = currWin.webContents.session
+    const currSession = currWin.webContents.session
     return currSession.cookies.get(Object.assign({}, params))
   },
   removeCurrCookies(cookies = [], currWin: BrowserView | BrowserWindow) {
-    let currSession = currWin.webContents.session
-    let err = []
+    const currSession = currWin.webContents.session
+    const err = []
     let apiCount = 0
     return new Promise((resove, reject) => {
       cookies.forEach(async (item: any) => {
@@ -22,8 +22,8 @@ const cookies = {
     })
   },
   setCurrCookies(cookies = [], currWin: BrowserView | BrowserWindow) {
-    let currSession = currWin.webContents.session
-    let err = []
+    const currSession = currWin.webContents.session
+    const err = []
     let apiCount = 0
     return new Promise((resove, reject) => {
       cookies.forEach(async (item: any) => {

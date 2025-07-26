@@ -23,6 +23,7 @@
     ],
     "exclude": [
         "packages/**/renderer/**/*",
+        "src/main/command/**/type.d.ts",
     ],
     "compilerOptions": {
         "composite": true,

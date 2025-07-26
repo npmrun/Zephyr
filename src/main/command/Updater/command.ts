@@ -9,7 +9,7 @@ export default class UpdaterCommand {
     // 命令初始化
     logger.debug("UpdaterCommand init")
     Updater.events.on("*", (name, ...argus) => {
-      broadcast(name, ...argus)
+      broadcast("UpdaterCommand." + name, ...argus)
     })
   }
 

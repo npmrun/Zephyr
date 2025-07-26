@@ -95,6 +95,9 @@ export default defineConfig({
           "@vueuse/core",
           VueRouterAutoImports,
           {
+            "vue3-toastify": ["toast"],
+          },
+          {
             // add any other imports you were relying on
             "vue-router/auto": ["useLink"],
           },

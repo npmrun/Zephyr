@@ -1,8 +1,12 @@
 import Setting, { IConfig } from "setting/main"
+import { broadcast } from "utils/main"
 
 export default class SettingCommand {
   static init() {
-    console.log("SettingCommand init")
+    Setting.events.on("change", (k, value) => {
+      console.log(k, value)
+      broadcast("SettingCommand.change", k, value)
+    })
   }
   sync() {
     return Setting.config()

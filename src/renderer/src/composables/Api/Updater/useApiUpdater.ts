@@ -23,19 +23,19 @@ export const useApiUpdater = defineStore(
     const isNeedUpdate = ref(false)
 
     const api = getApi<UpdaterCommand, EventMaps, "UpdaterCommand">()
-    api.on("error", (_, data) => {
+    api.on("UpdaterCommand.error", (_, data) => {
       curStatus.value = ApiUpdaterStatus.Error
       console.log(data)
     })
-    api.on("update-not-available", () => {
+    api.on("UpdaterCommand.update-not-available", () => {
       curStatus.value = ApiUpdaterStatus.UpdateNotAvailable
       isNeedUpdate.value = false
     })
-    api.on("update-available", () => {
+    api.on("UpdaterCommand.update-available", () => {
       curStatus.value = ApiUpdaterStatus.UpdateAvailable
       isNeedUpdate.value = true
     })
-    api.on("update-progress", (_, data) => {
+    api.on("UpdaterCommand.update-progress", (_, data) => {
       curStatus.value = ApiUpdaterStatus.Downloading
       speed.value = +(data.speed / 1000).toFixed(2) // Convert to KB/s
       percent.value = data.percent
@@ -43,7 +43,7 @@ export const useApiUpdater = defineStore(
       now.value = data.now
       isNeedUpdate.value = false
     })
-    api.on("checking-for-update", () => {
+    api.on("UpdaterCommand.checking-for-update", () => {
       curStatus.value = ApiUpdaterStatus.Checking
     })
     if (import.meta.env.PROD) {

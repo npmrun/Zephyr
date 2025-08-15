@@ -1,4 +1,4 @@
-import { app, dialog, nativeTheme, TitleBarOverlayOptions } from "electron"
+import { app, dialog, nativeTheme, shell, TitleBarOverlayOptions } from "electron"
 import { inject } from "inversify"
 import errorHandler from "logger/main-error"
 import WindowManager from "main/modules/window-manager"
@@ -86,6 +86,10 @@ export default class PlatFormCommand {
   relunch() {
     app.relaunch()
     app.exit()
+  }
+
+  openDir(url: string, opts: Parameters<typeof shell.openExternal>[1]) {
+    return shell.openExternal(url, opts)
   }
 
   reload() {

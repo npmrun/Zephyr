@@ -53,6 +53,9 @@ class PlatForm extends BaseSingleton {
   async toggleDevTools() {
     return this.api.call("PlatFormCommand.toggleDevTools")
   }
+  async openDir(dir: string) {
+    return this.api.call("PlatFormCommand.openDir", dir)
+  }
 }
 
 export { PlatForm }

@@ -9,7 +9,9 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AdjustLine: typeof import('./src/components/AdjustLine.vue')['default']
+    Card: typeof import('./src/components/Card/Card.vue')['default']
     CodeEditor: typeof import('./src/components/CodeEditor/code-editor.vue')['default']
+    CodeEditorPlus: typeof import('./src/components/CodeEditor/code-editor-plus.vue')['default']
     'IconBxs:error': typeof import('~icons/bxs/error')['default']
     'IconGrommetIcons:update': typeof import('~icons/grommet-icons/update')['default']
     'IconIx:reset': typeof import('~icons/ix/reset')['default']

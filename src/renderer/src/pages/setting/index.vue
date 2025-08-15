@@ -1,64 +1,65 @@
 <script setup lang="ts">
-  const settingStore = useApiSetting()
+  const SettingStore = useApiSetting()
+  const ApiPlatForm = useApiPlatForm()
 </script>
 
 <template>
   <div h-full>
     <div class="form">
-      <div class="form-item" :class="{ ['not-save']: settingStore.diffKeys.includes('storagePath') }">
+      <div class="form-item" :class="{ ['not-save']: SettingStore.diffKeys.includes('storagePath') }">
         <div class="form-item__label">存储地址</div>
         <div class="form-item__value" flex gap="10px" items-center>
           <div class="input-wrapper">
-            <input v-model="settingStore.config['storagePath']" class="input" readonly type="text" placeholder="请输入存储地址" />
+            <input v-model="SettingStore.config['storagePath']" class="input" readonly type="text" placeholder="请输入存储地址" />
           </div>
-          <button class="button">打开</button>
+          <button class="button" @click="ApiPlatForm.power.openDir(SettingStore.config['storagePath'])">打开</button>
         </div>
       </div>
-      <div class="form-item" :class="{ ['not-save']: settingStore.diffKeys.includes('common.theme') }">
+      <div class="form-item" :class="{ ['not-save']: SettingStore.diffKeys.includes('common.theme') }">
         <div class="form-item__label">主题</div>
         <div class="form-item__value">
           <div class="radio-group">
             <div
               class="radio"
-              :class="{ active: settingStore.config['common.theme'] === 'auto' }"
-              @click="settingStore.config['common.theme'] = 'auto'"
+              :class="{ active: SettingStore.config['common.theme'] === 'auto' }"
+              @click="SettingStore.config['common.theme'] = 'auto'"
             >
               Auto
             </div>
             <div
               class="radio"
-              :class="{ active: settingStore.config['common.theme'] === 'light' }"
-              @click="settingStore.config['common.theme'] = 'light'"
+              :class="{ active: SettingStore.config['common.theme'] === 'light' }"
+              @click="SettingStore.config['common.theme'] = 'light'"
             >
               亮色
             </div>
             <div
               class="radio"
-              :class="{ active: settingStore.config['common.theme'] === 'dark' }"
-              @click="settingStore.config['common.theme'] = 'dark'"
+              :class="{ active: SettingStore.config['common.theme'] === 'dark' }"
+              @click="SettingStore.config['common.theme'] = 'dark'"
             >
               暗色
             </div>
           </div>
         </div>
       </div>
-      <div class="form-item" :class="{ ['not-save']: settingStore.diffKeys.includes('language') }">
+      <div class="form-item" :class="{ ['not-save']: SettingStore.diffKeys.includes('language') }">
         <div class="form-item__label">语言</div>
         <div class="form-item__value">
           <div class="radio-group">
             <div
               class="radio"
-              :class="{ active: settingStore.config['language'] === 'zh' }"
-              @click="settingStore.config['language'] = 'zh'"
+              :class="{ active: SettingStore.config['language'] === 'zh' }"
+              @click="SettingStore.config['language'] = 'zh'"
             >
-              汉语
+              中文
             </div>
             <div
               class="radio"
-              :class="{ active: settingStore.config['language'] === 'en' }"
-              @click="settingStore.config['language'] = 'en'"
+              :class="{ active: SettingStore.config['language'] === 'en' }"
+              @click="SettingStore.config['language'] = 'en'"
             >
-              中文
+              English
             </div>
           </div>
         </div>

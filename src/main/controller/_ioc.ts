@@ -1,4 +1,7 @@
 import { Container, ContainerModule } from "inversify"
+import _logger from "logger/main"
+
+const logger = _logger.createNamespace("service")
 
 /**
  * 自动加载所有服务模块
@@ -10,9 +13,12 @@ const modules = new ContainerModule(bind => {
   Object.values(serviceModules).forEach(module => {
     // 由于 module 类型为 unknown，需要进行类型断言
     const ServiceClass = (module as { default: any }).default
-    if (ServiceClass && ServiceClass.name.endsWith("Service")) {
-      const serviceName = ServiceClass.name
-      bind(serviceName).to(ServiceClass).inSingletonScope()
+    if (ServiceClass) {
+      const className = ServiceClass.name.replace("Service", "")
+      logger.debug(`绑定服务类: ${className}Service`)
+      bind(className + "Service")
+        .to(ServiceClass)
+        .inSingletonScope()
     }
   })
 })

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { Setting } from "./_"
+import { Setting } from "@/commands/Setting"
 import type { IConfig } from "config"
 import type { EventMaps, SettingCommand } from "command/Setting/type"
 

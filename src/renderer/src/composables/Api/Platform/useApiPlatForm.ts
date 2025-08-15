@@ -1,5 +1,5 @@
 import { LogLevel } from "logger/common"
-import { PlatForm } from "./_"
+import { PlatForm } from "@/commands/PlatForm"
 
 export function useApiPlatForm() {
   const plat = PlatForm.getInstance<PlatForm>()

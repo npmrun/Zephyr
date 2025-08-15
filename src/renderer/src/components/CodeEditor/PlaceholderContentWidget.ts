@@ -38,6 +38,10 @@ export class PlaceholderContentWidget implements monaco.editor.IContentWidget {
       this.domNode.style.pointerEvents = "none"
       this.domNode.textContent = this.placeholder
       this.domNode.style.fontStyle = "italic"
+      const a = document.createElement("a")
+      a.href = "https://baiud.com"
+      a.textContent = "百度"
+      this.domNode.appendChild(a)
       this.editor.applyFontInfo(this.domNode)
     }
 

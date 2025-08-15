@@ -51,9 +51,9 @@
     }
   }
   if (import.meta.hot) {
-    api.off("main:TabsCommand.update", listener)
+    api.off("TabsCommand.update", listener)
   }
-  api.on("main:TabsCommand.update", listener)
+  api.on("TabsCommand.update", listener)
   onMounted(() => {
     api.call("TabsCommand.sync")
   })

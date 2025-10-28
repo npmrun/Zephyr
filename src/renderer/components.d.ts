@@ -17,6 +17,8 @@ declare module 'vue' {
     'IconIx:reset': typeof import('~icons/ix/reset')['default']
     'IconMaterialSymbols:save': typeof import('~icons/material-symbols/save')['default']
     'IconStash:arrowReplyDuotone': typeof import('~icons/stash/arrow-reply-duotone')['default']
+    IPhone: typeof import('./src/components/IPhone.vue')['default']
+    MeCode: typeof import('./src/components/MeCode/index.vue')['default']
     NavBar: typeof import('./src/ui/NavBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

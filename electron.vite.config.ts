@@ -104,7 +104,7 @@ export default defineConfig({
           "vue-i18n",
         ],
         dts: true,
-        dirs: ["src/composables/**/*.ts", "!src/composables/**/_/**/*.ts"],
+        dirs: ["src/composables/**/*.ts", "!src/composables/**/_/**/*.ts", "src/store/module/**/*.ts"],
         vueTemplate: true,
       }),
       // https://github.com/antfu/vite-plugin-components

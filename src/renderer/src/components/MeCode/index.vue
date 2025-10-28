@@ -7,6 +7,7 @@
       modelValue?: string
       filename?: string
       placeholder?: (() => Node) | string
+      extendsExt?: {language: string, ext?: string, pre?: string}[]
       modelOptions?: IOptions["modelOptions"]
       editorOptions?: IOptions["editorOptions"]
     }>(),
@@ -28,6 +29,7 @@
     placeholder: props.placeholder,
     content: props.modelValue,
     filename: props.filename,
+    extendsExt: props.extendsExt,
     modelOptions: props.modelOptions,
     editorOptions: props.editorOptions,
     onCursorChange(e) {

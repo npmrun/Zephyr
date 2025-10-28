@@ -82,6 +82,12 @@
             },
           },
           {
+            label: "模板",
+            async click() {
+              router.push("/Template")
+            },
+          },
+          {
             label: t("browser.navbar.menu.toggleDevTools"),
             async click() {
               PlatForm.power.toggleDevTools()

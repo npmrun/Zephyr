@@ -42,6 +42,7 @@ function useResizeObserver(el: HTMLDivElement, callback: ResizeObserverCallback)
 export interface IOptions {
   placeholder: (() => Node) | string | undefined
   filename: string
+  extendsExt?: {language: string, ext?: string, pre?: string}[]
   content: string
   editorOptions: monaco.editor.IEditorOptions & monaco.editor.IGlobalEditorOptions
   modelOptions: monaco.editor.ITextModelUpdateOptions
@@ -52,6 +53,7 @@ export interface IOptions {
 const defaultOptions: IOptions = {
   placeholder: undefined,
   filename: "temp",
+  extendsExt: [],
   content: "",
   editorOptions: {
     fontSize: 14,
@@ -145,7 +147,7 @@ export function useMonacoEditor(editorElement: Ref<HTMLDivElement | undefined>, 
   function updateModel(name: string, content: string) {
     if (editor) {
       const oldModel = editor.getModel() //获取旧模型
-      const file = judgeFile(name)
+      const file = judgeFile(name, curOption.extendsExt || [])
       // 这样定义的话model无法清除
       // monaco.editor.createModel("const a = 111","typescript", monaco.Uri.parse('file://root/file3.ts'))
       const model: monaco.editor.ITextModel = monaco.editor.createModel(content ?? "", file?.language ?? "txt")

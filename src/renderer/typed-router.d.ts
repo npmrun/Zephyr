@@ -20,6 +20,8 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '//': RouteRecordInfo<'//', '/', Record<never, never>, Record<never, never>>,
     '//index copy': RouteRecordInfo<'//index copy', '/index copy', Record<never, never>, Record<never, never>>,
+    '//index copy 2': RouteRecordInfo<'//index copy 2', '/index copy 2', Record<never, never>, Record<never, never>>,
+    '//index copy 3': RouteRecordInfo<'//index copy 3', '/index copy 3', Record<never, never>, Record<never, never>>,
     '/[...all]': RouteRecordInfo<'/[...all]', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
     'about': RouteRecordInfo<'about', '/about', Record<never, never>, Record<never, never>>,
     '/browser': RouteRecordInfo<'/browser', '/browser', Record<never, never>, Record<never, never>>,
@@ -28,5 +30,7 @@ declare module 'vue-router/auto-routes' {
     '/setting/': RouteRecordInfo<'/setting/', '/setting', Record<never, never>, Record<never, never>>,
     '/setting/dev': RouteRecordInfo<'/setting/dev', '/setting/dev', Record<never, never>, Record<never, never>>,
     '/setting/update': RouteRecordInfo<'/setting/update', '/setting/update', Record<never, never>, Record<never, never>>,
+    '/Template': RouteRecordInfo<'/Template', '/Template', Record<never, never>, Record<never, never>>,
+    '/Template/Canvas/': RouteRecordInfo<'/Template/Canvas/', '/Template/Canvas', Record<never, never>, Record<never, never>>,
   }
 }
